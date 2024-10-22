@@ -1,3 +1,3 @@
-Hamster in the ball!
+[Save the Hamster]
 
-[팀 소개](https://github.com/2024FALL-SWPP/team-project-for-2024-fall-swpp-team-07/wiki)
+[Team 07 Wiki]([https://github.com/2024FALL-SWPP/team-project-for-2024-fall-swpp-team-07/wiki](https://github.com/2024FALL-SWPP/team-project-for-2024-fall-swpp-team-07/wiki))
