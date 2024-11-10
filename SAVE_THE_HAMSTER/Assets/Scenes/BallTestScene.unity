@@ -562,7 +562,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 218386169}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b09bb9ee7d15b9349b4fe4c72910adb5, type: 3}
   m_Name: 
@@ -787,7 +787,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 944430096}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b09bb9ee7d15b9349b4fe4c72910adb5, type: 3}
   m_Name: 
@@ -1289,7 +1289,7 @@ SphereCollider:
   m_GameObject: {fileID: 1945218190}
   m_Material: {fileID: 13400000, guid: f64cb5ffa4d1b3942b506e611d9a6cf6, type: 2}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.0070747035
   m_Center: {x: -0.0000000011641532, y: -4.656613e-10, z: -2.3283063e-10}
@@ -1316,7 +1316,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1945218190}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b09bb9ee7d15b9349b4fe4c72910adb5, type: 3}
   m_Name: 
