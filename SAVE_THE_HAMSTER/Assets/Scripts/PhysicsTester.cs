@@ -24,5 +24,29 @@ public class PhysicsTester : MonoBehaviour
             Vector3 forceDirection = new Vector3(1f, 1f, 0f).normalized;
             rb.AddForce(forceDirection * forceMagnitude, ForceMode.Impulse);
         }
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            // 수평 방향으로 힘을 가함
+            Vector3 forceDirection = new Vector3(1f, 0f, 0f);
+            rb.AddForce(forceDirection * forceMagnitude, ForceMode.Impulse);
+        }
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            // 수평 방향으로 힘을 가함
+            Vector3 forceDirection = new Vector3(-1f, 0f, 0f);
+            rb.AddForce(forceDirection * forceMagnitude, ForceMode.Impulse);
+        }
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            // 수평 방향으로 힘을 가함
+            Vector3 forceDirection = new Vector3(0f, 0f, -1f);
+            rb.AddForce(forceDirection * forceMagnitude, ForceMode.Impulse);
+        }
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            // 수평 방향으로 힘을 가함
+            Vector3 forceDirection = new Vector3(0f, 0f, 1f);
+            rb.AddForce(forceDirection * forceMagnitude, ForceMode.Impulse);
+        }
     }
 }
