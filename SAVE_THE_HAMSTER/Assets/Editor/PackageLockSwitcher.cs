@@ -1,8 +1,8 @@
 // Assets/Editor/PackageLockSwitcher.cs
+using System.IO;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;
-using System.IO;
 
 public class PackageLockSwitcher : AssetPostprocessor
 {
@@ -20,7 +20,18 @@ public class PackageLockSwitcher : AssetPostprocessor
     [InitializeOnLoadMethod]
     static void OnEditorStartup()
     {
-        // 에디터 시작 시 플랫폼별 파일을 packages-lock.json으로 복사
+        SwitchPackageLock();
+
+        // 약간의 지연 후 한번 더 실행
+        EditorApplication.delayCall += () =>
+        {
+            SwitchPackageLock();
+        };
+    }
+
+    static void SwitchPackageLock()
+    {
+        // 플랫폼별 파일을 packages-lock.json으로 복사
         string sourceFile = GetPlatformSpecificFile();
         string destFile = "Packages/packages-lock.json";
 
@@ -50,8 +61,12 @@ public class PackageLockSwitcher : AssetPostprocessor
     }
 
     // AssetPostprocessor의 콜백 메서드
-    static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets,
-                                       string[] movedAssets, string[] movedFromAssetPaths)
+    static void OnPostprocessAllAssets(
+        string[] importedAssets,
+        string[] deletedAssets,
+        string[] movedAssets,
+        string[] movedFromAssetPaths
+    )
     {
         foreach (string asset in importedAssets)
         {
