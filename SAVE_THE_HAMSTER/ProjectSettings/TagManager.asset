@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Stage1Preview
+  - Stage2Preview
+  - Stage3Preview
+  - Stage4Preview
   layers:
   - Default
   - TransparentFX
