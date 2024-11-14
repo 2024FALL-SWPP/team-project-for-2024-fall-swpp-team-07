@@ -682,7 +682,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 902192169139284738, guid: 5430288b32b794742b9a952256f5636d, type: 3}
       propertyPath: m_Name
-      value: BouncyBall (1)
+      value: BouncyBall_DO_NOT_DELETE
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5430288b32b794742b9a952256f5636d, type: 3}
@@ -739,7 +739,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2923225460460859551, guid: f7a69fada2ce978488ab1ad248284d41, type: 3}
       propertyPath: m_Name
-      value: Hamster3
+      value: Hamster3_DO_NOT_DELETE
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7a69fada2ce978488ab1ad248284d41, type: 3}
@@ -796,7 +796,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4521353677170844256, guid: 88d9c768ff6b7cd4d8b909b811dd2e28, type: 3}
       propertyPath: m_Name
-      value: hamster(v1.0.1)
+      value: hamster(v1.0.1)_DO_NOT_DELETE
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88d9c768ff6b7cd4d8b909b811dd2e28, type: 3}
@@ -809,7 +809,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3853608939524634490, guid: de401b0e4ca31564eb8f0bba2baa4ac7, type: 3}
       propertyPath: m_Name
-      value: FootBall (1)
+      value: RugbyBall_DO_NOT_DELETE
       objectReference: {fileID: 0}
     - target: {fileID: 4481385392357174720, guid: de401b0e4ca31564eb8f0bba2baa4ac7, type: 3}
       propertyPath: m_RootOrder
@@ -866,7 +866,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7203038289709431867, guid: 6a551d80bb9b4724ead97eb71b4bd67f, type: 3}
       propertyPath: m_Name
-      value: StickyBall (1)
+      value: StickyBall_DO_NOT_DELETE
       objectReference: {fileID: 0}
     - target: {fileID: 7547335360495920769, guid: 6a551d80bb9b4724ead97eb71b4bd67f, type: 3}
       propertyPath: m_RootOrder
@@ -967,7 +967,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8780382980022440450, guid: 19639ad5156bcb04cb17359548ef0054, type: 3}
       propertyPath: m_Name
-      value: Almond
+      value: Almond_DO_NOT_DELETE
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 19639ad5156bcb04cb17359548ef0054, type: 3}
@@ -1024,7 +1024,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8767047586368269046, guid: ab6f1bf07f4174e4fbc13fa264527501, type: 3}
       propertyPath: m_Name
-      value: BowlingBall (1)
+      value: BowlingBall_DO_NOT_DELETE
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab6f1bf07f4174e4fbc13fa264527501, type: 3}
