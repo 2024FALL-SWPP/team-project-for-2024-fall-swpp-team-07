@@ -7,6 +7,7 @@ using Supabase.Gotrue;
 using Supabase.Gotrue.Exceptions;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace com.example
 {
@@ -22,6 +23,7 @@ namespace com.example
         public GameObject SignUpButton = null!;
         public GameObject GamePlayButton = null!;
         public SupabaseManager SupabaseManager = null!;
+        public GameObject Panel = null!;
 
         // Private implementation
         private bool _doSignIn;
@@ -42,12 +44,6 @@ namespace com.example
         public void SignOut()
         {
             _doSignOut = true;
-        }
-
-        public void PlayGame()
-        {
-            // move to WaitingGame scene
-            UnityEngine.SceneManagement.SceneManager.LoadScene("WaitingGame");
         }
 
         [SuppressMessage("ReSharper", "Unity.PerformanceCriticalCodeInvocation")]
@@ -99,6 +95,7 @@ namespace com.example
             {
                 var userProfile = await GetUserProfile(session);
                 StatusText.text = $"Hello {userProfile.nickname}! Let's save the hamster!";
+                Panel.GetComponent<VerticalLayoutGroup>().spacing = 250;
             }
             else
             {
