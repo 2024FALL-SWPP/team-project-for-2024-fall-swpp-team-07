@@ -8,6 +8,7 @@ TagManager:
   - Stage2Preview
   - Stage3Preview
   - Stage4Preview
+  - Goal
   layers:
   - Default
   - TransparentFX
