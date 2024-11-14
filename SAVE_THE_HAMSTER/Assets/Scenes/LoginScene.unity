@@ -160,6 +160,7 @@ MonoBehaviour:
   SignUpButton: {fileID: 1271333624}
   GamePlayButton: {fileID: 367176943}
   SupabaseManager: {fileID: 1996033002}
+  Panel: {fileID: 397966754}
 --- !u!4 &8238522
 Transform:
   m_ObjectHideFlags: 0
@@ -1068,7 +1069,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7027259316256617975, guid: 8364377486017d344b28d9dc6bfb5a3a, type: 3}
       propertyPath: m_Name
-      value: GoldenChest Variant
+      value: GoldenChest
       objectReference: {fileID: 0}
     - target: {fileID: 7027259316265993777, guid: 8364377486017d344b28d9dc6bfb5a3a, type: 3}
       propertyPath: m_ApplyRootMotion

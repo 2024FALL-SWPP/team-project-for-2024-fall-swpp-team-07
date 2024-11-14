@@ -69,6 +69,23 @@ namespace com.example
                 await SupabaseManager.Supabase()!.Auth.SignOut();
                 _doSignOut = false;
             }
+
+            // Tab 키를 누르면 다음 입력 필드로 이동
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                if (EmailInput.isFocused)
+                {
+                    PasswordInput.Select();
+                }
+                else if (PasswordInput.isFocused)
+                {
+                    NicknameInput.Select();
+                }
+                else if (NicknameInput.isFocused)
+                {
+                    EmailInput.Select();
+                }
+            }
         }
 
         // UI 상태 변경
