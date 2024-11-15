@@ -851,7 +851,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 895, y: 370}
+  m_AnchoredPosition: {x: 800, y: 370}
   m_SizeDelta: {x: 90, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &745888586
@@ -1017,7 +1017,7 @@ GameObject:
   - component: {fileID: 1181888508}
   - component: {fileID: 1181888507}
   m_Layer: 5
-  m_Name: LoadingSceneButton
+  m_Name: StartButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1090,7 +1090,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1917111198}
         m_TargetAssemblyTypeName: SceneTransitionManager, Assembly-CSharp
-        m_MethodName: GoToLoadingScene
+        m_MethodName: GoToLoginScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
