@@ -1,6 +1,8 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Threading.Tasks;
+using com.example.Models; // 사용자 정의 모델 사용
 using Postgrest.Attributes;
 using Postgrest.Models;
 using Supabase.Gotrue;
@@ -204,7 +206,8 @@ namespace com.example
         {
             try
             {
-                var response = await SupabaseManager
+                // users 테이블에 사용자 프로필 추가
+                await SupabaseManager
                     .Supabase()!
                     .From<UserProfile>()
                     .Insert(
@@ -216,28 +219,41 @@ namespace com.example
                             is_guest = false,
                         }
                     );
+
+                // store 테이블에 사용자 상점 정보 추가
+                await SupabaseManager
+                    .Supabase()!
+                    .From<UserStore>()
+                    .Insert(
+                        new UserStore
+                        {
+                            user_id = session.User.Id,
+                            hamster_skin_1 = false,
+                            hamster_skin_2 = false,
+                            cannon_skin_1 = false,
+                            cannon_skin_2 = false,
+                            ball_tail_effect_1 = false,
+                            ball_tail_effect_2 = false,
+                        }
+                    );
+
+                // stage_status 테이블에 사용자 스테이지 정보 추가
+                var stageStatuses = Enumerable
+                    .Range(1, 4)
+                    .Select(i => new UserStageStatus
+                    {
+                        user_id = session.User.Id,
+                        stage_id = i,
+                        almond_status = new bool[3] { false, false, false },
+                    })
+                    .ToList();
+
+                await SupabaseManager.Supabase()!.From<UserStageStatus>().Insert(stageStatuses);
             }
             catch (Exception e)
             {
                 Debug.LogError($"Failed to create user profile: {e.Message}");
             }
         }
-    }
-
-    [Table("users")] // public schema의 users 테이블 지정
-    public class UserProfile : BaseModel
-    {
-        [PrimaryKey("user_id", false)]
-        [Column("user_id")]
-        public string user_id { get; set; }
-
-        [Column("nickname")]
-        public string nickname { get; set; }
-
-        [Column("almonds")]
-        public int almonds { get; set; }
-
-        [Column("is_guest")]
-        public bool is_guest { get; set; }
     }
 }
