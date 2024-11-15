@@ -1,12 +1,15 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Threading.Tasks;
+using com.example.Models; // 사용자 정의 모델 사용
 using Postgrest.Attributes;
 using Postgrest.Models;
 using Supabase.Gotrue;
 using Supabase.Gotrue.Exceptions;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace com.example
 {
@@ -15,12 +18,19 @@ namespace com.example
         // Public Unity References
         public TMP_InputField EmailInput = null!;
         public TMP_InputField PasswordInput = null!;
+        public TMP_InputField NicknameInput = null!;
         public TMP_Text ErrorText = null!;
+        public TMP_Text StatusText = null!;
+        public GameObject SignInButton = null!;
+        public GameObject SignUpButton = null!;
+        public GameObject GamePlayButton = null!;
         public SupabaseManager SupabaseManager = null!;
+        public GameObject Panel = null!;
 
         // Private implementation
         private bool _doSignIn;
         private bool _doSignUp;
+        private bool _doSignOut;
 
         // Unity does not allow async UI events, so we set a flag and use Update() to do the async work
         public void SignIn()
@@ -31,6 +41,11 @@ namespace com.example
         public void SignUp()
         {
             _doSignUp = true;
+        }
+
+        public void SignOut()
+        {
+            _doSignOut = true;
         }
 
         [SuppressMessage("ReSharper", "Unity.PerformanceCriticalCodeInvocation")]
@@ -49,6 +64,84 @@ namespace com.example
                 await PerformSignUp();
                 _doSignUp = false;
             }
+
+            if (_doSignOut)
+            {
+                _doSignOut = false;
+                await SupabaseManager.Supabase()!.Auth.SignOut();
+                _doSignOut = false;
+            }
+
+            // Tab 키를 누르면 다음 입력 필드로 이동
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                if (EmailInput.isFocused)
+                {
+                    PasswordInput.Select();
+                }
+                else if (PasswordInput.isFocused)
+                {
+                    NicknameInput.Select();
+                }
+                else if (NicknameInput.isFocused)
+                {
+                    EmailInput.Select();
+                }
+            }
+        }
+
+        // UI 상태 변경
+        [SuppressMessage("ReSharper", "Unity.PerformanceCriticalCodeInvocation")]
+        private async Task UpdateUIState(Session session = null)
+        {
+            bool isLoggedIn = session != null;
+
+            // 비로그인 시에만 활성화
+            EmailInput.gameObject.SetActive(!isLoggedIn);
+            PasswordInput.gameObject.SetActive(!isLoggedIn);
+            NicknameInput.gameObject.SetActive(!isLoggedIn);
+            SignInButton.SetActive(!isLoggedIn);
+            SignUpButton.SetActive(!isLoggedIn);
+            ErrorText.gameObject.SetActive(!isLoggedIn);
+
+            // 로그인 시에만 활성화
+            GamePlayButton.SetActive(isLoggedIn);
+
+            // 항상 활성화
+            StatusText.gameObject.SetActive(true);
+
+            if (isLoggedIn)
+            {
+                var userProfile = await GetUserProfile(session);
+                StatusText.text = $"Hello {userProfile.nickname}! Let's save the hamster!";
+                Panel.GetComponent<VerticalLayoutGroup>().spacing = 250;
+            }
+            else
+            {
+                StatusText.text = "Please Login to save your hamster ...";
+            }
+        }
+
+        [SuppressMessage("ReSharper", "Unity.PerformanceCriticalCodeInvocation")]
+        private async Task<UserProfile> GetUserProfile(Session session)
+        {
+            try
+            {
+                // session.User.Id 를 가지고 사용자 닉네임을 가져옴
+                var userProfile = await SupabaseManager
+                    .Supabase()!
+                    .From<UserProfile>()
+                    .Select("*")
+                    .Where(x => x.user_id == session.User.Id)
+                    .Single();
+
+                return userProfile;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Failed to fetch user profile: {e.Message}");
+                throw;
+            }
         }
 
         [SuppressMessage("ReSharper", "Unity.PerformanceCriticalCodeInvocation")]
@@ -56,20 +149,25 @@ namespace com.example
         {
             try
             {
+                StatusText.text = "Loading...";
+
                 Session session = (
                     await SupabaseManager
                         .Supabase()!
                         .Auth.SignIn(EmailInput.text, PasswordInput.text)
                 )!;
-                ErrorText.text = $"Success! Signed In as {session.User?.Email}";
+
+                await UpdateUIState(session);
             }
             catch (GotrueException goTrueException)
             {
                 ErrorText.text = $"{goTrueException.Reason} {goTrueException.Message}";
+                StatusText.text = "Please Login to save your hamster ...";
                 Debug.LogException(goTrueException, gameObject);
             }
             catch (Exception e)
             {
+                StatusText.text = "Please Login to save your hamster ...";
                 Debug.LogException(e, gameObject);
             }
         }
@@ -80,69 +178,82 @@ namespace com.example
         {
             try
             {
+                StatusText.text = "Loading...";
+
                 Session session = (
                     await SupabaseManager
                         .Supabase()!
                         .Auth.SignUp(EmailInput.text, PasswordInput.text)
                 )!;
-                await CreateUserProfile(session);
-                ErrorText.text = $"Success! Signed Up as {session.User?.Email}";
+                await CreateUserProfile(session, NicknameInput.text);
+
+                await UpdateUIState(session);
             }
             catch (GotrueException goTrueException)
             {
                 ErrorText.text = $"{goTrueException.Reason} {goTrueException.Message}";
+                StatusText.text = "Please Login to save your hamster ...";
                 Debug.LogException(goTrueException, gameObject);
             }
             catch (Exception e)
             {
+                StatusText.text = "Please Login to save your hamster ...";
                 Debug.LogException(e, gameObject);
             }
         }
 
-        private async Task CreateUserProfile(Session session)
+        private async Task CreateUserProfile(Session session, string nickname)
         {
             try
             {
-                Debug.Log(
-                    $"Signed User Info - ID: {session.User?.Id}, Email: {session.User?.Email}"
-                );
-
-                var response = await SupabaseManager
+                // users 테이블에 사용자 프로필 추가
+                await SupabaseManager
                     .Supabase()!
                     .From<UserProfile>()
                     .Insert(
                         new UserProfile
                         {
                             user_id = session.User.Id,
-                            nickname = "Guest" + UnityEngine.Random.Range(1000, 9999),
+                            nickname = nickname,
                             almonds = 0,
                             is_guest = false,
                         }
                     );
 
-                Debug.Log($"User profile created for {session.User.Email}");
+                // store 테이블에 사용자 상점 정보 추가
+                await SupabaseManager
+                    .Supabase()!
+                    .From<UserStore>()
+                    .Insert(
+                        new UserStore
+                        {
+                            user_id = session.User.Id,
+                            hamster_skin_1 = false,
+                            hamster_skin_2 = false,
+                            cannon_skin_1 = false,
+                            cannon_skin_2 = false,
+                            ball_tail_effect_1 = false,
+                            ball_tail_effect_2 = false,
+                        }
+                    );
+
+                // stage_status 테이블에 사용자 스테이지 정보 추가
+                var stageStatuses = Enumerable
+                    .Range(1, 4)
+                    .Select(i => new UserStageStatus
+                    {
+                        user_id = session.User.Id,
+                        stage_id = i,
+                        almond_status = new bool[3] { false, false, false },
+                    })
+                    .ToList();
+
+                await SupabaseManager.Supabase()!.From<UserStageStatus>().Insert(stageStatuses);
             }
             catch (Exception e)
             {
                 Debug.LogError($"Failed to create user profile: {e.Message}");
             }
         }
-    }
-
-    [Table("users")] // public schema의 users 테이블 지정
-    public class UserProfile : BaseModel
-    {
-        [PrimaryKey("user_id", false)]
-        [Column("user_id")]
-        public string user_id { get; set; }
-
-        [Column("nickname")]
-        public string nickname { get; set; }
-
-        [Column("almonds")]
-        public int almonds { get; set; }
-
-        [Column("is_guest")]
-        public bool is_guest { get; set; }
     }
 }
