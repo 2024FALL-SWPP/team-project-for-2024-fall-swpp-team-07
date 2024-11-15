@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: b0b1d69aa15831a4f9ef1e55a99b118a
+=======
+guid: f54d1bd14bd3ca042bd867b519fee8cc
+>>>>>>> feature/start_scene_design
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
