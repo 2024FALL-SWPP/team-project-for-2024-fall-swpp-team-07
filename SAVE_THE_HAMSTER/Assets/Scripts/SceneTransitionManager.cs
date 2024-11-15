@@ -78,6 +78,7 @@ public class SceneTransitionManager : MonoBehaviour
 
     public void GoToSettingScene()
     {
+        SceneManager.LoadScene("StartScene");
         //SceneManager.LoadScene("SettingScene");
     }
 }
