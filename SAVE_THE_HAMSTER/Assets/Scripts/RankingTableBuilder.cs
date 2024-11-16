@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
 public class RankingTableBuilder : MonoBehaviour
 {
@@ -31,8 +31,8 @@ public class RankingTableBuilder : MonoBehaviour
         // build ranking table
         for (int i = 0; i < 10; i++)
         {
-            playerText[i].text = "" + (i + 1) + "ranker";
-            shotsText[i].text = "" + 2 * i;
+            playerText[i].text = "" + (i + 1);
+            shotsText[i].text = "" + i;
             playtimeText[i].text = "" + i + ":" + 30;
         }
     }
