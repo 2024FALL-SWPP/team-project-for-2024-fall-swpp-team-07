@@ -4,48 +4,55 @@ using UnityEngine;
 
 public class LoadingSceneHamsterBallController : MonoBehaviour
 {
-    private float forceMagnitude;
-    private float currentForce = 0f;        // 현재 적용되는 힘
-    private float forceIncreaseRate = 20f;  // 힘이 증가하는 속도
-    private float maxForce = 10f;         // 최대 힘 // 키 입력 0.5초 간 가속
+    private float maxForce = 0.5f; // 최대 힘
+    private float forceIncreaseRate = 2f; // 가속도
+    private float currentForce = 0f;
+    private float dragForce = 1f; // 마찰력
     private Rigidbody rb;
     private Vector3 forceDirection;
     private bool isAnyKeyPressed;
+    private Camera mainCamera; // 메인 카메라
 
-    // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        rb.drag = dragForce;
+        mainCamera = Camera.main;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        // 방향키 입력 확인
         forceDirection = Vector3.zero;
         isAnyKeyPressed = false;
-        
-        // 수평 방향 (좌우) 확인
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            forceDirection += new Vector3(0f, 0f, -1f);
-            isAnyKeyPressed = true;
-        }
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            forceDirection += new Vector3(0f, 0f, 1f);
-            isAnyKeyPressed = true;
-        }
-        
-        // 수직 방향 (상하) 확인
+
+        // 카메라 기준으로 방향 설정
+        Vector3 forward = mainCamera.transform.forward;
+        Vector3 right = mainCamera.transform.right;
+
+        // 카메라의 상하 회전은 무시하기 위해 y값을 0으로 설정
+        forward.y = 0;
+        right.y = 0;
+        forward.Normalize();
+        right.Normalize();
+
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            forceDirection += new Vector3(-1f, 0f, 0f);
+            forceDirection -= right;
             isAnyKeyPressed = true;
         }
         if (Input.GetKey(KeyCode.DownArrow))
         {
-            forceDirection += new Vector3(1f, 0f, 0f);
+            forceDirection += right;
+            isAnyKeyPressed = true;
+        }
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            forceDirection += forward;
+            isAnyKeyPressed = true;
+        }
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            forceDirection -= forward;
             isAnyKeyPressed = true;
         }
 
