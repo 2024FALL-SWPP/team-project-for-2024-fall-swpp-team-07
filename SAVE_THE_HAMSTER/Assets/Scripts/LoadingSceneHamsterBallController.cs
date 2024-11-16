@@ -7,7 +7,7 @@ public class LoadingSceneHamsterBallController : MonoBehaviour
     private float forceMagnitude;
     private float currentForce = 0f;        // 현재 적용되는 힘
     private float forceIncreaseRate = 20f;  // 힘이 증가하는 속도
-    private float maxForce = 20f;         // 최대 힘 // 키 입력 1초 간 가속
+    private float maxForce = 10f;         // 최대 힘 // 키 입력 0.5초 간 가속
     private Rigidbody rb;
     private Vector3 forceDirection;
     private bool isAnyKeyPressed;
@@ -28,24 +28,24 @@ public class LoadingSceneHamsterBallController : MonoBehaviour
         // 수평 방향 (좌우) 확인
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            forceDirection += new Vector3(1f, 0f, 0f);
+            forceDirection += new Vector3(0f, 0f, -1f);
             isAnyKeyPressed = true;
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            forceDirection += new Vector3(-1f, 0f, 0f);
+            forceDirection += new Vector3(0f, 0f, 1f);
             isAnyKeyPressed = true;
         }
         
         // 수직 방향 (상하) 확인
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            forceDirection += new Vector3(0f, 0f, -1f);
+            forceDirection += new Vector3(-1f, 0f, 0f);
             isAnyKeyPressed = true;
         }
         if (Input.GetKey(KeyCode.DownArrow))
         {
-            forceDirection += new Vector3(0f, 0f, 1f);
+            forceDirection += new Vector3(1f, 0f, 0f);
             isAnyKeyPressed = true;
         }
 
