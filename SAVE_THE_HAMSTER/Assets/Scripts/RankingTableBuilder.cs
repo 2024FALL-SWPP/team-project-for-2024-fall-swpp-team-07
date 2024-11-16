@@ -5,7 +5,7 @@ using TMPro;
 
 public class RankingTableBuilder : MonoBehaviour
 {
-    private StageSelector stageSelector;
+    private SceneTransitionManager sceneTransitionManager;
     private int stageNumber;
 
     public TMP_Text testText;
@@ -17,22 +17,24 @@ public class RankingTableBuilder : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // find stageSelector to get stage number
-        stageSelector = FindObjectOfType<StageSelector>();
-        stageNumber = stageSelector.getStageNumber();
+        // find sceneTransitionManager to get stage number
+        sceneTransitionManager = FindObjectOfType<SceneTransitionManager>();
+        stageNumber = sceneTransitionManager.getStageNumber();
 
         // connect with database
 
         // get user_id[10] of top ranker matching stage_id == stageNumber
-        testText.text = "test";
+
+        // for testing this scene getting delivered proper stage number
+        testText.text = "Stage: " + stageNumber;
 
         // build ranking table
-        // for (int i = 0; i < 10; i++)
-        // {
-        //     playerText[i].text = "" + (i + 1) + "ranker";
-        //     shotsText[i].text = "" + 2 * i;
-        //     playtimeText[i].text = "" + i + ":" + 30;
-        // }
+        for (int i = 0; i < 10; i++)
+        {
+            playerText[i].text = "" + (i + 1) + "ranker";
+            shotsText[i].text = "" + 2 * i;
+            playtimeText[i].text = "" + i + ":" + 30;
+        }
     }
 
     // Update is called once per frame

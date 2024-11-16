@@ -5,17 +5,21 @@ using UnityEngine.SceneManagement;
 
 public class SceneTransitionManager : MonoBehaviour
 {
-    private int stageNumber;
+    private static int stageNumber = 0;
     private StageSelector stageSelector;
     // Start is called before the first frame update
     void Start() 
     {
         stageSelector = FindObjectOfType<StageSelector>();
+        // if (stageSelector == null)
+        // {
+        //     Debug.LogError("StageSelector not found!");
+        //     return;
+        // }
     }
 
     // Update is called once per frame
-    void Update() 
-    {    }
+    void Update() { }
 
     // public void GoToStartScene()
     // {
@@ -39,9 +43,12 @@ public class SceneTransitionManager : MonoBehaviour
 
     public void GoToPreStageScene()
     {
-        stageNumber = stageSelector.getStageNumber();
-        Debug.Log("GoToPreStageScene: " + stageNumber);
-        // SceneManager.LoadScene("PreStageScene");
+        if (stageSelector != null)
+        {
+            stageNumber = stageSelector.getStageNumber();
+        }
+        // Debug.Log("GoToPreStageScene: " + stageNumber);
+        SceneManager.LoadScene("PreStageScene");
     }
 
     public void GoToStageScene()
@@ -80,5 +87,11 @@ public class SceneTransitionManager : MonoBehaviour
     {
         SceneManager.LoadScene("StartScene");
         //SceneManager.LoadScene("SettingScene");
+    }
+
+    // Used for delivering stageNumber on PreStageScene and GameOverScene
+    public int getStageNumber()
+    {
+        return stageNumber;
     }
 }
