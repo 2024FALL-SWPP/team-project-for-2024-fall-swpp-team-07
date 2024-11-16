@@ -5,7 +5,7 @@ using TMPro; // UI 컴포넌트 사용을 위해 추가
 
 public class StageSelector : MonoBehaviour
 {
-    private int stageNumber;
+    private int stageNumber = 1;
     private float cameraPositionX;
     public GameObject emphasizePlane;
     //public TMP_Text stageText;
@@ -18,7 +18,6 @@ public class StageSelector : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        stageNumber = 1;
         cameraPositionX = -3.0f;
     }
 
