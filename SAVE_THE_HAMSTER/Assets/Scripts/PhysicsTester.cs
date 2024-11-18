@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PhysicsTester : MonoBehaviour
 {
+    public GameObject camera;
     private float forceMagnitude; // 힘의 세기를 조절할 수 있는 변수
     private Rigidbody rb;
 
@@ -11,7 +12,7 @@ public class PhysicsTester : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        forceMagnitude = rb.mass * 8.0f;
+        forceMagnitude = rb.mass * 10.0f;
     }
 
     // Update is called once per frame
