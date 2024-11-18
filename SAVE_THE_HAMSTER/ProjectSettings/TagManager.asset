@@ -9,6 +9,7 @@ TagManager:
   - Stage3Preview
   - Stage4Preview
   - Goal
+  - Almond
   layers:
   - Default
   - TransparentFX

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 624978052}
   m_Layer: 0
   m_Name: Ball
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -134,6 +134,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 118eb5a526b27d547b3f12cd41870a8d, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 118eb5a526b27d547b3f12cd41870a8d, type: 3}
 --- !u!4 &5908638516549350982 stripped
@@ -251,6 +255,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 52387d74f5be8d1458d9c5c229da5557, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 52387d74f5be8d1458d9c5c229da5557, type: 3}
 --- !u!4 &5908638515916723372 stripped
@@ -286,7 +294,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6535958637080743446}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: e6ea71ff80f723d4c8e016806e625615, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
@@ -367,6 +375,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 732c58ed71dd6f64c8c20916dbfdeb6d, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 732c58ed71dd6f64c8c20916dbfdeb6d, type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 732c58ed71dd6f64c8c20916dbfdeb6d, type: 3}
@@ -485,6 +497,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 7329f77c6b70e594fbaa7efcb21e897e, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7329f77c6b70e594fbaa7efcb21e897e, type: 3}
 --- !u!4 &5908638514742398795 stripped
@@ -602,6 +618,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 65e31a171500945a7b508401832adf3d, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 65e31a171500945a7b508401832adf3d, type: 3}
       propertyPath: m_Controller
       value: 
@@ -620,7 +640,7 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4083525785303443852}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: e6ea71ff80f723d4c8e016806e625615, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
