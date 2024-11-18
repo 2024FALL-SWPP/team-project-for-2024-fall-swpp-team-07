@@ -7,8 +7,9 @@ public class SceneTransitionManager : MonoBehaviour
 {
     private static int stageNumber = 0;
     private StageSelector stageSelector;
+
     // Start is called before the first frame update
-    void Start() 
+    void Start()
     {
         stageSelector = FindObjectOfType<StageSelector>();
         // if (stageSelector == null)
@@ -80,12 +81,11 @@ public class SceneTransitionManager : MonoBehaviour
 
     public void GoToStoreScene()
     {
-        //SceneManager.LoadScene("StoreScene");
+        SceneManager.LoadScene("StoreScene");
     }
 
     public void GoToSettingScene()
     {
-        SceneManager.LoadScene("StartScene");
         //SceneManager.LoadScene("SettingScene");
     }
 
