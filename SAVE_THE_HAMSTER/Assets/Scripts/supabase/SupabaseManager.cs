@@ -9,6 +9,37 @@ namespace com.example
 {
     public class SupabaseManager : MonoBehaviour
     {
+        // use Singleton pattern
+        private static SupabaseManager instance;
+        public static SupabaseManager Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = FindObjectOfType<SupabaseManager>();
+                    if (instance == null)
+                    {
+                        instance = new GameObject(
+                            "SupabaseManager"
+                        ).AddComponent<SupabaseManager>();
+                    }
+                }
+                return instance;
+            }
+        }
+
+        private void Awake()
+        {
+            if (instance != null && instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+
         // Public Unity references
         public SessionListener SessionListener = null!;
         public SupabaseSettings SupabaseSettings = null!;

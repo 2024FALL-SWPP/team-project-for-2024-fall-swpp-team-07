@@ -8344,7 +8344,7 @@ GameObject:
   - component: {fileID: 1671264120}
   - component: {fileID: 1671264119}
   m_Layer: 0
-  m_Name: SceneTransitionManager
+  m_Name: PostStageSceneManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
