@@ -8,30 +8,33 @@ public class CannonControl : MonoBehaviour
 {
     public Transform cannonTransform; // 대포의 Transform
     public Transform firePoint; // 탄환 발사 지점
-    public GameObject ball; // 발사할 공, ex.Hamster_m
+    private GameObject ball; // 발사할 공, ex.Hamster_m
     public LineRenderer lineRenderer;
     public ParticleSystem explosion;
     private const int N_TRAJECTORY_POINTS = 40;
     private float minForce = 0f; //최소 발사력
-    private float maxForce = 20f; //최대 발사력
-    private float forceIncreaseRate = 5f;//발사력 증가 속도
+    private float maxForce; //최대 발사력
+    private float forceMultipler = 5f;// 발사력에 적용할 비례 상수
+    private float forceIncreaseRate;//발사력 증가 속도
+    //cf) (최대 발사력 - 최소 발사력)/발사력 증가 속도 = 1 / fillSpeed (GaugeControl.cs)
     private float minRotation = 230f; 
     private float maxRotation = 300f;
     private float maxLeft = -45f;
     private float maxRight = 45f;
 
+    private float scaleMultiplier = 2.5f; // 공 대비 대포 전체 비율-> 추후에 아이템으로 공이 커지는 효과를 구현한다면 대포도 커지게 설정
     private float currentYRotation;
     private float currentXRotation;
 
     private float force;
+
+    public BallTransition ballT;
 
     private bool isForceIncreasing = true;//force가 증가하고 있는지 여부
 
     public GameObject cannon;//포신
 
     public float rotationSpeed = 100f; // 회전 속도
-
-
     private bool spacePressed; //spaceBar가 눌렸는지 저장
  
     void Start()
@@ -41,8 +44,13 @@ public class CannonControl : MonoBehaviour
        cannonTransform.rotation = Quaternion.Euler(0,currentYRotation,0);
        cannon.transform.rotation = Quaternion.Euler(currentXRotation, 0, 0);
        lineRenderer.positionCount = N_TRAJECTORY_POINTS;
+       // 선의 두께 설정
+       lineRenderer.startWidth = 0.8f; // 시작 두께
+       lineRenderer.endWidth = 0.8f; // 끝 두께
        lineRenderer.enabled = false;
        spacePressed = false;
+       //Rigidbody rigidBody = ball.GetComponent<Rigidbody>();
+       //mass = rigidBody.mass;
 
     }
     
@@ -50,7 +58,6 @@ public class CannonControl : MonoBehaviour
     void Update()
     {   
         explosion.Stop();
-        
         if(!spacePressed){
 
         //대포 전체 좌우 회전 조작
@@ -77,6 +84,10 @@ public class CannonControl : MonoBehaviour
         //공 발사
         if (Input.GetKey(KeyCode.Space)) // 스페이스바를 누르고 있는 동안 force가 min, max사이에서 진동
         {
+            ball = ballT.balls[ballT.ballType]; //발사할 공
+            Rigidbody ballrb = ball.GetComponent<Rigidbody>();
+            maxForce = forceMultipler * ballrb.mass; //공 질량에 비례하는 maxForce 설정
+            forceIncreaseRate = forceMultipler * ballrb.mass;
             spacePressed = true;
             if(isForceIncreasing){
                 force += Time.deltaTime * forceIncreaseRate;
@@ -99,7 +110,7 @@ public class CannonControl : MonoBehaviour
         
             lineRenderer.enabled = true;
             lineRenderer.transform.position = firePoint.position;//firePoint위치로 lineRenderer시작점 이동
-            UpdateLineRenderer((firePoint.position - cannon.transform.position) * force);
+            UpdateLineRenderer((firePoint.position - cannon.transform.position) * force, ballrb.mass);
         } 
 
         else if (Input.GetKeyUp(KeyCode.Space)) // 스페이스바를 떼면
@@ -108,7 +119,8 @@ public class CannonControl : MonoBehaviour
             lineRenderer.enabled = false;
             explosion.transform.position = firePoint.position;
             explosion.Play();
-            GameObject projectile = Instantiate(ball, firePoint.position, firePoint.rotation);
+        
+            GameObject projectile = Instantiate(ball, firePoint.position,firePoint.rotation);
             Rigidbody rb = projectile.GetComponent<Rigidbody>();
             rb.AddForce((firePoint.position - cannon.transform.position) * force, ForceMode.Impulse);
             force = 0f;//force값 초기화
@@ -120,9 +132,9 @@ public class CannonControl : MonoBehaviour
     }
 
 
-    private void UpdateLineRenderer(Vector3 initialVelocity){
+    private void UpdateLineRenderer(Vector3 initialVelocity, float mass){
         float g = Physics.gravity.magnitude;
-        float velocity = initialVelocity.magnitude * 0.5f;
+        float velocity = initialVelocity.magnitude / mass; //질량에 따른 예상 궤도 변화
         float angle = 300f - currentXRotation;
         float timeStep = 0.1f;
         float fTime = 0f;
@@ -136,8 +148,6 @@ public class CannonControl : MonoBehaviour
             fTime += timeStep;
         } 
     }
-
-
     
 
 }

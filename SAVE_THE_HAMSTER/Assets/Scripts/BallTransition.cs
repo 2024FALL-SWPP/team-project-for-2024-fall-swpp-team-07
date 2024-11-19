@@ -6,9 +6,10 @@ public class BallTransition : MonoBehaviour
 {
     // USE THIS WHEN CHANGING BALLS
 
-    private int ballType; // current ball type
+    public int ballType; // current ball type
     public GameObject[] balls;
     Vector3[] ballOffsets;
+    private bool blockAlpha1 = false; // 숫자키 1 입력 차단
 
     /* manual offsets (FOR REFERENCE)
     Vector3 hamsterOffset = Vector3.zero;
@@ -43,8 +44,18 @@ public class BallTransition : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // 방향키 또는 스페이스바가 눌렸는지 체크 
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || 
+            Input.GetKeyDown(KeyCode.RightArrow) || 
+            Input.GetKeyDown(KeyCode.DownArrow) || 
+            Input.GetKeyDown(KeyCode.UpArrow) ||
+            Input.GetKeyDown(KeyCode.Space))
+        {
+            blockAlpha1 = true; // 숫자키 1 입력 차단 
+        }
+        //즉, 공의 종류를 먼저 선택 -> 방향키 발사각 조절 -> space바 발사세기 조절
         /* Testing Purpose */
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (!blockAlpha1 && Input.GetKeyDown(KeyCode.Alpha1))
         {
             int newBall = (ballType + 1) % balls.Length;
             ChangeBall(newBall);
