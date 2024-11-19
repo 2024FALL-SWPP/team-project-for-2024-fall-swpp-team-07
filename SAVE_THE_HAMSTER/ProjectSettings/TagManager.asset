@@ -9,9 +9,8 @@ TagManager:
   - Stage3Preview
   - Stage4Preview
   - Goal
-  - FxTemporaire
   - Ground
-  - Lava
+  - Ball
   layers:
   - Default
   - TransparentFX
