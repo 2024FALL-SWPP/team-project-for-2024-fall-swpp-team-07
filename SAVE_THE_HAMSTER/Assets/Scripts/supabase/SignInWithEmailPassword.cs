@@ -185,8 +185,12 @@ namespace com.example
                         .Supabase()!
                         .Auth.SignUp(EmailInput.text, PasswordInput.text)
                 )!;
-                await CreateUserProfile(session, NicknameInput.text);
+                // 회원가입 후 로그인 수행
+                session = await SupabaseManager
+                    .Supabase()!
+                    .Auth.SignIn(EmailInput.text, PasswordInput.text);
 
+                await CreateUserProfile(session, NicknameInput.text);
                 await UpdateUIState(session);
             }
             catch (GotrueException goTrueException)

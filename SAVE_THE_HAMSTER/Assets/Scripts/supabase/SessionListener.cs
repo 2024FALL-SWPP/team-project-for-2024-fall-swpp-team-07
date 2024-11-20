@@ -9,20 +9,12 @@ namespace com.example
     {
         // Public Unity References
         public SupabaseManager SupabaseManager = null!;
-        public TMP_Text LoggedInEmailAddress = null!;
 
         public void UnityAuthListener(
             IGotrueClient<User, Session> sender,
             Constants.AuthState newState
         )
         {
-            if (sender.CurrentUser?.Email == null)
-                LoggedInEmailAddress.text = "No user logged in";
-            else
-            {
-                LoggedInEmailAddress.text = $"Logged in as {sender.CurrentUser.Email}";
-            }
-
             switch (newState)
             {
                 case Constants.AuthState.SignedIn:

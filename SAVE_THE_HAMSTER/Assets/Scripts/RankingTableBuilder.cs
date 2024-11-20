@@ -1,15 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
 public class RankingTableBuilder : MonoBehaviour
 {
     private SceneTransitionManager sceneTransitionManager;
     private int stageNumber;
 
-    public TMP_Text testText;
-
+    public TMP_Text[] rankingText = new TMP_Text[10];
     public TMP_Text[] playerText = new TMP_Text[10];
     public TMP_Text[] shotsText = new TMP_Text[10];
     public TMP_Text[] playtimeText = new TMP_Text[10];
@@ -25,15 +24,13 @@ public class RankingTableBuilder : MonoBehaviour
 
         // get user_id[10] of top ranker matching stage_id == stageNumber
 
-        // for testing this scene getting delivered proper stage number
-        testText.text = "Stage: " + stageNumber;
-
         // build ranking table
         for (int i = 0; i < 10; i++)
         {
-            playerText[i].text = "" + (i + 1) + "ranker";
-            shotsText[i].text = "" + 2 * i;
-            playtimeText[i].text = "" + i + ":" + 30;
+            rankingText[i].text = "" + (i + 1);
+            playerText[i].text = "Player" + i;
+            shotsText[i].text = "" + i + "타";
+            playtimeText[i].text = "01:3" + i + ".00";
         }
     }
 
