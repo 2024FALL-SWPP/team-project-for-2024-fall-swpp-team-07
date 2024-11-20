@@ -10,6 +10,8 @@ TagManager:
   - Stage4Preview
   - Goal
   - Almond
+  - Ground
+  - Ball
   layers:
   - Default
   - TransparentFX
