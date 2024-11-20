@@ -9,6 +9,7 @@ TagManager:
   - Stage3Preview
   - Stage4Preview
   - Goal
+  - Almond
   - Ground
   - Ball
   layers:
@@ -18,9 +19,9 @@ TagManager:
   - 
   - Water
   - UI
+  - UIObjects
   - Object
-  - 
-  - 
+  - Almonds
   - 
   - 
   - 
