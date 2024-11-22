@@ -18,6 +18,9 @@ public class Stage1Manager : MonoBehaviour
     public GameObject animationCamera;
     GameObject canvas;
 
+    //Added for Tutorial
+    //private Stage1TutorialManager tutorialManager = new Stage1TutorialManager();
+
     public GameObject GetActiveBall()
     {
         foreach (GameObject ball in balls)
@@ -64,6 +67,10 @@ public class Stage1Manager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Added for Tutorial
+        //Stage1TutorialManager.tutorialManager.Start();
+
+
         lifeLeft = totalLife;
         canvas = GameObject.Find("Canvas");
         canvas.SetActive(false);
