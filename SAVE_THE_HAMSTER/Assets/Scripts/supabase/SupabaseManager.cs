@@ -3,6 +3,7 @@ using Supabase;
 using Supabase.Gotrue;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Client = Supabase.Client;
 
 namespace com.example
@@ -38,6 +39,24 @@ namespace com.example
             }
             instance = this;
             DontDestroyOnLoad(gameObject);
+        }
+
+        private void OnEnable()
+        {
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+
+        private void OnDisable()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            if (scene.name == "LoginScene")
+            {
+                ErrorText = GameObject.Find("Error Label").GetComponent<TMP_Text>();
+            }
         }
 
         // Public Unity references

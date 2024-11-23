@@ -12,6 +12,7 @@ TagManager:
   - Almond
   - Ground
   - Ball
+  - LoginUI
   layers:
   - Default
   - TransparentFX
