@@ -190,7 +190,7 @@ GameObject:
   - component: {fileID: 87492391}
   m_Layer: 5
   m_Name: Status
-  m_TagString: Untagged
+  m_TagString: LoginUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -666,7 +666,7 @@ GameObject:
   - component: {fileID: 367176945}
   m_Layer: 5
   m_Name: Game Play Button
-  m_TagString: Untagged
+  m_TagString: LoginUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1100,7 +1100,7 @@ GameObject:
   - component: {fileID: 397966758}
   m_Layer: 5
   m_Name: Panel
-  m_TagString: Untagged
+  m_TagString: LoginUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1252,7 +1252,7 @@ GameObject:
   - component: {fileID: 415728389}
   m_Layer: 5
   m_Name: Email InputField
-  m_TagString: Untagged
+  m_TagString: LoginUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1922,7 +1922,7 @@ GameObject:
   - component: {fileID: 1038648715}
   m_Layer: 5
   m_Name: Sign In Button
-  m_TagString: Untagged
+  m_TagString: LoginUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2212,7 +2212,7 @@ GameObject:
   - component: {fileID: 1105276061}
   m_Layer: 5
   m_Name: Password InputField
-  m_TagString: Untagged
+  m_TagString: LoginUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2543,7 +2543,7 @@ GameObject:
   - component: {fileID: 1261935825}
   m_Layer: 5
   m_Name: Error Label
-  m_TagString: Untagged
+  m_TagString: LoginUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2700,7 +2700,7 @@ GameObject:
   - component: {fileID: 1271333626}
   m_Layer: 5
   m_Name: Sign Up Button
-  m_TagString: Untagged
+  m_TagString: LoginUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3178,7 +3178,7 @@ GameObject:
   - component: {fileID: 1503442372}
   m_Layer: 5
   m_Name: Nickname InputField
-  m_TagString: Untagged
+  m_TagString: LoginUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
