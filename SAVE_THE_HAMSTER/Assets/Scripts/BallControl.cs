@@ -11,30 +11,33 @@ public class BallControl : MonoBehaviour
     private Rigidbody rb;
     private Vector3 rotationDirection; // 공의 회전 방향
     public float rotationSpeed = 100f; // 공의 회전 속도
-    private bool onGround;
-    public float deceleration = 0.1f; // 공 감속 비율
     public GameObject ball; //햄스터를 둘러싸는 공 
     public GameObject hamsterBall; //전체 햄스터공
+    public GameObject firePoint; //포구
+    public GameObject cannon; //대포 전체
     private Animator animator; // 햄스터의 Animator
-
     private Quaternion originalRotation;
+
+    public Vector3 offsetDirection; 
 
     void Start()
     {   
-        hamsterBall.transform.rotation = Quaternion.Euler(0f,90f,0f);
-        originalRotation =  Quaternion.Euler(0f,90f,0f); 
+        
+    }
+
+    void OnEnable(){
+        originalRotation =  hamsterBall.transform.rotation; //발사 직전 hamsterBall의 rotation값 저장 
         animator = hamsterBall.GetComponent<Animator>();
         rb = hamsterBall.GetComponent<Rigidbody>();
         SetRandomRotationDirection();//매 발사(매 공)마다 회전방향이 무작위로 달라짐
-        onGround = false;
-
     }
 
     // Update is called once per frame
     void Update()
     {
+        offsetDirection = new Vector3(firePoint.transform.position.x,0,firePoint.transform.position.z) - new Vector3(cannon.transform.position.x, 0, cannon.transform.position.z);
         transform.rotation = originalRotation ; 
-        transform.position = ball.transform.position + new Vector3(0f,0f,-0.7f);
+        transform.position = ball.transform.position - offsetDirection.normalized * 0.55f;
         float speed = rb.velocity.magnitude; // 공의 속도 계산
         // 속도에 따라 애니메이션 상태 전환
         if (speed < 10f && speed > 2f)
@@ -56,32 +59,9 @@ public class BallControl : MonoBehaviour
     void FixedUpdate()
     {
         // 공을 계속 회전시키기
-        if(!onGround){
+        Debug.Log(hamsterBall.GetComponent<CollisionDetection>().onGround);
+        if(!hamsterBall.GetComponent<CollisionDetection>().onGround){
             hamsterBall.transform.Rotate(rotationDirection * rotationSpeed * Time.deltaTime);
-        }
-    }
-
-    void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            onGround = true;
-        }
-    }
-    void OnCollisionStay(Collision collision)
-    {
-        // 공이 충돌 중일 때 속도를 감소시킴
-        if (rb != null)
-        {
-            // 현재 속도에 감속 비율을 곱하여 속도를 줄임
-            rb.velocity = rb.velocity * (1f - deceleration);
-            
-            // 속도가 매우 작은 경우에는 속도를 0으로 설정
-            if (rb.velocity.magnitude < 0.05f)
-            {
-                rb.velocity = Vector3.zero;//속도 멈추기
-                rb.angularVelocity = Vector3.zero;//회전 멈추기
-            }
         }
     }
 
