@@ -25,7 +25,7 @@ public class CameraControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        subCamera.transform.position = cannon.transform.position + new Vector3(0f,5f,-20f);
+        subCamera.transform.position = cannon.transform.position + new Vector3(-10f,5f,-20f);
          // 좌우,위아래 방향키 입력이 있을 때 서브 카메라로 전환
         if (!isSpaceBar && (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow)||Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow)))
         {

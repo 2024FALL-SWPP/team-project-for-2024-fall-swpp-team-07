@@ -10,6 +10,8 @@ public class BallTransition : MonoBehaviour
     public GameObject[] balls;
     Vector3[] ballOffsets;
     private bool blockAlpha1 = false; // 숫자키 1 입력 차단
+    public GameObject cannon; //대포 전체
+    CannonControl cannonControl;
 
     /* manual offsets (FOR REFERENCE)
     Vector3 hamsterOffset = Vector3.zero;
@@ -33,6 +35,7 @@ public class BallTransition : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        cannonControl = cannon.GetComponent<CannonControl>();
         ballOffsets = new Vector3[balls.Length];
         // initialize offset
         for (int i = 0; i < balls.Length; i++)
@@ -44,17 +47,19 @@ public class BallTransition : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // 방향키 또는 스페이스바가 눌렸는지 체크 
-        if (Input.GetKeyDown(KeyCode.LeftArrow) || 
-            Input.GetKeyDown(KeyCode.RightArrow) || 
-            Input.GetKeyDown(KeyCode.DownArrow) || 
-            Input.GetKeyDown(KeyCode.UpArrow) ||
-            Input.GetKeyDown(KeyCode.Space))
+        // 공이 날아가는 중에는 Ball transition 제한
+        if (cannonControl.spaceBarCount == 1)
         {
             blockAlpha1 = true; // 숫자키 1 입력 차단 
         }
+
+        else if(cannonControl.spaceBarCount == 0){
+            blockAlpha1 = false;
+        }
+
         //즉, 공의 종류를 먼저 선택 -> 방향키 발사각 조절 -> space바 발사세기 조절
         /* Testing Purpose */
+
         if (!blockAlpha1 && Input.GetKeyDown(KeyCode.Alpha1))
         {
             int newBall = (ballType + 1) % balls.Length;
