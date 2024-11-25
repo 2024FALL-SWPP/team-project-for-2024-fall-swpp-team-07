@@ -6,12 +6,21 @@ public class MiniMapCameraMovement : MonoBehaviour
 {
     // public GameObject[] balls; => applied design pattern
     GameObject activeBall;
+    GameObject cannon;
     Stage1Manager gm;
+    Vector3 _position;
+    Quaternion _rotation;
+
+    CannonControl cannonControl;
+
+    // public GameObject quad;
 
     // Start is called before the first frame update
     void Start()
     {
         gm = GameObject.Find("Stage1Manager").GetComponent<Stage1Manager>();
+        cannon = gm.cannon;
+        cannonControl = cannon.GetComponent<CannonControl>();
     }
 
     // Update is called once per frame
@@ -28,11 +37,30 @@ public class MiniMapCameraMovement : MonoBehaviour
             }
         }
         */
-        activeBall = gm.GetActiveBall();
-        transform.position = new Vector3(
-            activeBall.transform.position.x,
-            transform.position.y,
-            activeBall.transform.position.z
-        );
+
+
+        if (cannon.activeSelf && cannonControl.spaceBarCount == 0)
+        {
+            _position = new Vector3(
+                cannon.transform.position.x,
+                transform.position.y,
+                cannon.transform.position.z
+            );
+
+            _rotation = Quaternion.Euler(0, cannon.transform.rotation.eulerAngles.y - 135, 0);
+            // Debug.Log(cannon.transform.rotation.y);
+        }
+        else
+        {
+            activeBall = gm.GetActiveBall();
+            _position = new Vector3(
+                activeBall.transform.position.x,
+                transform.position.y,
+                activeBall.transform.position.z
+            );
+            _rotation = transform.rotation;
+        }
+
+        transform.SetPositionAndRotation(_position, _rotation);
     }
 }
