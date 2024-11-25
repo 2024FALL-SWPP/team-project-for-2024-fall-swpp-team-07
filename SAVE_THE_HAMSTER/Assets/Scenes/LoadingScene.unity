@@ -720,6 +720,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hamster3
       objectReference: {fileID: 0}
+    - target: {fileID: 8447238227561558111, guid: f7a69fada2ce978488ab1ad248284d41, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 940c20482fb8f439c8161d498259189a, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7a69fada2ce978488ab1ad248284d41, type: 3}
 --- !u!4 &640257779 stripped
