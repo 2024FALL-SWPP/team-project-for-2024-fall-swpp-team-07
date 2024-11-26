@@ -58,7 +58,7 @@ public class Stage1Manager : MonoBehaviour
 
     void EndGame()
     {
-        // somehow return/give [almondStatus, # of fires (totalLife - lifeLeft), elapsed time].
+        // somehow return/give [almondStatus, # of fires (totalLife - lifeLeft), _currentTime].
     }
 
     public void GetAlmond(int almondNumber)
@@ -84,7 +84,8 @@ public class Stage1Manager : MonoBehaviour
         if (_timerActive)
         {
             _currentTime += Time.deltaTime;
-            if(!isStart && Input.GetKeyDown(KeyCode.L)){ //Launch의 의미 :L
+            if (!isStart && Input.GetKeyDown(KeyCode.L))
+            { //Launch의 의미 :L
                 isStart = true;
                 AnimationEnd(1);
                 cannon.SetActive(true); //발사 가능하게
