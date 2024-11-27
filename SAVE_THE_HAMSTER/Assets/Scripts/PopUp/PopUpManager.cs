@@ -25,7 +25,7 @@ public abstract class PopUpManager : MonoBehaviour
         popedPopUp = new bool[PopUpList.Length];
         for (int i = 0; i < PopUpList.Length; i++)
         {
-            popedPopUp[i] = disableTutorial;
+            popedPopUp[i] = false;
         }
     }
 
@@ -33,7 +33,10 @@ public abstract class PopUpManager : MonoBehaviour
     void Update()
     {
         // 튜토리얼 팝업 여부 가져오기        
-        disableTutorial = settingManager.disableTutorial;
+        if (settingManager != null)
+        {
+            disableTutorial = settingManager.disableTutorial;
+        }
         // 팝업 띄워져 있는가
         checkPopUp();
         if (!disableTutorial)
