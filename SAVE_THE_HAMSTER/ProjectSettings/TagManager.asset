@@ -13,6 +13,7 @@ TagManager:
   - Ground
   - Ball
   - LoginUI
+  - Death
   layers:
   - Default
   - TransparentFX

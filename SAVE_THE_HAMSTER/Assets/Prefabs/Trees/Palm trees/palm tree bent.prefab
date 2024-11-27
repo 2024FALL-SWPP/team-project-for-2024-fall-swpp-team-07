@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8172703773198652980}
   - component: {fileID: 5099373656523348369}
   - component: {fileID: 6998710486273355099}
-  - component: {fileID: 3552606619360823163}
   m_Layer: 0
   m_Name: palm tree bent
   m_TagString: Untagged
@@ -84,16 +83,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &3552606619360823163
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8800199060111772814}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 6.094313, y: 7.112872, z: 6.0782447}
-  m_Center: {x: 0, y: 3.556436, z: 0}
