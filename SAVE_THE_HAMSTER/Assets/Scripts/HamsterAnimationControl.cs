@@ -35,7 +35,7 @@ public class HamsterAnimationControl : MonoBehaviour
         rb = hamsterBall.GetComponent<Rigidbody>();
         ballCollider = ball.GetComponent<Collider>();
         groundCollider = ground.GetComponent<Collider>();
-        success = true;
+        success = false;
         successAnimationPlayed = false;
         ceremonyTime = 0f;
         // Stage1Manager 혹은 GaolManager 불러오기
@@ -52,6 +52,7 @@ public class HamsterAnimationControl : MonoBehaviour
         {
             // 게임 성공 시 종료 애니메이션
             // 햄스터 뛰기 애니메이션
+            Debug.Log("success");
             animator.SetInteger("Speed", 2);
             ballCollider.material = bouncyMaterial;
             groundCollider.material = bouncyMaterial;
@@ -69,24 +70,24 @@ public class HamsterAnimationControl : MonoBehaviour
                 groundCollider.material = groundMaterial;
             }
         }
-        else if (!success)
-        {
-            float speed = rb.velocity.magnitude; // 공의 속도 계산
-            Debug.Log(speed);
-            // 속도에 따라 애니메이션 상태 전환
-            if (speed < 1f && speed > 0.1f)
-            {
-                animator.SetInteger("Speed", 1);
-            }
-            else if (speed >= 1f)
-            {
-                animator.SetInteger("Speed", 2);
-            }
-            else
-            {
-                animator.SetTrigger("Idle_Trig");
-            }
-        }
+        // else if (!success)
+        // {
+        //     float speed = rb.velocity.magnitude; // 공의 속도 계산
+        //     Debug.Log(speed);
+        //     // 속도에 따라 애니메이션 상태 전환
+        //     if (speed < 1f && speed > 0.1f)
+        //     {
+        //         animator.SetInteger("Speed", 1);
+        //     }
+        //     else if (speed >= 1f)
+        //     {
+        //         animator.SetInteger("Speed", 2);
+        //     }
+        //     else
+        //     {
+        //         animator.SetTrigger("Idle_Trig");
+        //     }
+        // }
     }
 
     private void spinjumpAnimationPlayer()
