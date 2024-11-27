@@ -48,6 +48,47 @@ namespace com.example
             _doSignOut = true;
         }
 
+        // initialize variables (when login scene is re-loaded from other scenes)
+        private void Start()
+        {
+            var loginUIObjects = GameObject.FindGameObjectsWithTag("LoginUI");
+            foreach (var obj in loginUIObjects)
+            {
+                switch (obj.name)
+                {
+                    case "Email InputField":
+                        EmailInput = obj.GetComponent<TMP_InputField>();
+                        break;
+                    case "Password InputField":
+                        PasswordInput = obj.GetComponent<TMP_InputField>();
+                        break;
+                    case "Nickname InputField":
+                        NicknameInput = obj.GetComponent<TMP_InputField>();
+                        break;
+                    case "Sign In Button":
+                        SignInButton = obj;
+                        break;
+                    case "Sign Up Button":
+                        SignUpButton = obj;
+                        break;
+                    case "Game Play Button":
+                        GamePlayButton = obj;
+                        break;
+                    case "Error Label":
+                        ErrorText = obj.GetComponent<TMP_Text>();
+                        break;
+                    case "Status Label":
+                        StatusText = obj.GetComponent<TMP_Text>();
+                        break;
+                    case "Panel":
+                        Panel = obj;
+                        break;
+                }
+            }
+
+            SupabaseManager = SupabaseManager.Instance;
+        }
+
         [SuppressMessage("ReSharper", "Unity.PerformanceCriticalCodeInvocation")]
         private async void Update()
         {

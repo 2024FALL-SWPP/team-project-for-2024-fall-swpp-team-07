@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using com.example;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -86,7 +87,7 @@ public class SceneTransitionManager : MonoBehaviour
 
     public void GoToSettingScene()
     {
-        //SceneManager.LoadScene("SettingScene");
+        SettingManager.Instance.OnOpen();
     }
 
     // Used for delivering stageNumber on PreStageScene and GameOverScene

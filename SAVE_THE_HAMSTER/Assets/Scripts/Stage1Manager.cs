@@ -10,12 +10,15 @@ public class Stage1Manager : MonoBehaviour
     int lifeLeft;
     int totalAlmond = 1;
     bool[] almondStatus;
+    private bool isStart = false; //대포가 생성됐는지
 
     bool _timerActive = false;
     float _currentTime = 0;
 
     public GameObject[] balls;
+    public GameObject cannon;
     public GameObject animationCamera;
+    public GameObject cameraController;
     GameObject canvas;
 
     //Added for Tutorial
@@ -52,11 +55,13 @@ public class Stage1Manager : MonoBehaviour
         animationCamera.SetActive(false);
         canvas.SetActive(true);
         _timerActive = true;
+        CameraControl cameraScript = cameraController.GetComponent<CameraControl>();
+        //cameraScript.enabled = true;
     }
 
     void EndGame()
     {
-        // somehow return/give [almondStatus, # of fires (totalLife - lifeLeft), elapsed time].
+        // somehow return/give [almondStatus, # of fires (totalLife - lifeLeft), _currentTime].
     }
 
     public void GetAlmond(int almondNumber)
@@ -77,6 +82,7 @@ public class Stage1Manager : MonoBehaviour
         almondStatus = new bool[totalAlmond]; // initializes to false. // TODO: change on enter by getting an array of almondStatus.
         _timerActive = false;
         _currentTime = 0;
+        cannon.SetActive(false);
     }
 
     // Update is called once per frame
@@ -85,6 +91,12 @@ public class Stage1Manager : MonoBehaviour
         if (_timerActive)
         {
             _currentTime += Time.deltaTime;
+            if (!isStart && Input.GetKeyDown(KeyCode.L))
+            { //Launch의 의미 :L
+                isStart = true;
+                AnimationEnd(1);
+                cannon.SetActive(true); //발사 가능하게
+            }
         }
     }
 }
