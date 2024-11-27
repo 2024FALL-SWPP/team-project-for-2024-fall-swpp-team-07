@@ -49,8 +49,8 @@ namespace com.example
         public Button brightnessDownButton;
         public Button volumeUpButton;
         public Button volumeDownButton;
-        public Button disableTutorialButton;
-        public Button enableTutorialButton;
+        public Button tutorialEnabledButton;
+        public Button tutorialDisabledButton;
         public Button closeButton;
         public Button logoutButton;
 
@@ -61,8 +61,8 @@ namespace com.example
             brightnessDownButton.onClick.AddListener(OnBrightnessDown);
             volumeUpButton.onClick.AddListener(OnVolumeUp);
             volumeDownButton.onClick.AddListener(OnVolumeDown);
-            disableTutorialButton.onClick.AddListener(OnDisableTutorial);
-            enableTutorialButton.onClick.AddListener(OnEnableTutorial);
+            tutorialEnabledButton.onClick.AddListener(OnDisableTutorial);
+            tutorialDisabledButton.onClick.AddListener(OnEnableTutorial);
             closeButton.onClick.AddListener(OnClose);
             logoutButton.onClick.AddListener(OnLogout);
             brightnessImage = BrightnessPanel.GetComponent<Image>();
@@ -120,15 +120,15 @@ namespace com.example
         public void OnDisableTutorial()
         {
             disableTutorial = true;
-            disableTutorialButton.image.color = new Color(1f, 1f, 1f, 1f);
-            enableTutorialButton.image.color = new Color(1f, 1f, 1f, 0.5f);
+            tutorialEnabledButton.gameObject.SetActive(false);
+            tutorialDisabledButton.gameObject.SetActive(true);
         }
 
         public void OnEnableTutorial()
         {
             disableTutorial = false;
-            disableTutorialButton.image.color = new Color(1f, 1f, 1f, 0.5f);
-            enableTutorialButton.image.color = new Color(1f, 1f, 1f, 1f);
+            tutorialEnabledButton.gameObject.SetActive(true);
+            tutorialDisabledButton.gameObject.SetActive(false);
         }
 
         public void OnClose()
@@ -147,7 +147,13 @@ namespace com.example
             if (client != null)
             {
                 await client.Auth.SignOut();
+                // 설정 창 닫기
                 SettingCanvas.gameObject.SetActive(false);
+                // 튜토리얼 활성화 상태로 설정
+                disableTutorial = false;
+                tutorialEnabledButton.gameObject.SetActive(true);
+                tutorialDisabledButton.gameObject.SetActive(false);
+                // 로그인 씬으로 이동
                 SceneManager.LoadScene("LoginScene");
             }
         }
