@@ -13,14 +13,17 @@ public class HamsterAnimationControl : MonoBehaviour
     public GameObject hamster;//armature
 
     public GameObject ball; // 게임 성공 시 종료 애니메이션 시 충돌 감지
+    public GameObject ground; // 게임 성공 시 종료 애니메이션 시 충돌 감지
     public PhysicMaterial bouncyMaterial; // 게임 성공 시 종료 애니메이션 용
     public PhysicMaterial regularMaterial; // 기존 머티리얼로 변경 용
+    public PhysicMaterial groundMaterial; // 기존 머티리얼 변경 용
     private Collider ballCollider;
+    private Collider groundCollider;
 
     private Animator animator;
     private Rigidbody rb;
-    private bool success = true; // 성공 여부 Stage1Manager 혹은 GaolManager 연결하여 가져오기
-    public float rotationSpeed = 100f; // 게임 성공 시 종료 애니메이션 용
+    private bool success = false; // 성공 여부 Stage1Manager 혹은 GaolManager 연결하여 가져오기
+    public float rotationSpeed = 1000f; // 게임 성공 시 종료 애니메이션 용
     private bool successAnimationPlayed = false; // 게임 성공 시 종료 애니메이션 플레이 여부
     private bool spinjumped = false; // 햄스터 공 튕기는 애니메이션 플레이 여부
     private float ceremonyTime = 0f; // 게임 성공 시 종료 애니메이션 시간체크용
@@ -31,6 +34,7 @@ public class HamsterAnimationControl : MonoBehaviour
         animator = hamsterBall.GetComponent<Animator>();
         rb = hamsterBall.GetComponent<Rigidbody>();
         ballCollider = ball.GetComponent<Collider>();
+        groundCollider = ground.GetComponent<Collider>();
         success = true;
         successAnimationPlayed = false;
         ceremonyTime = 0f;
@@ -50,6 +54,7 @@ public class HamsterAnimationControl : MonoBehaviour
             // 햄스터 뛰기 애니메이션
             animator.SetInteger("Speed", 2);
             ballCollider.material = bouncyMaterial;
+            groundCollider.material = bouncyMaterial;
             if (!spinjumped)
             { 
                 spinjumpAnimationPlayer();
@@ -61,6 +66,7 @@ public class HamsterAnimationControl : MonoBehaviour
                 successAnimationPlayed = true;
                 animator.SetTrigger("Success_Trig");
                 ballCollider.material = regularMaterial;
+                groundCollider.material = groundMaterial;
             }
         }
         else if (!success)
