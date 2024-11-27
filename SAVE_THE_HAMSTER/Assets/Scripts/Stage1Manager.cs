@@ -7,7 +7,7 @@ public class Stage1Manager : MonoBehaviour
     // This script takes care of all necessary info for stage 1.
 
     public int totalLife;
-    int lifeLeft;
+    public int lifeLeft;
     int totalAlmond = 1;
     bool[] almondStatus;
     private bool isStart = false; //대포가 생성됐는지
@@ -53,7 +53,7 @@ public class Stage1Manager : MonoBehaviour
         canvas.SetActive(true);
         _timerActive = true;
         CameraControl cameraScript = cameraController.GetComponent<CameraControl>();
-        //cameraScript.enabled = true;
+        cameraScript.enabled = true;
     }
 
     void EndGame()
