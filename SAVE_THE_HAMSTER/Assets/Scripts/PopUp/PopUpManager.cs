@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using com.example;
 
 public abstract class PopUpManager : MonoBehaviour
 {
+    private SettingManager settingManager;
     // Setting Scene 에서 off시 true, Tutorial 팝업하지 않음
     // 공이 발사 중이라면 Tutorial 팝업하지 않음
     private bool disableTutorial = false;
@@ -18,6 +20,7 @@ public abstract class PopUpManager : MonoBehaviour
     void Start()
     {
         // GetComponent<Setting>으로 disableTutorial 받아올 수 있도록
+        settingManager = FindObjectOfType<SettingManager>();
         // popedPopUp 초기화
         popedPopUp = new bool[PopUpList.Length];
         for (int i = 0; i < PopUpList.Length; i++)
@@ -29,9 +32,14 @@ public abstract class PopUpManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // 튜토리얼 팝업 여부 가져오기        
+        disableTutorial = settingManager.disableTutorial;
         // 팝업 띄워져 있는가
         checkPopUp();
-        PopUp();
+        if (!disableTutorial)
+        {
+            PopUp();
+        }
     }
 
     // public static bool GetKeyDown (KeyCode key)
