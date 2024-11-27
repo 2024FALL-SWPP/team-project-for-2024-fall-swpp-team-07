@@ -5,13 +5,15 @@ namespace EasyDestuctibleWall
 {
     public class DestructionManager : MonoBehaviour
     {
+        WallBehavior parentWallBehavior;
+
         // The hitpoints of the object, when this value is below 1, the chunk will fracture
         [SerializeField]
-        private float health = 100f;
+        private float health = 100f; // 100
 
         // These two variables are used to multiply damage based on velocity and torque respectively.
         [SerializeField]
-        private float impactMultiplier = 2.25f;
+        private float impactMultiplier = 2.25f; // 2.25
 
         [SerializeField]
         private float twistMultiplier = 0.0025f;
@@ -21,6 +23,8 @@ namespace EasyDestuctibleWall
         private void Awake()
         {
             cachedRigidbody = GetComponent<Rigidbody>();
+            parentWallBehavior = GetComponentInParent<WallBehavior>();
+            health = 10;
         }
 
         private void FixedUpdate()
@@ -29,7 +33,17 @@ namespace EasyDestuctibleWall
             * Damage based on torque. When an object spins very fast, it is expected that this force will
             * tear it apart
             */
-            health -= Mathf.Round(cachedRigidbody.angularVelocity.sqrMagnitude * twistMultiplier);
+            if (parentWallBehavior.isBreakable)
+            {
+                cachedRigidbody.isKinematic = false;
+                health -= Mathf.Round(
+                    cachedRigidbody.angularVelocity.sqrMagnitude * twistMultiplier
+                );
+            }
+            else
+            {
+                cachedRigidbody.isKinematic = true;
+            }
 
             if (health <= 0f)
             {
@@ -57,11 +71,17 @@ namespace EasyDestuctibleWall
             // If the chunk was hit by a rigidbody, multiply the damage by its mass
             if (collision.rigidbody)
             {
-                health -= relativeVelocity * impactMultiplier * collision.rigidbody.mass;
+                if (parentWallBehavior.isBreakable)
+                {
+                    health -= relativeVelocity * impactMultiplier * collision.rigidbody.mass;
+                }
             }
             else
             {
-                health -= relativeVelocity * impactMultiplier;
+                if (parentWallBehavior.isBreakable)
+                {
+                    health -= relativeVelocity * impactMultiplier;
+                }
             }
         }
     }

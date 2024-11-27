@@ -4,20 +4,24 @@ using UnityEngine;
 
 public class LoadingSceneHamsterBallController : MonoBehaviour
 {
-    private float maxForce = 0.5f; // 최대 힘
-    private float forceIncreaseRate = 2f; // 가속도
+    private float maxForce = 2.0f; // 최대 힘
+    private float forceIncreaseRate = 4f; // 가속도
     private float currentForce = 0f;
-    private float dragForce = 1f; // 마찰력
+    private float dragForce = 0.5f; // 마찰력
     private Rigidbody rb;
     private Vector3 forceDirection;
     private bool isAnyKeyPressed;
     private Camera mainCamera; // 메인 카메라
+
+    private Vector3 resetPosition;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.drag = dragForce;
         mainCamera = Camera.main;
+        resetPosition = transform.position;
+        Debug.Log($"resetPosition: {resetPosition}");
     }
 
     void Update()
@@ -75,10 +79,25 @@ public class LoadingSceneHamsterBallController : MonoBehaviour
             currentForce = 0f;
         }
 
-        if (transform.position.y < -10f)
+        // 화면 밖으로 나갔는지 체크
+        Vector3 viewportPoint = mainCamera.WorldToViewportPoint(transform.position);
+
+        if (
+            viewportPoint.x < 0.32f
+            || viewportPoint.x > 0.53f
+            || viewportPoint.z < 32.0f
+            || viewportPoint.z > 40.0f
+        )
         {
-            // 캐릭터 추락 시 비활성화
-            GameObject.Find("Hamster3").SetActive(false);
+            // 포지션 초기화
+            transform.position = resetPosition;
+            // 속도 초기화
+            if (rb != null)
+            {
+                rb.velocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+            }
+            currentForce = 0f;
         }
     }
 }

@@ -20,6 +20,8 @@ public class Stage1Manager : MonoBehaviour
     public GameObject animationCamera;
     public GameObject cameraController;
     GameObject canvas;
+    // 버튼 안 눌려서 캔버스 추가한 거
+    GameObject exitButton;
 
     public GameObject GetActiveBall()
     {
@@ -51,6 +53,8 @@ public class Stage1Manager : MonoBehaviour
     {
         animationCamera.SetActive(false);
         canvas.SetActive(true);
+        // 버튼 안 눌려서 캔버스 추가한 거
+        exitButton.SetActive(true);
         _timerActive = true;
         CameraControl cameraScript = cameraController.GetComponent<CameraControl>();
         cameraScript.enabled = true;
@@ -72,6 +76,9 @@ public class Stage1Manager : MonoBehaviour
         lifeLeft = totalLife;
         canvas = GameObject.Find("Canvas");
         canvas.SetActive(false);
+        // 버튼 안 눌려서 캔버스 추가한 거
+        exitButton = GameObject.Find("ExitButton");
+        exitButton.SetActive(false);
         almondStatus = new bool[totalAlmond]; // initializes to false. // TODO: change on enter by getting an array of almondStatus.
         _timerActive = false;
         _currentTime = 0;
