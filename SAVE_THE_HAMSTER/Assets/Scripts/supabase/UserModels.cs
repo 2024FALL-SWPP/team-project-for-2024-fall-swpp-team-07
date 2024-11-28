@@ -72,6 +72,9 @@ namespace com.example.Models
         [Column("user_id")]
         public string user_id { get; set; }
 
+        [Column("nickname")]
+        public string nickname { get; set; }
+
         [Column("stage_id")]
         public int stage_id { get; set; }
 
@@ -82,6 +85,6 @@ namespace com.example.Models
         public float clear_time { get; set; }
 
         [Column("last_attempt")]
-        public DateTime last_attempt { get; set; }
+        public string last_attempt { get; set; }
     }
 }
