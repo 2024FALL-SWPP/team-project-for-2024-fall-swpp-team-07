@@ -8,6 +8,7 @@ public class CollisionDetection : MonoBehaviour
     public bool onGround = false;
     public bool isWater = false;
     public bool gameOver = false;
+    // public bool goalIn = false; // 공이 발사되어 골인 됨을 확인하기 위함
     public Rigidbody rb;
     private int turns = 1; // 턴 수(리스폰 구역 충돌마다 lifeLeft 감소 방지)
     private int previousTurns = 0; // 이전 턴 수(리스폰 구역 충돌마다 lifeLeft 감소 방지)
@@ -78,6 +79,10 @@ public class CollisionDetection : MonoBehaviour
 
     void OnTriggerEnter(Collider other){
         if(other.gameObject.CompareTag("Goal")){
+            // Debug.Log("collider detected");
+            // StartCoroutine(CheckObjectActiveAfterDelay(other.gameObject));
+            // if (goalIn)
+            // {
             gm.setSuccess(true); //StageManager에서의 처리 위해
             // 게임 종료(성공) 카메라 애니메이션 재생 트리거 on
             // 해당 크리거 애니메이션 카메라에서 전달받아 애니메이션 재생
@@ -86,8 +91,21 @@ public class CollisionDetection : MonoBehaviour
 
 
             // 게임 종료(성공) 카메라 애니메이션 구현 전까지 CPC_CameraPath.cs 대신 임시로 호출
-            // 안하면 EndGame() 호출 안 됨
+            // 안하면 FinishGame() 호출 안 됨
             // gm.AnimationEnd(2);
+            // }
         }
+
+        // if(other.gameObject.CompareTag("Almond"))
+        // {
+        //     gm.setPlayTime(gm.getPlayTime() + Time.deltaTime);
+        // }
     }
+
+    // private IEnumerator CheckObjectActiveAfterDelay(GameObject obj)
+    // {        
+    //     yield return new WaitForSeconds(0.05f);
+
+    //     goalIn = obj.activeInHierarchy;
+    // }
 }

@@ -1621,6 +1621,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 277229067b269ba46a0c9a7b1d685454, type: 3}
+--- !u!1 &291279922 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7027259316256617975, guid: 8364377486017d344b28d9dc6bfb5a3a, type: 3}
+  m_PrefabInstance: {fileID: 1911650243}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &294703532
 GameObject:
   m_ObjectHideFlags: 0
@@ -7610,6 +7615,7 @@ MonoBehaviour:
   - {fileID: 6535958636176357131}
   - {fileID: 6535958635873996339}
   - {fileID: 6535958637149547756}
+  chest: {fileID: 291279922}
   cannon: {fileID: 1636681047}
   animationCamera: {fileID: 1794429317}
   cameraController: {fileID: 576409264}
@@ -9988,15 +9994,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7027259316256123351, guid: 8364377486017d344b28d9dc6bfb5a3a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 58.333206
+      value: 59.61
       objectReference: {fileID: 0}
     - target: {fileID: 7027259316256123351, guid: 8364377486017d344b28d9dc6bfb5a3a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.9429209
+      value: -1.57
       objectReference: {fileID: 0}
     - target: {fileID: 7027259316256123351, guid: 8364377486017d344b28d9dc6bfb5a3a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -49.335793
+      value: -50.76
       objectReference: {fileID: 0}
     - target: {fileID: 7027259316256123351, guid: 8364377486017d344b28d9dc6bfb5a3a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -10214,7 +10220,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2950959166026926978, guid: 50e69a24a9ac64dcca5dadf3a935c721, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.969508
+      value: -10.96951
       objectReference: {fileID: 0}
     - target: {fileID: 2950959166026926978, guid: 50e69a24a9ac64dcca5dadf3a935c721, type: 3}
       propertyPath: m_LocalPosition.y

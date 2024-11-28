@@ -26,8 +26,8 @@ public class HamsterAnimationControl : MonoBehaviour
     private bool enableMiniMove = false; // 햄스터 공 발사 후 miniMove 여부
 
 
-    private bool success = false; // 성공 여부 Stage1Manager 혹은 GaolManager 연결하여 가져오기
-    public float rotationSpeed = 1000f; // 게임 성공 시 종료 애니메이션 용
+    private bool success = false; // 성공 여부 StageManager에서 set해줌
+    public float rotationSpeed = 3000f; // 게임 성공 시 종료 애니메이션 용
     private bool successAnimationPlayed = false; // 게임 성공 시 종료 애니메이션 플레이 여부
     private bool spinjumped = false; // 햄스터 공 튕기는 애니메이션 플레이 여부
     private float ceremonyTime = 0f; // 게임 성공 시 종료 애니메이션 시간체크용
@@ -42,11 +42,6 @@ public class HamsterAnimationControl : MonoBehaviour
         success = false;
         successAnimationPlayed = false;
         ceremonyTime = 0f;
-        // Stage1Manager 혹은 GaolManager 불러오기
-        // stage1Manager = FindObjectOfType<Stage1Manager>();
-        // success = stage1Manager.success;
-        // goalManager = FindObjectOfType<GoalManager>();
-        // success = goalManager.success;
     }
 
     // Update is called once per frame
@@ -69,7 +64,6 @@ public class HamsterAnimationControl : MonoBehaviour
             if (ceremonyTime >= 10f)
             {
                 successAnimationPlayed = true;
-                animator.SetTrigger("Success_Trig");
                 ballCollider.material = regularMaterial;
                 groundCollider.material = groundMaterial;
             }
@@ -97,5 +91,10 @@ public class HamsterAnimationControl : MonoBehaviour
     private void miniMove()
     {
 
+    }
+
+    public void setSuccess(bool value)
+    {
+        success = value;
     }
 }

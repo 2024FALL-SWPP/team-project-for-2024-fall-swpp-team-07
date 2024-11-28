@@ -80,9 +80,10 @@ public class Stage1Manager : StageManager
     //     cameraScript.enabled = true;
     // }
 
-    protected override void EndGame()
+    protected override void FinishGame()
     {
-        // somehow return/give [almondStatus, # of fires (totalLife - lifeLeft), _currentTime].
+        // almondStatus, # of fires (totalLife - lifeLeft), _playTime 저장하기
+        // 다음 씬으로 넘어가기
     }
 
     // public void GetAlmond(int almondNumber)

@@ -16,8 +16,12 @@ public class GoalManager : MonoBehaviour
     {
         if (other.CompareTag("Player")) // change on tag change
         {
-            // Stage Clear. Trigger such info
+            // Rigidbody otherRb = other.gameObject.GetComponent<Rigidbody>();
+            // if (otherRb.useGravity) //대포에 붙은 채로 닿으면 인식 안하도록
+            // {
             key.SetActive(false);
+            // }
+            // Stage Clear. Trigger such info
         }
     }
 }

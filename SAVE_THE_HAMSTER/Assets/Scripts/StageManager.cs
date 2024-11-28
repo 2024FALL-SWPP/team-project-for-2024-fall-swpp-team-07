@@ -5,6 +5,11 @@ using UnityEngine;
 public abstract class StageManager : MonoBehaviour
 {
     // This script takes care of all necessary info for stages.
+    // Flow: ReadyGame -> StartGame -> EndGame -> FinishGame
+    // ReadyGame: 게임 준비 단계: stage 별로 초기 세팅
+    // StartGame: 게임 시작 단계: 시작 카메라 애니메이션 종료 후, 캐논 활성화, 타이머 시작, 카메라 조절
+    // EndGame: 게임 종료 단계: 타이머 정지, 캔버스 비활성화, 성공 시 햄스터 애니메이션 동시에 종료 카메라 애니메이션
+    // FinishGame: 게임 기록 단계: 종료 카메라 애니메이션 종료 후, 성공 혹은 실패 처리 후 게임 기록 저장
 
     private const int numberOfStages = 3;
 
@@ -15,14 +20,19 @@ public abstract class StageManager : MonoBehaviour
     private static int [] totalAlmond = new int[numberOfStages] { 5, 5, 5 }; //get
     private bool [] almondStatus; //set
     private bool isStart = false; //대포가 생성됐는지 //set
+    private bool end = false; // 게임 종료 여부, 종료 함수 한 번만 호출하기 위해
 
     private bool _timerActive = false; //set
-    private float _currentTime = 0; //set
+    private float _currentTime = 0; //set, 타이머 시간
+    private float _playTime; //get, 게임 플레이 시간
 
     private bool success = false; //set
     private bool failure = false; //set
 
+    private HamsterAnimationControl hamsterAnimationControl;
+
     public GameObject[] balls;
+    public GameObject chest;
     public GameObject cannon;
     public GameObject animationCamera;
     public GameObject cameraController;
@@ -54,7 +64,7 @@ public abstract class StageManager : MonoBehaviour
 
         if (animation == 2)
         {
-            EndGame();
+            FinishGame();
         }
     }
 
@@ -78,7 +88,28 @@ public abstract class StageManager : MonoBehaviour
         cameraScript.enabled = true;
     }
 
-    protected abstract void EndGame();
+    void EndGame(bool value) // value == success from CollisionDetection
+    {
+        CameraControl cameraScript = cameraController.GetComponent<CameraControl>();
+        cameraScript.enabled = false;
+        cannon.SetActive(false);
+        GameObject lineRenderer = GameObject.Find("LineRenderer");
+        lineRenderer.SetActive(false);
+        _timerActive = false;
+        _playTime = _currentTime;
+        canvas.SetActive(false);
+        if (value)
+        {
+            Success();
+        }
+        else
+        {
+            Failure();
+        }
+        // animationCamera.SetActive(true);
+    }
+
+    protected abstract void FinishGame();
     // void EndGame()
     // {
     //     // somehow return/give [almondStatus, # of fires (totalLife - lifeLeft), _currentTime].
@@ -143,6 +174,11 @@ public abstract class StageManager : MonoBehaviour
         _currentTime = currentTime;
     }
 
+    public float getPlayTime()
+    {
+        return _playTime;
+    }
+
     public void setSuccess(bool value)
     {
         success = value;
@@ -199,14 +235,11 @@ public abstract class StageManager : MonoBehaviour
             }
         }
 
-        if (success && !failure) // 성공, 실패 중 먼저 성립하는 조건만 실행
+        if ((success || failure) && !end)
         {
-            Success();  
-        }
-
-        if (failure && !success) // 성공, 실패 중 먼저 성립하는 조건만 실행
-        {
-            Failure();
+            if (almondStatus[0]) Debug.Log("almond");
+            EndGame(success);
+            end = true;
         }
     }
 
@@ -216,7 +249,25 @@ public abstract class StageManager : MonoBehaviour
 
     public void Success()
     {
-        Debug.Log("Success");
+        // 캐논 비활성화
+        // 햄스터 볼 활성화, 체스트 앞으로 이동
+        Rigidbody ballrb = balls[0].GetComponent<Rigidbody>();
+        if (!balls[0].activeSelf)
+        {
+            for (int i = 1; i < balls.Length; i++)
+            {
+                balls[i].SetActive(false);
+            }
+            balls[0].SetActive(true);
+            ballrb.useGravity = true;
+        }
+        ballrb.velocity = Vector3.zero; //체스트 앞에서 멈춘 후 위로 뛰며 회전하도록
+        ballrb.angularVelocity = Vector3.zero;
+        ballrb.Sleep();
+        balls[0].transform.position = chest.transform.position + chest.transform.forward * 3f;
+        hamsterAnimationControl = FindObjectOfType<HamsterAnimationControl>().GetComponent<HamsterAnimationControl>();
+        hamsterAnimationControl.setSuccess(true);
+        // 체스트 애니메이션
     }
 
     public void Failure()
