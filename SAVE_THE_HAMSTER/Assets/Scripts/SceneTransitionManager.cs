@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using com.example;
+using com.example;
+using com.example.Models;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SceneTransitionManager : MonoBehaviour
 {
-    private static int stageNumber = 0;
+    public static int stageNumber = 0;
     private StageSelector stageSelector;
 
     // Start is called before the first frame update
@@ -43,14 +45,53 @@ public class SceneTransitionManager : MonoBehaviour
         SceneManager.LoadScene("StageSelectScene");
     }
 
-    public void GoToPreStageScene()
+    public async void GoToPreStageScene()
     {
         if (stageSelector != null)
         {
             stageNumber = stageSelector.getStageNumber();
         }
-        // Debug.Log("GoToPreStageScene: " + stageNumber);
-        SceneManager.LoadScene("PreStageScene");
+
+        int allowedMaxStage = 1;
+        try
+        {
+            var client = SupabaseManager.Instance.Supabase();
+            if (client != null && client.Auth.CurrentSession != null)
+            {
+                var userId = client.Auth.CurrentSession.User.Id;
+
+                var userProfile = await client
+                    .From<UserProfile>()
+                    .Select(x => new object[] { x.stage1_clear, x.stage2_clear, x.stage3_clear })
+                    .Where(x => x.user_id == userId)
+                    .Single();
+
+                if (userProfile != null)
+                {
+                    if (userProfile.stage1_clear)
+                    {
+                        allowedMaxStage = 2;
+                    }
+                    if (userProfile.stage2_clear)
+                    {
+                        allowedMaxStage = 3;
+                    }
+                }
+            }
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"Error in StageSelectScene: {e.Message}");
+        }
+
+        if (stageNumber <= allowedMaxStage)
+        {
+            SceneManager.LoadScene("PreStageScene");
+        }
+        else
+        {
+            Debug.LogWarning("Stage is locked");
+        }
     }
 
     public void GoToStageScene()
@@ -65,9 +106,6 @@ public class SceneTransitionManager : MonoBehaviour
                 break;
             case 3:
                 SceneManager.LoadScene("Stage3Scene");
-                break;
-            case 4:
-                SceneManager.LoadScene("Stage4Scene");
                 break;
             default:
                 Debug.LogError("Invalid stage number: " + stageNumber);

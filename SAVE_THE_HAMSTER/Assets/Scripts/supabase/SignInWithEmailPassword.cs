@@ -261,7 +261,9 @@ namespace com.example
                             user_id = session.User.Id,
                             nickname = nickname,
                             almonds = 0,
-                            is_guest = false,
+                            stage1_clear = false,
+                            stage2_clear = false,
+                            stage3_clear = false,
                         }
                     );
 
@@ -284,7 +286,7 @@ namespace com.example
 
                 // stage_status 테이블에 사용자 스테이지 정보 추가
                 var stageStatuses = Enumerable
-                    .Range(1, 4)
+                    .Range(1, 3)
                     .Select(i => new UserStageStatus
                     {
                         user_id = session.User.Id,

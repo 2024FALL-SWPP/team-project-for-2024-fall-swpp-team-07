@@ -17,8 +17,14 @@ namespace com.example.Models
         [Column("almonds")]
         public int almonds { get; set; }
 
-        [Column("is_guest")]
-        public bool is_guest { get; set; }
+        [Column("stage1_clear")]
+        public bool stage1_clear { get; set; }
+
+        [Column("stage2_clear")]
+        public bool stage2_clear { get; set; }
+
+        [Column("stage3_clear")]
+        public bool stage3_clear { get; set; }
     }
 
     [Table("store")]
