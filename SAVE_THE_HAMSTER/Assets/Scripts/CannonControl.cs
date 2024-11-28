@@ -207,7 +207,8 @@ public class CannonControl : MonoBehaviour
                     ballrb.AddForce((firePoint.position - canon.transform.position) * force, ForceMode.Impulse);
                     ballrb.useGravity = true;
                     spaceBarCount++;
-                    gm.lifeLeft--; //발사 가능 횟수 감소
+                    gm.minusLifeLeft(); //발사 가능 횟수 감소
+                    // gm.lifeLeft--; //기존
                     force = 0f; //힘 초기화
                     isForceIncreasing = true; //force가 0부터 시작하여 다시 증가하도록 조정
                     isRunning = false;

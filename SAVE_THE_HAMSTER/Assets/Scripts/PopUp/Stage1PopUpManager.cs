@@ -7,7 +7,7 @@ public class Stage1PopUpManager : PopUpManager
     // Stage1 최초 애니메이션 소요 시간
     private float stage1AnimationTime = 10.0f;
     //여유시간
-    private float stage1ExtraTime = 3.0f;
+    private float stage1ExtraTime = 1.0f;
     // 소요시간 측정용
     private float stage1Timer = 0.0f;
     // 팝업 조건 변수
@@ -116,7 +116,7 @@ public class Stage1PopUpManager : PopUpManager
         // -> 햄스터 공 발사 후 정지한 직후
         // Stage1Scene 입장 후 최초 1회만 팝업
         if (!getPopedPopUp(4) && getPopedPopUp(3) && getPopedPopUp(2) && getPopedPopUp(1) 
-            && getPopedPopUp(0) && !isPopedUp)
+            && getPopedPopUp(0) && !isPopedUp && false)
         {
             if (true) //햄스터 공 발사 후 정지
             {
@@ -129,7 +129,7 @@ public class Stage1PopUpManager : PopUpManager
         // -> 두번째 턴 시작 3초 후
         // Stage1Scene 입장 후 최초 1회만 팝업
         if (!getPopedPopUp(5) && getPopedPopUp(4) && getPopedPopUp(3) && getPopedPopUp(2) 
-            && getPopedPopUp(1) && getPopedPopUp(0) && !isPopedUp)
+            && getPopedPopUp(1) && getPopedPopUp(0) && !isPopedUp && false)
         {
             if (true) // (턴 종료 후 대포 생성되며 두번째 턴 시작)
             {

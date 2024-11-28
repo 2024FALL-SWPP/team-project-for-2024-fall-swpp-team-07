@@ -38,7 +38,8 @@ public class CollisionDetection : MonoBehaviour
         if(collision.gameObject.CompareTag("Respawn"))
         {
             isWater = true;
-            gm.lifeLeft--; //발사 가능 횟수 추가 감소 (벌타)
+            gm.minusLifeLeft(); //발사 가능 횟수 추가 감소 (벌타)
+            // gm.lifeLeft--; // 기존
         }
         if(collision.gameObject.CompareTag("Goal"))
         {

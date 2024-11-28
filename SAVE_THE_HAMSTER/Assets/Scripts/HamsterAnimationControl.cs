@@ -22,6 +22,10 @@ public class HamsterAnimationControl : MonoBehaviour
 
     private Animator animator;
     private Rigidbody rb;
+
+    private bool enableMiniMove = false; // 햄스터 공 발사 후 miniMove 여부
+
+
     private bool success = false; // 성공 여부 Stage1Manager 혹은 GaolManager 연결하여 가져오기
     public float rotationSpeed = 1000f; // 게임 성공 시 종료 애니메이션 용
     private bool successAnimationPlayed = false; // 게임 성공 시 종료 애니메이션 플레이 여부
@@ -70,26 +74,17 @@ public class HamsterAnimationControl : MonoBehaviour
                 groundCollider.material = groundMaterial;
             }
         }
-        // else if (!success)
-        // {
-        //     float speed = rb.velocity.magnitude; // 공의 속도 계산
-        //     Debug.Log(speed);
-        //     // 속도에 따라 애니메이션 상태 전환
-        //     if (speed < 1f && speed > 0.1f)
-        //     {
-        //         animator.SetInteger("Speed", 1);
-        //     }
-        //     else if (speed >= 1f)
-        //     {
-        //         animator.SetInteger("Speed", 2);
-        //     }
-        //     else
-        //     {
-        //         animator.SetTrigger("Idle_Trig");
-        //     }
-        // }
+
+        if (enableMiniMove)
+        {
+            if (true)
+            {
+                miniMove();
+            }
+        }
     }
 
+    // 성공 시 사용
     private void spinjumpAnimationPlayer()
     {
         // 햄스터 공 회전 애니메이션 효과
@@ -99,12 +94,8 @@ public class HamsterAnimationControl : MonoBehaviour
         rb.AddForce(Vector3.up * Physics.gravity.magnitude * 0.5f, ForceMode.VelocityChange);
     }
 
-    // void OnCollisionEnter(Collision collision)
-    // {
-    //     if (collision.gameObject.CompareTag("Ground") && success && ceremonyCount < 5)
-    //     {
-    //         spinjumpAnimationPlayer();
-    //         ceremonyCount ++;
-    //     }
-    // }
+    private void miniMove()
+    {
+
+    }
 }

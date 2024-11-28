@@ -21,7 +21,8 @@ public class AlmondCollision : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             gameObject.SetActive(false);
-            gm.GetAlmond(almondNumber);
+            gm.setAlmondStatus(almondNumber, true);
+            //gm.GetAlmond(almondNumber); // 기존
         }
     }
 }
