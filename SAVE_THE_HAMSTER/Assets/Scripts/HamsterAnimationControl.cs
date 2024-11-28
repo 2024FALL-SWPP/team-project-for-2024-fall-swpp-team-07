@@ -10,7 +10,7 @@ public class HamsterAnimationControl : MonoBehaviour
     // private Stage1Manager stage1Manager;
     // private GoalManager goalManager;
     public GameObject hamsterBall;//전체 햄스터 공
-    public GameObject hamster;//armature
+    // public GameObject hamster;//armature
 
     public GameObject ball; // 게임 성공 시 종료 애니메이션 시 충돌 감지
     public GameObject ground; // 게임 성공 시 종료 애니메이션 시 충돌 감지
@@ -52,7 +52,7 @@ public class HamsterAnimationControl : MonoBehaviour
         {
             // 게임 성공 시 종료 애니메이션
             // 햄스터 뛰기 애니메이션
-            Debug.Log("success");
+            // Debug.Log("success");
             animator.SetInteger("Speed", 2);
             ballCollider.material = bouncyMaterial;
             groundCollider.material = bouncyMaterial;
