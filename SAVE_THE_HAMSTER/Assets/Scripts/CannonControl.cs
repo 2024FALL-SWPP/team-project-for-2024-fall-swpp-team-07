@@ -49,6 +49,7 @@ public class CannonControl : MonoBehaviour
     public float rotationSpeed = 100f; // 회전 속도
 
     public int spaceBarCount; //spaceBar가 눌린 횟수
+    private int turns = 1; //턴 수
 
     private bool isRunning; 
     private bool isGround; //공이 지면과 충돌했는지
@@ -118,6 +119,7 @@ public class CannonControl : MonoBehaviour
                 if(isRunning){
                     spaceBarCount = 0;
                     if(isGround && !isRespawn){
+                    turns++;
                     cannon.transform.position = new Vector3(activeBall.transform.position.x, 2f, activeBall.transform.position.z); //대포를 공의 전 턴의 마지막 위치로 이동시킴
                     canon.transform.localRotation = initialLocalRotation;//포신을 초기 회전값으로 세팅
                     initialXRotation = canon.transform.eulerAngles.x;
@@ -252,5 +254,8 @@ public class CannonControl : MonoBehaviour
         isRunning = true;
     }
     
-
+    public int getTurns()
+    {
+        return turns;
+    }
 }

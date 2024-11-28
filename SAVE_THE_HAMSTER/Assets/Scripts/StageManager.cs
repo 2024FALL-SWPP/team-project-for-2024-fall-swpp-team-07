@@ -9,7 +9,8 @@ public abstract class StageManager : MonoBehaviour
     private const int numberOfStages = 3;
 
     private static int [] totalLife = new int[numberOfStages] { 5, 5, 5 }; //get
-    private int lifeLeft; //set, turnover
+    private int lifeLeft; //set 발사 시 life--;
+    private int turns; //get 대포가 생성되는게 새로운 턴
     private static int [] totalAlmond = new int[numberOfStages] { 5, 5, 5 }; //get
     private bool [] almondStatus; //set
     private bool isStart = false; //대포가 생성됐는지 //set
@@ -22,6 +23,8 @@ public abstract class StageManager : MonoBehaviour
     public GameObject animationCamera;
     public GameObject cameraController;
     public GameObject canvas;
+
+    CannonControl cannonControl;
     // 버튼 안 눌려서 캔버스 추가한 거
     // GameObject exitButton;
 
@@ -79,7 +82,6 @@ public abstract class StageManager : MonoBehaviour
 
     public int getTotalLife(int stageIndex)
     {
-        Debug.Log(stageIndex);
         return totalLife[stageIndex];
     }
 
@@ -87,6 +89,11 @@ public abstract class StageManager : MonoBehaviour
     {
         lifeLeft = life;
     }
+
+    public int getTurns()
+    {
+        return cannonControl.getTurns();
+    }   
 
     public void minusLifeLeft() // when turn over or respawn
     {
@@ -130,6 +137,7 @@ public abstract class StageManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        cannonControl = cannon.GetComponent<CannonControl>();
         // totalLife = new int [] {5, 5, 5};
         // totalAlmond = new int [] {1, 3, 5};
 
