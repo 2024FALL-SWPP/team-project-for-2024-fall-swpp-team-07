@@ -20,7 +20,6 @@ public class Stage1PopUpManager : PopUpManager
     // stage별 구현 부분
     protected override void PopUp()
     {
-        Debug.Log(getTurns());
         bool isPopedUp = getIsPopedUp();
         // if (!disableTutorial) { }
 

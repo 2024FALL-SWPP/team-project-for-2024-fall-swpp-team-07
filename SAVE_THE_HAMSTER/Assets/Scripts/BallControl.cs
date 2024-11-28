@@ -59,8 +59,12 @@ public class BallControl : MonoBehaviour
     void FixedUpdate()
     {
         // 공을 계속 회전시키기
-        Debug.Log(hamsterBall.GetComponent<CollisionDetection>().onGround);
-        if(!hamsterBall.GetComponent<CollisionDetection>().onGround){
+        // Debug.Log(hamsterBall.GetComponent<CollisionDetection>().onGround);
+        // if(!hamsterBall.GetComponent<CollisionDetection>().onGround){
+        //     hamsterBall.transform.Rotate(rotationDirection * rotationSpeed * Time.deltaTime);
+        // }
+        // Debug.Log(hamsterBall.GetComponent<CollisionDetection>().onGround);
+        if(!hamsterBall.GetComponent<HamsterCollision>().onGround){
             hamsterBall.transform.Rotate(rotationDirection * rotationSpeed * Time.deltaTime);
         }
     }

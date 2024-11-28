@@ -18,7 +18,11 @@ public class CannonControl : MonoBehaviour
     public GameObject hamsterBall; //햄스터 공 전체
     private BallControl hamsterScript; //hamster armature의 부모 객체인 gameObject에 적용되어 있는 script
     private  HamsterCollision hamsterCollisionScript;
-    private CollisionDetection collisionScript;
+    private CollisionDetection collisionScript; //상속처리 이후 이제 안 씀
+    // add
+    private OtherBallCollision otherBallCollisionScript;
+    private StickyBallCollision stickyBallCollisionScript;
+    //
     private const int N_TRAJECTORY_POINTS = 40;
     public float minForce = 0f; //최소 발사력
     public float maxForce = 5f; //최대 발사력
@@ -94,11 +98,21 @@ public class CannonControl : MonoBehaviour
                 isRespawn = hamsterCollisionScript.isWater;
                 isGameOver = hamsterCollisionScript.gameOver;
             }
+            else if(activeBall.name == "StickyBall"){
+                stickyBallCollisionScript = activeBall.GetComponent<StickyBallCollision>();
+                isGround = stickyBallCollisionScript.onGround;
+                isRespawn = stickyBallCollisionScript.isWater;
+                isGameOver = stickyBallCollisionScript.gameOver;
+            }
             else{
-                collisionScript = activeBall.GetComponent<CollisionDetection>();
-                isGround = collisionScript.onGround;
-                isRespawn = collisionScript.isWater;
-                isGameOver = collisionScript.gameOver;
+                // collisionScript = activeBall.GetComponent<CollisionDetection>();
+                // isGround = collisionScript.onGround;
+                // isRespawn = collisionScript.isWater;
+                // isGameOver = collisionScript.gameOver;
+                otherBallCollisionScript = activeBall.GetComponent<OtherBallCollision>();
+                isGround = otherBallCollisionScript.onGround;
+                isRespawn = otherBallCollisionScript.isWater;
+                isGameOver = otherBallCollisionScript.gameOver;
             }
             if(isGameOver){
                 transform.position = startPosition; //대포를 처음 시작 위치로 이동
@@ -109,23 +123,38 @@ public class CannonControl : MonoBehaviour
                 //공이 발사됐고 공이 땅에 닿아서 멈췄다면 다음 턴으로
                 hamsterScript.enabled = false;
                 hamsterCollisionScript.enabled = false;
+                // if (spacePressed)
+                // {
+                //     turns ++;
+                // }
                 spacePressed = false;
                 if(activeBall.name != "HamsterBall"){
-                    collisionScript = activeBall.GetComponent<CollisionDetection>();
-                    collisionScript.enabled = false;
+                    if(activeBall.name == "StickyBall")
+                    {
+                        stickyBallCollisionScript = activeBall.GetComponent<StickyBallCollision>();
+                        stickyBallCollisionScript.enabled = false;
+                    }
+                    else
+                    {
+                        // collisionScript = activeBall.GetComponent<CollisionDetection>();
+                        // collisionScript.enabled = false;
+                        otherBallCollisionScript = activeBall.GetComponent<OtherBallCollision>();
+                        otherBallCollisionScript.enabled = false;
+                    }
                 }
                 
                 StartCoroutine(Delay()); //1.5초 대기
                 if(isRunning){
                     spaceBarCount = 0;
+                    turns ++; // 대포 위치 옮길 때마다 턴 수 증가, 리스폰 시 안옮겨도 턴 수 증가
+                    Debug.Log("minusLifeLeft at cannon: " + gm.getLifeLeft() + ", turn: " + turns);
                     if(isGround && !isRespawn){
-                    turns++;
-                    cannon.transform.position = new Vector3(activeBall.transform.position.x, 2f, activeBall.transform.position.z); //대포를 공의 전 턴의 마지막 위치로 이동시킴
-                    canon.transform.localRotation = initialLocalRotation;//포신을 초기 회전값으로 세팅
-                    initialXRotation = canon.transform.eulerAngles.x;
-                    currentXRotation = initialXRotation;
-                    initialYRotation = cannon.transform.eulerAngles.y;
-                    currentYRotation = initialYRotation;
+                        cannon.transform.position = new Vector3(activeBall.transform.position.x, 2f, activeBall.transform.position.z); //대포를 공의 전 턴의 마지막 위치로 이동시킴
+                        canon.transform.localRotation = initialLocalRotation;//포신을 초기 회전값으로 세팅
+                        initialXRotation = canon.transform.eulerAngles.x;
+                        currentXRotation = initialXRotation;
+                        initialYRotation = cannon.transform.eulerAngles.y;
+                        currentYRotation = initialYRotation;
                     }
                     
                 }
@@ -195,11 +224,21 @@ public class CannonControl : MonoBehaviour
                     // space바를 누르면 공이 발사됨
                     // 공 발사 및 effect
                     activeBall = gm.GetActiveBall();
-                    hamsterScript.enabled = true;
                     hamsterCollisionScript.enabled = true;
+                    hamsterScript.enabled = true;
                     if(activeBall.name != "HamsterBall"){
-                        collisionScript = activeBall.GetComponent<CollisionDetection>();
-                        collisionScript.enabled = true;
+                        if (activeBall.name == "StickyBall")
+                        {
+                            stickyBallCollisionScript = activeBall.GetComponent<StickyBallCollision>(   );
+                            stickyBallCollisionScript.enabled = true;
+                        }
+                        else
+                        {
+                            // collisionScript = activeBall.GetComponent<CollisionDetection>();
+                            // collisionScript.enabled = true;
+                            otherBallCollisionScript = activeBall.GetComponent<OtherBallCollision>();
+                            otherBallCollisionScript.enabled = true;
+                        }
                     }
                     lineRenderer.enabled = false;
                     explosion.transform.position = firePoint.position;
