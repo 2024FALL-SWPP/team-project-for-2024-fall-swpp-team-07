@@ -11274,6 +11274,29 @@ MonoBehaviour:
   - {fileID: 1144369471}
   - {fileID: 1276145138}
   - {fileID: 632717468}
+  ranking_names:
+  - {fileID: 1671613407}
+  - {fileID: 1199327243}
+  - {fileID: 2058086593}
+  - {fileID: 309537210}
+  - {fileID: 543388352}
+  - {fileID: 821086049}
+  - {fileID: 1967126934}
+  - {fileID: 1241236221}
+  ranking_records:
+  - {fileID: 1647067470}
+  - {fileID: 704995679}
+  - {fileID: 1129695294}
+  - {fileID: 1731973016}
+  - {fileID: 2021762976}
+  - {fileID: 456683586}
+  - {fileID: 1520320449}
+  - {fileID: 936582077}
+  clearText: {fileID: 576426421}
+  failText: {fileID: 1611031898}
+  stageInfo: {fileID: 1517167026}
+  stageRecord: {fileID: 2116519694}
+  almondsNum: {fileID: 1699226814}
 --- !u!4 &1349491970
 Transform:
   m_ObjectHideFlags: 0

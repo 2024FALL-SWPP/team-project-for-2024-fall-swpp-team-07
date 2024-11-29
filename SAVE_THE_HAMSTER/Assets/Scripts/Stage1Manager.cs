@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using com.example;
 using com.example.Models;
+using TMPro;
 using UnityEngine;
 
 public class Stage1Manager : StageManager
@@ -14,6 +15,15 @@ public class Stage1Manager : StageManager
     public GameObject[] almondUI_disabled = new GameObject[3]; // stage 1에서는 아몬드 3개
     private bool[] almondStatus = new bool[3]; // 아몬드 획득 여부
     private int obtainedAlmonds = 0; // 획득한 아몬드 수
+
+    // post stage canvas용 변수
+    public TMP_Text[] ranking_names = new TMP_Text[8];
+    public TMP_Text[] ranking_records = new TMP_Text[8];
+    public TMP_Text clearText;
+    public TMP_Text failText;
+    public TMP_Text stageInfo;
+    public TMP_Text stageRecord;
+    public TMP_Text almondsNum;
 
     private void initializeAlmonds()
     {
@@ -63,6 +73,130 @@ public class Stage1Manager : StageManager
         }
     }
 
+    private async Task UpdateAlmondStatus()
+    {
+        try
+        {
+            var client = SupabaseManager.Instance.Supabase();
+            if (client != null && client.Auth.CurrentSession != null)
+            {
+                var userId = client.Auth.CurrentSession.User.Id;
+                var actualStageIndex = stageIndex + 1;
+
+                // 기존 레코드 업데이트
+                // TODO: upsert 문법 찾아보기
+                // await client.From<UserStageStatus>()
+                //     .Update(new UserStageStatus { almond_status = almondStatus })
+                //     .Match(new { user_id = userId, stage_id = actualStageIndex });
+            }
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError(e);
+        }
+    }
+
+    private async Task updateStageRecord(float finalTime, int numHits)
+    {
+        try
+        {
+            var client = SupabaseManager.Instance.Supabase();
+            if (client != null && client.Auth.CurrentSession != null)
+            {
+                var userId = client.Auth.CurrentSession.User.Id;
+                var actualStageIndex = stageIndex + 1;
+                var userStageRecord = await client
+                    .From<UserStageRecords>()
+                    .Select(x => new object[] { x.clear_time, x.num_hits })
+                    .Where(x => x.user_id == userId && x.stage_id == actualStageIndex)
+                    .Single();
+
+                if (userStageRecord != null)
+                {
+                    if (
+                        userStageRecord.num_hits > numHits
+                        || (
+                            userStageRecord.num_hits == numHits
+                            && userStageRecord.clear_time > finalTime
+                        )
+                    )
+                    {
+                        // 이미 존재하고, 기록이 더 좋다면 업데이트
+                        // TODO: upsert 문법 찾아보기
+                        // await client
+                        //     .From<UserStageRecords>()
+                        //     .Update(new UserStageRecords { clear_time = finalTime, num_hits = numHits })
+                        //     .Match(new { user_id = userId, stage_id = actualStageIndex });
+                    }
+                }
+                else
+                {
+                    // 처음 깨는 거라면 기록 등록
+                    await client
+                        .From<UserStageRecords>()
+                        .Insert(
+                            new UserStageRecords
+                            {
+                                user_id = userId,
+                                stage_id = actualStageIndex,
+                                clear_time = finalTime,
+                                num_hits = numHits,
+                            }
+                        );
+                }
+            }
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError(e);
+        }
+    }
+
+    private async Task updateRanking()
+    {
+        try
+        {
+            var client = SupabaseManager.Instance.Supabase();
+            if (client != null && client.Auth.CurrentSession != null)
+            {
+                var userId = client.Auth.CurrentSession.User.Id;
+                var actualStageIndex = stageIndex + 1;
+                var userStageRecords = await client
+                    .From<UserStageRecords>()
+                    .Select(x => new object[] { x.user_id, x.nickname, x.num_hits, x.clear_time })
+                    .Where(x => x.stage_id == actualStageIndex)
+                    .Order(x => x.num_hits, Postgrest.Constants.Ordering.Ascending)
+                    .Order(x => x.clear_time, Postgrest.Constants.Ordering.Ascending)
+                    .Get();
+
+                var numRecords = userStageRecords?.Models?.Count ?? 0;
+
+                int i = 0;
+                for (i = 0; i < numRecords; i++)
+                {
+                    var record = userStageRecords.Models[i];
+                    ranking_names[i].text = record.nickname;
+                    ranking_records[i].text = $"{record.num_hits}타/{record.clear_time}초";
+
+                    if (record.user_id == userId)
+                    {
+                        ranking_names[i].color = Color.yellow;
+                        ranking_records[i].color = Color.yellow;
+                    }
+                }
+                for (int j = i; j < 8; j++)
+                {
+                    ranking_names[j].text = "-";
+                    ranking_records[j].text = "-";
+                }
+            }
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError(e);
+        }
+    }
+
     protected override async Task ReadyGame()
     {
         // stageIndex에 맞게 목숨 초기화
@@ -80,10 +214,32 @@ public class Stage1Manager : StageManager
         initializeAlmonds();
     }
 
-    protected override void FinishGame()
+    protected override async Task FinishGame(bool clear)
     {
         float finalTime = GetPlayTime();
-        Debug.Log("Final Time: " + finalTime);
+
+        // 새로 획득한 아몬드 수 업데이트 + DB에 반영
+        almondsNum.text = $"{obtainedAlmonds}개";
+        await UpdateAlmondStatus();
+
+        stageInfo.text = $"Stage {stageIndex + 1} 도전 기록";
+        if (!clear)
+        {
+            // stage 실패 시 실패 UI 띄우기
+            failText.gameObject.SetActive(true);
+            clearText.gameObject.SetActive(false);
+            stageRecord.text = "실패";
+        }
+        else
+        {
+            // 성공 UI 띄우기 (이미 되어있음)
+            stageRecord.text = $"{GetTurn()}타 / {finalTime:F3}초";
+            // stage 클리어 시 기록 업데이트
+            await updateStageRecord(finalTime, GetTurn());
+        }
+
+        // 랭킹 업데이트
+        await updateRanking();
 
         postStageCanvas.SetActive(true);
         postStageBackgroundCanvas.SetActive(true);

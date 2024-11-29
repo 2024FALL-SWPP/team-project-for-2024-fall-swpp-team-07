@@ -107,7 +107,7 @@ public abstract class StageManager : MonoBehaviour
         // animationCamera.SetActive(true);
     }
 
-    protected abstract void FinishGame();
+    protected abstract Task FinishGame(bool clear);
 
     public void SetLifeLeft(int stageIndex)
     {
@@ -307,12 +307,20 @@ public abstract class StageManager : MonoBehaviour
         isSuccessAnimation = true;
         targetBall = balls[0].transform;
 
-        // 10초 후 FinishGame 함수 호출
-        Invoke("FinishGame", 10f);
+        // Invoke 대신 코루틴 사용
+        StartCoroutine(FinishGameAfterDelay(true));
+    }
+
+    private IEnumerator FinishGameAfterDelay(bool clear)
+    {
+        yield return new WaitForSeconds(10f);
+        // 비동기 메서드 실행
+        _ = FinishGame(clear);
     }
 
     public void Failure()
     {
-        FinishGame();
+        // 실패는 딜레이 없이 바로 실행
+        _ = FinishGame(false);
     }
 }
