@@ -13,7 +13,7 @@ public class WindZoneBehavior : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            windDirection = transform.forward;
+            windDirection = -transform.forward;
             ballRb = other.attachedRigidbody;
             ballRb.AddForce(windDirection * windForce, ForceMode.Force);
         }
