@@ -82,9 +82,11 @@ public class Stage1Manager : StageManager
 
     protected override void FinishGame()
     {
-        // almondStatus, # of fires (totalLife - lifeLeft), _playTime 저장하기
         float finalTime = GetPlayTime();
         Debug.Log("Final Time: " + finalTime);
+
+        postStageCanvas.SetActive(true);
+        postStageBackgroundCanvas.SetActive(true);
     }
 
     public override void GetAlmond(int index)

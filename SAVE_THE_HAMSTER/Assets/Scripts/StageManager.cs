@@ -38,6 +38,10 @@ public abstract class StageManager : MonoBehaviour
     private Transform targetBall;
     private bool isCameraPositioned = false;
 
+    // poststage canvas
+    public GameObject postStageCanvas;
+    public GameObject postStageBackgroundCanvas;
+
     private HamsterAnimationControl hamsterAnimationControl;
 
     public GameObject[] balls;
