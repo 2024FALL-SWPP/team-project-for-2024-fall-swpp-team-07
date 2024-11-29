@@ -213,8 +213,8 @@ public abstract class StageManager : MonoBehaviour
         if (_timerActive) // 팝업 뜰 때 타이머 일시 정지 가능
         {
             _currentTime += Time.deltaTime;
-            if (!isStart && Input.GetKeyDown(KeyCode.L))
-            { //Launch의 의미 :L
+            if (!isStart && Input.GetKeyDown(KeyCode.Space))
+            {
                 isStart = true;
                 cannon.SetActive(true); //발사 가능하게
             }
