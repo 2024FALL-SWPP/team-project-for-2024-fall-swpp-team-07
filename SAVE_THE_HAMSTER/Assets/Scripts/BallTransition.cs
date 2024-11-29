@@ -9,7 +9,6 @@ public class BallTransition : MonoBehaviour
     public int ballType; // current ball type
     public GameObject[] balls;
     Vector3[] ballOffsets;
-    //private bool blockAlpha1 = false; // 숫자키 1 입력 차단
     private bool blockLeftShift = false;
     private bool blockRightShift = false;
     public GameObject cannon; //대포 전체
@@ -52,23 +51,21 @@ public class BallTransition : MonoBehaviour
         // 공이 날아가는 중에는 Ball transition 제한
         if (cannonControl.spaceBarCount == 1)
         {
-            //blockAlpha1 = true; // 숫자키 1 입력 차단 
             blockLeftShift = true;
             blockRightShift = true;
         }
-
-        else if(cannonControl.spaceBarCount == 0){
-            //blockAlpha1 = false;
+        else if (cannonControl.spaceBarCount == 0)
+        {
             blockLeftShift = false;
             blockRightShift = false;
         }
 
         //즉, 공의 종류를 먼저 선택 -> 방향키 발사각 조절 -> space바 발사세기 조절
-        /* Testing Purpose */
-
-        // if (!blockAlpha1 && Input.GetKeyDown(KeyCode.Alpha1))
-        if (!blockLeftShift && !blockRightShift 
-            && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)))
+        if (
+            !blockLeftShift
+            && !blockRightShift
+            && (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
+        )
         {
             int newBall = (ballType + 1) % balls.Length;
             ChangeBall(newBall);

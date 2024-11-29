@@ -5,11 +5,12 @@ using UnityEngine;
 public class HamsterAnimationControl : MonoBehaviour
 {
     // Start is called before the first frame update
-    
+
     // Stage1Manager 혹은 GaolManager 불러오기
     // private Stage1Manager stage1Manager;
     // private GoalManager goalManager;
-    public GameObject hamsterBall;//전체 햄스터 공
+    public GameObject hamsterBall; //전체 햄스터 공
+
     // public GameObject hamster;//armature
 
     public GameObject ball; // 게임 성공 시 종료 애니메이션 시 충돌 감지
@@ -25,12 +26,12 @@ public class HamsterAnimationControl : MonoBehaviour
 
     private bool enableMiniMove = false; // 햄스터 공 발사 후 miniMove 여부
 
-
     private bool success = false; // 성공 여부 StageManager에서 set해줌
     public float rotationSpeed = 3000f; // 게임 성공 시 종료 애니메이션 용
     private bool successAnimationPlayed = false; // 게임 성공 시 종료 애니메이션 플레이 여부
     private bool spinjumped = false; // 햄스터 공 튕기는 애니메이션 플레이 여부
     private float ceremonyTime = 0f; // 게임 성공 시 종료 애니메이션 시간체크용
+
     //private int ceremonyCount = 0; // 게임 성공 시 종료 애니메이션 횟수체크용
 
     void Start()
@@ -56,7 +57,7 @@ public class HamsterAnimationControl : MonoBehaviour
             ballCollider.material = bouncyMaterial;
             groundCollider.material = bouncyMaterial;
             if (!spinjumped)
-            { 
+            {
                 spinjumpAnimationPlayer();
                 spinjumped = true;
             }
@@ -88,13 +89,10 @@ public class HamsterAnimationControl : MonoBehaviour
         rb.AddForce(Vector3.up * Physics.gravity.magnitude * 0.5f, ForceMode.VelocityChange);
     }
 
-    private void miniMove()
-    {
+    private void miniMove() { }
 
-    }
-
-    public void setSuccess(bool value)
+    public void SetSuccess()
     {
-        success = value;
+        success = true;
     }
 }

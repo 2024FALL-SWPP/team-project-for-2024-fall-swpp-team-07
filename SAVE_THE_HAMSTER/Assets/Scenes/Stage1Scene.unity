@@ -14539,7 +14539,6 @@ GameObject:
   - component: {fileID: 358459520}
   - component: {fileID: 358459523}
   - component: {fileID: 7372508012039494445}
-  - component: {fileID: 7372508012039494446}
   m_Layer: 0
   m_Name: BouncyBall
   m_TagString: Player
@@ -14561,7 +14560,6 @@ GameObject:
   - component: {fileID: 295674935}
   - component: {fileID: 295674934}
   - component: {fileID: 7372508012877931029}
-  - component: {fileID: 7372508012877931030}
   m_Layer: 0
   m_Name: BowlingBall
   m_TagString: Player
@@ -14583,7 +14581,6 @@ GameObject:
   - component: {fileID: 309838572}
   - component: {fileID: 309838573}
   - component: {fileID: 7372508011198913307}
-  - component: {fileID: 7372508011198913308}
   - component: {fileID: 7372508011198913309}
   m_Layer: 0
   m_Name: StickyBall
@@ -14606,7 +14603,6 @@ GameObject:
   - component: {fileID: 816645701}
   - component: {fileID: 816645700}
   - component: {fileID: 7372508011837700596}
-  - component: {fileID: 7372508011837700597}
   m_Layer: 0
   m_Name: FootBall
   m_TagString: Player
@@ -14984,22 +14980,6 @@ MonoBehaviour:
   isWater: 0
   gameOver: 0
   rb: {fileID: 0}
---- !u!114 &7372508011198913308
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6535958636773297670}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7cc4315d94069246820b7f860d1095e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onGround: 0
-  isWater: 0
-  gameOver: 0
-  rb: {fileID: 0}
 --- !u!114 &7372508011198913309
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15041,22 +15021,6 @@ MonoBehaviour:
   isWater: 0
   gameOver: 0
   rb: {fileID: 0}
---- !u!114 &7372508011837700597
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6535958637149547756}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7cc4315d94069246820b7f860d1095e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onGround: 0
-  isWater: 0
-  gameOver: 0
-  rb: {fileID: 0}
 --- !u!33 &7372508012039494444
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -15081,22 +15045,6 @@ MonoBehaviour:
   isWater: 0
   gameOver: 0
   rb: {fileID: 0}
---- !u!114 &7372508012039494446
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6535958635873996339}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7cc4315d94069246820b7f860d1095e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onGround: 0
-  isWater: 0
-  gameOver: 0
-  rb: {fileID: 0}
 --- !u!33 &7372508012877931028
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -15115,22 +15063,6 @@ MonoBehaviour:
   m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a68887af4a7bb4ab2bf9c39d4d52384a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onGround: 0
-  isWater: 0
-  gameOver: 0
-  rb: {fileID: 0}
---- !u!114 &7372508012877931030
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6535958636176357131}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7cc4315d94069246820b7f860d1095e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   onGround: 0
