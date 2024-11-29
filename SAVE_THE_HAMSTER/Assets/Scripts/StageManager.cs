@@ -29,6 +29,11 @@ public abstract class StageManager : MonoBehaviour
     private bool success = false; //set
     private bool failure = false; //set
 
+    // 종료 시 햄스터 위치로 메인 카메라를 이동시키는 변수들
+    private bool isSuccessAnimation = false;
+    private Transform targetBall;
+    private bool isCameraPositioned = false;
+
     private HamsterAnimationControl hamsterAnimationControl;
 
     public GameObject[] balls;
@@ -222,9 +227,33 @@ public abstract class StageManager : MonoBehaviour
         }
     }
 
-    // Success, Failure 함수는 스테이지 공통 애니메이션 구현
-    // StartGame, EndGame 함수는 각 스테이지에 알맞게 variable 세팅, variable 전달
-    // StartGame, EndGame 함수는 계정 별 스킨 세팅 및 계정 별 게임종료 후 정보 저장도 구현
+    void LateUpdate()
+    {
+        if (isSuccessAnimation && targetBall != null)
+        {
+            Camera mainCamera = Camera.main;
+            Vector3 targetPosition = targetBall.position + new Vector3(0f, 3f, -5f);
+
+            if (!isCameraPositioned)
+            {
+                // 카메라를 목표 위치로 이동
+                mainCamera.transform.position = Vector3.Lerp(
+                    mainCamera.transform.position,
+                    targetPosition,
+                    Time.deltaTime * 2f
+                );
+
+                // 카메라가 목표 위치에 충분히 가까워졌는지 확인
+                if (Vector3.Distance(mainCamera.transform.position, targetPosition) < 0.1f)
+                {
+                    isCameraPositioned = true;
+                    mainCamera.transform.position = targetPosition; // 정확한 위치로 설정
+                }
+            }
+            // 햄스터 볼을 바라보도록
+            mainCamera.transform.LookAt(targetBall.position);
+        }
+    }
 
     public void Success()
     {
@@ -249,11 +278,12 @@ public abstract class StageManager : MonoBehaviour
         hamsterAnimationControl.SetSuccess();
         // 체스트 애니메이션, 파티클 효과도 추가하면 좋을듯
 
-        // 카메라 무빙 구현
-        // TODO: 이석이가 추가 예정
+        // 카메라 이동
+        isSuccessAnimation = true;
+        targetBall = balls[0].transform;
 
-        // 10초 있다가 FinishGame() 호출
-        FinishGame();
+        // 10초 후 FinishGame 함수 호출
+        Invoke("FinishGame", 10f);
     }
 
     public void Failure()
