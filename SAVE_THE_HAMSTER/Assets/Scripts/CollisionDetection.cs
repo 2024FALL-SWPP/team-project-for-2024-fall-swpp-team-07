@@ -8,6 +8,7 @@ public class CollisionDetection : MonoBehaviour
     public bool onGround = false;
     public bool isWater = false;
     public bool gameOver = false;
+    CannonControl cannonControl;
 
     // public bool goalIn = false; // 공이 발사되어 골인 됨을 확인하기 위함
     public Rigidbody rb;
@@ -17,6 +18,7 @@ public class CollisionDetection : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         gm = FindObjectOfType<StageManager>();
+        cannonControl = FindObjectOfType<CannonControl>();
     }
 
     void OnEnable()
@@ -64,7 +66,7 @@ public class CollisionDetection : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Goal"))
+        if (other.gameObject.CompareTag("Goal") && cannonControl.spaceBarCount == 1)
         {
             // gm.setPlayTime(gm.GetPlayTime() + Time.deltaTime);
             gm.SetSuccess(); //StageManager에서의 처리 위해
