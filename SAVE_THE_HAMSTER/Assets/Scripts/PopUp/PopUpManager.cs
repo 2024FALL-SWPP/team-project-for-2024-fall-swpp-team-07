@@ -6,6 +6,7 @@ using com.example;
 public abstract class PopUpManager : MonoBehaviour
 {
     private SettingManager settingManager;
+    private StageManager stageManager;
     // Setting Scene 에서 off시 true, Tutorial 팝업하지 않음
     // 공이 발사 중이라면 Tutorial 팝업하지 않음
     private bool disableTutorial = false;
@@ -21,6 +22,8 @@ public abstract class PopUpManager : MonoBehaviour
     {
         // GetComponent<Setting>으로 disableTutorial 받아올 수 있도록
         settingManager = FindObjectOfType<SettingManager>();
+        // GetComponent<StageManager>()로 stageManager.turns 받아올 수 있도록
+        stageManager = FindObjectOfType<StageManager>();
         // popedPopUp 초기화
         popedPopUp = new bool[PopUpList.Length];
         for (int i = 0; i < PopUpList.Length; i++)
@@ -90,5 +93,10 @@ public abstract class PopUpManager : MonoBehaviour
     public bool getIsPopedUp()
     {
         return isPopedUp;
+    }
+
+    public int getTurns()
+    {
+        return stageManager.getTurns();
     }
 }
