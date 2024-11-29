@@ -20,8 +20,13 @@ public class AlmondCollision : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            // Rigidbody otherRb = other.gameObject.GetComponent<Rigidbody>();
+            // if (otherRb.useGravity) //대포에 붙은 채로 닿으면 인식 안하도록
+            // {
             gameObject.SetActive(false);
-            gm.GetAlmond(almondNumber);
+            gm.setAlmondStatus(almondNumber, true);
+            // }
+            //gm.GetAlmond(almondNumber); // 기존
         }
     }
 }
