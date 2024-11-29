@@ -267,7 +267,7 @@ public abstract class StageManager : MonoBehaviour
         balls[0].transform.position = chest.transform.position + chest.transform.forward * 3f;
         hamsterAnimationControl = FindObjectOfType<HamsterAnimationControl>().GetComponent<HamsterAnimationControl>();
         hamsterAnimationControl.setSuccess(true);
-        // 체스트 애니메이션
+        // 체스트 애니메이션, 파티클 효과도 추가하면 좋을듯
     }
 
     public void Failure()
