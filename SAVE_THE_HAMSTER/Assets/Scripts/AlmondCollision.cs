@@ -6,11 +6,13 @@ public class AlmondCollision : MonoBehaviour
 {
     StageManager gm;
     public int almondNumber;
+    CannonControl cannonControl;
 
     // Start is called before the first frame update
     void Start()
     {
         gm = FindObjectOfType<StageManager>();
+        cannonControl = FindObjectOfType<CannonControl>();
     }
 
     // Update is called once per frame
@@ -18,14 +20,11 @@ public class AlmondCollision : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        // 턴 중에 아몬드 획득해야 인정됨
+        if (other.CompareTag("Player") && cannonControl.spaceBarCount == 1)
         {
-            // Rigidbody otherRb = other.gameObject.GetComponent<Rigidbody>();
-            // if (otherRb.useGravity) //대포에 붙은 채로 닿으면 인식 안하도록
-            // {
             gameObject.SetActive(false);
-            gm.SetAlmondStatus(almondNumber, true);
-            // }
+            gm.GetAlmond(almondNumber);
         }
     }
 }

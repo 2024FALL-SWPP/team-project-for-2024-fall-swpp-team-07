@@ -20,6 +20,7 @@ public class GoalManager : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        // 턴 중에 골인 지점에 도달하면 성공
         if (other.CompareTag("Player") && cannonControl.spaceBarCount == 1)
         {
             key.SetActive(false);

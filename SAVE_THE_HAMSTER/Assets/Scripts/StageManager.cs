@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 
@@ -19,7 +20,6 @@ public abstract class StageManager : MonoBehaviour
     private int currentTurn = 1;
     private int previousTurn = 0;
     private static int[] totalAlmond = new int[numberOfStages] { 5, 5, 5 }; //get
-    private bool[] almondStatus; //set
     private bool isStart = false; //대포가 생성됐는지 //set
     private bool end = false; // 게임 종료 여부, 종료 함수 한 번만 호출하기 위해
 
@@ -66,7 +66,7 @@ public abstract class StageManager : MonoBehaviour
 
     // set values, status properly for each stage
     // call on StageManager.Start() during animation
-    protected abstract void ReadyGame();
+    protected abstract Task ReadyGame();
 
     // activate canvas, gamecamera, timer and etc for game
     // call by Assets/Addons/CameraPathCreator/Scripts/CPC_CameraPath.cs
@@ -151,20 +151,6 @@ public abstract class StageManager : MonoBehaviour
         return totalAlmond[stageIndex];
     }
 
-    public void SetAlmondStatusDefault(int totalAlmond)
-    {
-        almondStatus = new bool[totalAlmond];
-        for (int i = 0; i < totalAlmond; i++)
-        {
-            almondStatus[i] = false;
-        }
-    }
-
-    public void SetAlmondStatus(int almondNumber, bool value)
-    {
-        almondStatus[almondNumber] = value;
-    }
-
     public void SetIsStart(bool isStart)
     {
         isStart = isStart;
@@ -208,6 +194,8 @@ public abstract class StageManager : MonoBehaviour
         failure = true;
     }
 
+    public abstract void GetAlmond(int index);
+
     private void UpdateTimerUI()
     {
         // 초 단위를 초:밀리초로 변환
@@ -218,10 +206,10 @@ public abstract class StageManager : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
+    private async void Start()
     {
         cannonControl = cannon.GetComponent<CannonControl>();
-        ReadyGame();
+        await ReadyGame();
     }
 
     // Update is called once per frame
