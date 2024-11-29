@@ -38,11 +38,11 @@ public class Stage1PopUpManager : PopUpManager
             }
         }
 
-        // 대포 좌우이동 튜토리얼 팝업 조건 -> L키 누르고 3초 후
+        // 대포 좌우이동 튜토리얼 팝업 조건 -> Space키 누르고 3초 후
         // Stage1Scene 입장 후 최초 1회만 팝업
         if (!GetPopedPopUp(1) && GetPopedPopUp(0) && !isPopedUp)
         {
-            if (!lKeyPressed && Input.GetKeyDown(KeyCode.L))
+            if (!lKeyPressed && Input.GetKeyDown(KeyCode.Space))
             {
                 lKeyPressed = true;
             }

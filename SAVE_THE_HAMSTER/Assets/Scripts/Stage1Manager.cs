@@ -10,23 +10,22 @@ public class Stage1Manager : StageManager
 
     protected override void ReadyGame()
     {
+        // stageIndex에 맞게 목숨 초기화
         SetLifeLeft(stageIndex);
+        // 턴 초기화
         ResetTurn();
         SetAlmondStatusDefault(GetTotalAlmond(stageIndex));
-        // canvas = GameObject.Find("Canvas");
+        // UI 숨김
         canvas.SetActive(false);
-        // 버튼 안 눌려서 캔버스 추가한 거
-        // exitButton = GameObject.Find("ExitButton");
-        // exitButton.SetActive(false);
-        SetAlmondStatusDefault(GetTotalAlmond(stageIndex));
-        SetTimerActive(false);
-        SetCurrentTime(0);
         cannon.SetActive(false);
+        // 타이머 초기화
+        ResetTimer();
     }
 
     protected override void FinishGame()
     {
         // almondStatus, # of fires (totalLife - lifeLeft), _playTime 저장하기
-        // 다음 씬으로 넘어가기
+        float finalTime = GetPlayTime();
+        Debug.Log("Final Time: " + finalTime);
     }
 }

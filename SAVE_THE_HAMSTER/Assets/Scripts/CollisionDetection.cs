@@ -63,13 +63,4 @@ public class CollisionDetection : MonoBehaviour
             gameOver = true;
         }
     }
-
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Goal") && cannonControl.spaceBarCount == 1)
-        {
-            // gm.setPlayTime(gm.GetPlayTime() + Time.deltaTime);
-            gm.SetSuccess(); //StageManager에서의 처리 위해
-        }
-    }
 }

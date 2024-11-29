@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public abstract class StageManager : MonoBehaviour
@@ -22,9 +23,12 @@ public abstract class StageManager : MonoBehaviour
     private bool isStart = false; //대포가 생성됐는지 //set
     private bool end = false; // 게임 종료 여부, 종료 함수 한 번만 호출하기 위해
 
-    private bool _timerActive = false; //set
-    private float _currentTime = 0; //set, 타이머 시간
-    private float _playTime; //get, 게임 플레이 시간
+    // 타이머 및 시간 측정
+    private bool _timerActive = false;
+    private bool isAnimationFinished = false;
+    private float _currentTime = 0;
+    private float _playTime;
+    public TMP_Text timerText;
 
     private bool success = false; //set
     private bool failure = false; //set
@@ -71,9 +75,8 @@ public abstract class StageManager : MonoBehaviour
     {
         animationCamera.SetActive(false);
         canvas.SetActive(true);
-        // 버튼 안 눌려서 캔버스 추가한 거
-        // exitButton.SetActive(true);
         _timerActive = true;
+        isAnimationFinished = true;
         CameraControl cameraScript = cameraController.GetComponent<CameraControl>();
         cameraScript.enabled = true;
     }
@@ -85,9 +88,10 @@ public abstract class StageManager : MonoBehaviour
         cannon.SetActive(false);
         GameObject lineRenderer = GameObject.Find("LineRenderer");
         lineRenderer.SetActive(false);
+        canvas.SetActive(false);
         _timerActive = false;
         _playTime = _currentTime;
-        canvas.SetActive(false);
+
         if (value)
         {
             Success();
@@ -166,14 +170,23 @@ public abstract class StageManager : MonoBehaviour
         isStart = isStart;
     }
 
-    public void SetTimerActive(bool timerActive)
+    public void ResetTimer()
     {
-        _timerActive = timerActive;
+        isAnimationFinished = false;
+        _timerActive = false;
+        _currentTime = 0;
+        UpdateTimerUI();
     }
 
-    public void SetCurrentTime(float currentTime)
+    public void PauseTimer()
     {
-        _currentTime = currentTime;
+        _timerActive = false;
+    }
+
+    public void ResumeTimer()
+    {
+        if (isAnimationFinished && !end)
+            _timerActive = true;
     }
 
     public float GetPlayTime()
@@ -183,12 +196,25 @@ public abstract class StageManager : MonoBehaviour
 
     public void SetSuccess()
     {
+        // 성공 플래그 세팅 및 타이머 정지
+        _timerActive = false;
         success = true;
     }
 
     public void SetFailure()
     {
+        // 실패 플래그 세팅 및 타이머 정지
+        _timerActive = false;
         failure = true;
+    }
+
+    private void UpdateTimerUI()
+    {
+        // 초 단위를 초:밀리초로 변환
+        int minutes = Mathf.FloorToInt(_currentTime / 60f);
+        int seconds = Mathf.FloorToInt(_currentTime % 60f);
+        int milliseconds = Mathf.FloorToInt((_currentTime * 100) % 100);
+        timerText.text = string.Format("{0:00}:{1:00}:{2:00}", minutes, seconds, milliseconds);
     }
 
     // Start is called before the first frame update
@@ -201,6 +227,13 @@ public abstract class StageManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // 타이머 업데이트
+        if (_timerActive)
+        {
+            _currentTime += Time.deltaTime;
+            UpdateTimerUI();
+        }
+
         // 마지막 라이프 소멸 후 다음 턴이 되었을 때 실패임을 확인
         // 마지막 라이프가 소멸되며 골인하면 성공 처리, 실패 구현 안되게끔
         if (lifeLeft <= 0 && GetTurn() > GetPreviousTurn())

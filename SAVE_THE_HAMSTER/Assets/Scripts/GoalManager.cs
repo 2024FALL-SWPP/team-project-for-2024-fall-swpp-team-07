@@ -6,11 +6,13 @@ public class GoalManager : MonoBehaviour
 {
     public GameObject key;
     CannonControl cannonControl;
+    StageManager gm;
 
     // Start is called before the first frame update
     void Start()
     {
         cannonControl = FindObjectOfType<CannonControl>();
+        gm = FindObjectOfType<StageManager>();
     }
 
     // Update is called once per frame
@@ -21,6 +23,7 @@ public class GoalManager : MonoBehaviour
         if (other.CompareTag("Player") && cannonControl.spaceBarCount == 1)
         {
             key.SetActive(false);
+            gm.SetSuccess();
         }
     }
 }

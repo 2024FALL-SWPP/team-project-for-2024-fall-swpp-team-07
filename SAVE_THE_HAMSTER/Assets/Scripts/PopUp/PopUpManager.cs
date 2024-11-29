@@ -50,12 +50,17 @@ public abstract class PopUpManager : MonoBehaviour
         {
             PopUp();
         }
+
+        // 팝업 여부에 따라 타이머 일시정지
+        if (isPopedUp)
+        {
+            stageManager.PauseTimer();
+        }
+        else
+        {
+            stageManager.ResumeTimer();
+        }
     }
-
-    // public static bool GetKeyDown (KeyCode key)
-    // {
-
-    // }
 
     protected abstract void PopUp();
 
