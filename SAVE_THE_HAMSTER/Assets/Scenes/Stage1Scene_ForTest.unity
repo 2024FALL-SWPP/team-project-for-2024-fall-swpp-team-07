@@ -1297,8 +1297,10 @@ MonoBehaviour:
   mainCamera: {fileID: 1026977754}
   subCamera: {fileID: 104664990}
   cannon: {fileID: 0}
+  canon: {fileID: 0}
   offset1: {x: -10, y: 2, z: 10}
   offset2: {x: 15, y: 0, z: 0}
+  offset3: {x: 0, y: 0, z: 0}
 --- !u!4 &576409266
 Transform:
   m_ObjectHideFlags: 0
@@ -2779,16 +2781,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0ecd6e9176a7214082975c6b1ada46f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  totalLife: 1
   balls:
   - {fileID: 7653074788190036015}
   - {fileID: 6535958636773297670}
   - {fileID: 6535958636176357131}
   - {fileID: 6535958635873996339}
   - {fileID: 6535958637149547756}
+  chest: {fileID: 0}
   cannon: {fileID: 1636681047}
   animationCamera: {fileID: 1794429317}
   cameraController: {fileID: 576409264}
+  canvas: {fileID: 0}
 --- !u!4 &1349491970
 Transform:
   m_ObjectHideFlags: 0
@@ -2998,7 +3001,6 @@ MonoBehaviour:
   gaugeBar: {fileID: 0}
   cannon: {fileID: 0}
   gauge: {fileID: 0}
-  mode: 2
 --- !u!4 &1533072039
 Transform:
   m_ObjectHideFlags: 0
@@ -7738,8 +7740,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cb73c85223dc456c80471d9218009db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deceleration: 0.1
   onGround: 0
+  isWater: 0
+  gameOver: 0
+  rb: {fileID: 0}
+  deceleration: 0.1
 --- !u!4 &7688428098660454424
 Transform:
   m_ObjectHideFlags: 0
