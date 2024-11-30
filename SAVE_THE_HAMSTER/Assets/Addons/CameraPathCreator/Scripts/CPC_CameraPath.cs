@@ -73,12 +73,12 @@ public class CPC_CameraPath : MonoBehaviour
     private bool playing = false;
 
     // ADDED FOR animation end check
-    Stage1Manager gm;
+    StageManager gm;
     int animationType = 1; //FOR INTRO.
 
     void Start()
     {
-        gm = GameObject.Find("Stage1Manager").GetComponent<Stage1Manager>();
+        gm = FindObjectOfType<StageManager>();
 
         if (Camera.main == null)
         {
@@ -136,8 +136,8 @@ public class CPC_CameraPath : MonoBehaviour
         playing = false;
         paused = false;
         StopAllCoroutines();
-        // tell gm anim has ended
-        gm.AnimationEnd(animationType);
+        // animation has ended and let's start the game
+        gm.StartGame();
     }
 
     /// <summary>

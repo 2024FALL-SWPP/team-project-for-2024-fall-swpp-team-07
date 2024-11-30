@@ -4,20 +4,7 @@ using UnityEngine;
 
 public class StickyBallCollision : CollisionDetection
 {
-    // private Rigidbody rb;
-
     public GameObject cannon;
-    // Start is called before the first frame update
-    // void Start()
-    // {
-    //     rb = GetComponent<Rigidbody>();
-    // }
-
-    // Update is called once per frame
-    // void Update()
-    // {
-        
-    // }
 
     protected override void childOnCollisionEnter(Collision collision)
     {
@@ -43,6 +30,4 @@ public class StickyBallCollision : CollisionDetection
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
     }
-
-
 }

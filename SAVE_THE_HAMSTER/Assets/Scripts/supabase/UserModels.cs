@@ -17,8 +17,14 @@ namespace com.example.Models
         [Column("almonds")]
         public int almonds { get; set; }
 
-        [Column("is_guest")]
-        public bool is_guest { get; set; }
+        [Column("stage1_clear")]
+        public bool stage1_clear { get; set; }
+
+        [Column("stage2_clear")]
+        public bool stage2_clear { get; set; }
+
+        [Column("stage3_clear")]
+        public bool stage3_clear { get; set; }
     }
 
     [Table("store")]
@@ -66,6 +72,9 @@ namespace com.example.Models
         [Column("user_id")]
         public string user_id { get; set; }
 
+        [Column("nickname")]
+        public string nickname { get; set; }
+
         [Column("stage_id")]
         public int stage_id { get; set; }
 
@@ -76,6 +85,6 @@ namespace com.example.Models
         public float clear_time { get; set; }
 
         [Column("last_attempt")]
-        public DateTime last_attempt { get; set; }
+        public string last_attempt { get; set; }
     }
 }

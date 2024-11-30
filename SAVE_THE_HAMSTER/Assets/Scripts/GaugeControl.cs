@@ -10,16 +10,18 @@ public class GaugeControl : MonoBehaviour
     public GameObject cannon;
     public Image gauge;
 
-    private float fillSpeed = 1f; 
+    private float fillSpeed = 1f;
 
     private bool isIncreasing = true; // gauge bar가 증가 상태인지
 
-    private enum Mode{
+    private enum Mode
+    {
         LookAt,
-        LookAtInverted, 
+        LookAtInverted,
         CameraForward,
-        CameraForwardInverted, 
+        CameraForwardInverted,
     }
+
     void Start()
     {
         gaugeBar.SetActive(false);
@@ -28,18 +30,20 @@ public class GaugeControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(cannon.activeSelf){
+        if (cannon.activeSelf)
+        {
             CannonControl cannonControl = GameObject.Find("Cannon").GetComponent<CannonControl>();
             gaugeBar.SetActive(true); // gaugeBar 활성화
             //gaugeBar.transform.position = cannon.transform.position + new Vector3(5f,5f,5f);
-            if(cannonControl.spaceBarCount == 0){
-                if (isIncreasing)//증가 상태일때
+            if (cannonControl.spaceBarCount == 0)
+            {
+                if (isIncreasing) //증가 상태일때
                 {
                     gauge.fillAmount += fillSpeed * Time.deltaTime;
                     // 최대치에 도달하면 감소로 전환
                     if (gauge.fillAmount >= 1f)
                     {
-                        gauge.fillAmount = 1f; 
+                        gauge.fillAmount = 1f;
                         isIncreasing = false; // 감소로 전환
                     }
                 }
@@ -49,21 +53,17 @@ public class GaugeControl : MonoBehaviour
                     // 최소치에 도달하면 증가로 전환
                     if (gauge.fillAmount <= 0f)
                     {
-                        gauge.fillAmount = 0f; 
+                        gauge.fillAmount = 0f;
                         isIncreasing = true; // 증가로 전환
                     }
                 }
             }
-            else if(!cannonControl.spacePressed)
+            else if (!cannonControl.spacePressed)
             {
                 gauge.fillAmount = 0f; //gauge 값 초기화
             }
-               
-            
         }
-
     }
-      
 
     // [SerializeField] private Mode mode;
     // private void LateUpdate() {
@@ -97,9 +97,8 @@ public class GaugeControl : MonoBehaviour
     //             }
     //             break;
     //         default :
-                
+
     //             break;
     //     }
     // }
-   
 }

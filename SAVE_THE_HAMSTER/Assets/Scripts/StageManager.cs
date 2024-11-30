@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 
 public abstract class StageManager : MonoBehaviour
@@ -13,21 +15,32 @@ public abstract class StageManager : MonoBehaviour
 
     private const int numberOfStages = 3;
 
-    private static int [] totalLife = new int[numberOfStages] { 5, 5, 5 }; //get
-    private int lifeLeft; //set 발사 시 life--;
-    private int turns; //get 대포가 생성되는게 새로운 턴
-    private int previousTurns = 0; // temp variable for 이전 턴 수
-    private static int [] totalAlmond = new int[numberOfStages] { 5, 5, 5 }; //get
-    private bool [] almondStatus; //set
+    private static int[] totalLife = new int[numberOfStages] { 5, 5, 5 }; //get
+    private int lifeLeft = 0; //set 발사 시 life--;
+    private int currentTurn = 1;
+    private int previousTurn = 0;
+    private static int[] totalAlmond = new int[numberOfStages] { 5, 5, 5 }; //get
     private bool isStart = false; //대포가 생성됐는지 //set
     private bool end = false; // 게임 종료 여부, 종료 함수 한 번만 호출하기 위해
 
-    private bool _timerActive = false; //set
-    private float _currentTime = 0; //set, 타이머 시간
-    private float _playTime; //get, 게임 플레이 시간
+    // 타이머 및 시간 측정
+    private bool _timerActive = false;
+    private bool isAnimationFinished = false;
+    private float _currentTime = 0;
+    private float _playTime;
+    public TMP_Text timerText;
 
     private bool success = false; //set
     private bool failure = false; //set
+
+    // 종료 시 햄스터 위치로 메인 카메라를 이동시키는 변수들
+    private bool isSuccessAnimation = false;
+    private Transform targetBall;
+    private bool isCameraPositioned = false;
+
+    // poststage canvas
+    public GameObject postStageCanvas;
+    public GameObject postStageBackgroundCanvas;
 
     private HamsterAnimationControl hamsterAnimationControl;
 
@@ -39,6 +52,7 @@ public abstract class StageManager : MonoBehaviour
     public GameObject canvas;
 
     CannonControl cannonControl;
+
     // 버튼 안 눌려서 캔버스 추가한 거
     // GameObject exitButton;
 
@@ -54,50 +68,34 @@ public abstract class StageManager : MonoBehaviour
         return null;
     }
 
-    public void AnimationEnd(int animation)
-    {
-        // Starting Animation
-        if (animation == 1)
-        {
-            StartGame();
-        }
-
-        if (animation == 2)
-        {
-            FinishGame();
-        }
-    }
-
     // set values, status properly for each stage
     // call on StageManager.Start() during animation
-    protected abstract void ReadyGame();
+    protected abstract Task ReadyGame();
 
     // activate canvas, gamecamera, timer and etc for game
-    // call on StageManager.AnimationEnd(1) 
-    // by Assets/Addons/CameraPathCreator/Scripts/CPC_CameraPath.cs
+    // call by Assets/Addons/CameraPathCreator/Scripts/CPC_CameraPath.cs
     // right after animation
-    // protected abstract void StartGame(); // 생각해보니 각 stage 별로 다를게 없을 듯
-    void StartGame()
+    public void StartGame()
     {
         animationCamera.SetActive(false);
         canvas.SetActive(true);
-        // 버튼 안 눌려서 캔버스 추가한 거
-        // exitButton.SetActive(true);
         _timerActive = true;
+        isAnimationFinished = true;
         CameraControl cameraScript = cameraController.GetComponent<CameraControl>();
         cameraScript.enabled = true;
     }
 
-    void EndGame(bool value) // value == success from CollisionDetection
+    void EndGame(bool value)
     {
         CameraControl cameraScript = cameraController.GetComponent<CameraControl>();
         cameraScript.enabled = false;
         cannon.SetActive(false);
         GameObject lineRenderer = GameObject.Find("LineRenderer");
         lineRenderer.SetActive(false);
+        canvas.SetActive(false);
         _timerActive = false;
         _playTime = _currentTime;
-        canvas.SetActive(false);
+
         if (value)
         {
             Success();
@@ -109,143 +107,178 @@ public abstract class StageManager : MonoBehaviour
         // animationCamera.SetActive(true);
     }
 
-    protected abstract void FinishGame();
-    // void EndGame()
-    // {
-    //     // somehow return/give [almondStatus, # of fires (totalLife - lifeLeft), _currentTime].
-    // }
+    protected abstract Task FinishGame(bool clear);
 
-    public int getTotalLife(int stageIndex)
+    public void SetLifeLeft(int stageIndex)
     {
-        return totalLife[stageIndex];
+        lifeLeft = totalLife[stageIndex];
     }
 
-    public void setLifeLeft(int life)
-    {
-        lifeLeft = life;
-    }  
-
-    public void minusLifeLeft() // when turn over or respawn
+    public void DecreaseLifeLeft() // when turn over or respawn
     {
         lifeLeft--;
     }
 
-    public int getLifeLeft() // for debuging
+    public int GetLifeLeft() // for debuging
     {
         return lifeLeft;
     }
 
-    public int getTurns()
+    public int GetTurn()
     {
-        return cannonControl.getTurns();
-    } 
+        return currentTurn;
+    }
 
-    public int getTotalAlmond(int stageIndex)
+    public void IncreaseTurn()
+    {
+        currentTurn++;
+    }
+
+    public void ResetTurn()
+    {
+        currentTurn = 1;
+        previousTurn = 0;
+    }
+
+    public int GetPreviousTurn()
+    {
+        return previousTurn;
+    }
+
+    public void UpdatePreviousTurn()
+    {
+        previousTurn = currentTurn;
+    }
+
+    public int GetTotalAlmond(int stageIndex)
     {
         return totalAlmond[stageIndex];
     }
 
-    public void setAlmondStatusDefault(int totalAlmond)
-    {
-        almondStatus = new bool[totalAlmond];
-        for (int i = 0; i < totalAlmond; i++)
-        {
-            almondStatus[i] = false;
-        }
-    }
-
-    public void setAlmondStatus(int almondNumber, bool value)
-    {
-        almondStatus[almondNumber] = value;
-    }
-
-    public void setIsStart(bool isStart)
+    public void SetIsStart(bool isStart)
     {
         isStart = isStart;
     }
 
-    public void setTimerActive(bool timerActive)
+    public void ResetTimer()
     {
-        _timerActive = timerActive;
+        isAnimationFinished = false;
+        _timerActive = false;
+        _currentTime = 0;
+        UpdateTimerUI();
     }
 
-    public void setCurrentTime(float currentTime)
+    public void PauseTimer()
     {
-        _currentTime = currentTime;
+        _timerActive = false;
     }
 
-    public float getPlayTime()
+    public void ResumeTimer()
+    {
+        if (isAnimationFinished && !end)
+            _timerActive = true;
+    }
+
+    public float GetPlayTime()
     {
         return _playTime;
     }
 
-    public void setSuccess(bool value)
+    public void SetSuccess()
     {
-        success = value;
+        // 성공 플래그 세팅 및 타이머 정지
+        _timerActive = false;
+        success = true;
     }
 
-    public void setFailure(bool value)
+    public void SetFailure()
     {
-        failure = value;
+        // 실패 플래그 세팅 및 타이머 정지
+        _timerActive = false;
+        failure = true;
+    }
+
+    public abstract void GetAlmond(int index);
+
+    private void UpdateTimerUI()
+    {
+        // 초 단위를 초:밀리초로 변환
+        int minutes = Mathf.FloorToInt(_currentTime / 60f);
+        int seconds = Mathf.FloorToInt(_currentTime % 60f);
+        int milliseconds = Mathf.FloorToInt((_currentTime * 100) % 100);
+        timerText.text = string.Format("{0:00}:{1:00}:{2:00}", minutes, seconds, milliseconds);
     }
 
     // Start is called before the first frame update
-    void Start()
+    private async void Start()
     {
         cannonControl = cannon.GetComponent<CannonControl>();
-        // totalLife = new int [] {5, 5, 5};
-        // totalAlmond = new int [] {1, 3, 5};
-
-        ReadyGame();
-        // lifeLeft = totalLife;
-        // canvas = GameObject.Find("Canvas");
-        // canvas.SetActive(false);
-        // // 버튼 안 눌려서 캔버스 추가한 거
-        // // exitButton = GameObject.Find("ExitButton");
-        // // exitButton.SetActive(false);
-        // almondStatus = new bool[totalAlmond]; // initializes to false. // TODO: change on enter by getting an array of almondStatus.
-        // _timerActive = false;
-        // _currentTime = 0;
-        // cannon.SetActive(false);
+        await ReadyGame();
     }
 
     // Update is called once per frame
     void Update()
     {
-        // 마지막 라이프 소멸 후 다음 턴이 되었을 때 실패임을 구현
-        // 마지막 라이프가 소멸되며 골인하면 성공 처리, 실패 구현 안되게끔
-        turns = getTurns();
-        if (lifeLeft <= 0) 
+        // 타이머 업데이트
+        if (_timerActive)
         {
-            if (turns == previousTurns + 1)
-            {
-                failure = true;
-            }
+            _currentTime += Time.deltaTime;
+            UpdateTimerUI();
         }
-        previousTurns = turns;
+
+        // 마지막 라이프 소멸 후 다음 턴이 되었을 때 실패임을 확인
+        // 마지막 라이프가 소멸되며 골인하면 성공 처리, 실패 구현 안되게끔
+        if (lifeLeft <= 0 && GetTurn() > GetPreviousTurn())
+        {
+            failure = true;
+        }
+
+        previousTurn = currentTurn;
 
         if (_timerActive) // 팝업 뜰 때 타이머 일시 정지 가능
         {
             _currentTime += Time.deltaTime;
-            if (!isStart && Input.GetKeyDown(KeyCode.L))
-            { //Launch의 의미 :L
+            if (!isStart && Input.GetKeyDown(KeyCode.Space))
+            {
                 isStart = true;
-                //AnimationEnd(1);
                 cannon.SetActive(true); //발사 가능하게
             }
         }
 
         if ((success || failure) && !end)
         {
-            if (almondStatus[0]) Debug.Log("almond");
             EndGame(success);
             end = true;
         }
     }
 
-    // Success, Failure 함수는 스테이지 공통 애니메이션 구현
-    // StartGame, EndGame 함수는 각 스테이지에 알맞게 variable 세팅, variable 전달
-    // StartGame, EndGame 함수는 계정 별 스킨 세팅 및 계정 별 게임종료 후 정보 저장도 구현
+    void LateUpdate()
+    {
+        if (isSuccessAnimation && targetBall != null)
+        {
+            Camera mainCamera = Camera.main;
+            Vector3 targetPosition = targetBall.position + new Vector3(0f, 3f, -5f);
+
+            if (!isCameraPositioned)
+            {
+                // 카메라를 목표 위치로 이동
+                mainCamera.transform.position = Vector3.Lerp(
+                    mainCamera.transform.position,
+                    targetPosition,
+                    Time.deltaTime * 2f
+                );
+
+                // 카메라가 목표 위치에 충분히 가까워졌는지 확인
+                if (Vector3.Distance(mainCamera.transform.position, targetPosition) < 0.1f)
+                {
+                    isCameraPositioned = true;
+                    mainCamera.transform.position = targetPosition; // 정확한 위치로 설정
+                }
+            }
+            // 햄스터 볼을 바라보도록
+            mainCamera.transform.LookAt(targetBall.position);
+        }
+    }
 
     public void Success()
     {
@@ -265,13 +298,29 @@ public abstract class StageManager : MonoBehaviour
         ballrb.angularVelocity = Vector3.zero;
         ballrb.Sleep();
         balls[0].transform.position = chest.transform.position + chest.transform.forward * 3f;
-        hamsterAnimationControl = FindObjectOfType<HamsterAnimationControl>().GetComponent<HamsterAnimationControl>();
-        hamsterAnimationControl.setSuccess(true);
+        hamsterAnimationControl = FindObjectOfType<HamsterAnimationControl>()
+            .GetComponent<HamsterAnimationControl>();
+        hamsterAnimationControl.SetSuccess();
         // 체스트 애니메이션, 파티클 효과도 추가하면 좋을듯
+
+        // 카메라 이동
+        isSuccessAnimation = true;
+        targetBall = balls[0].transform;
+
+        // Invoke 대신 코루틴 사용
+        StartCoroutine(FinishGameAfterDelay(true));
+    }
+
+    private IEnumerator FinishGameAfterDelay(bool clear)
+    {
+        yield return new WaitForSeconds(10f);
+        // 비동기 메서드 실행
+        _ = FinishGame(clear);
     }
 
     public void Failure()
     {
-        Debug.Log("Failure");
+        // 실패는 딜레이 없이 바로 실행
+        _ = FinishGame(false);
     }
 }
