@@ -22,8 +22,13 @@ namespace com.example
         public TMP_Text ErrorText = null!;
         public TMP_Text StatusText = null!;
         public GameObject SignInButton = null!;
+        public GameObject SignUpTriggerButton = null!;
         public GameObject SignUpButton = null!;
+        public GameObject GuestLoginTriggerButton = null!;
+        public GameObject GuestLoginButton = null!;
+        public GameObject ButtonGroup = null!;
         public GameObject GamePlayButton = null!;
+        public GameObject GoBackButton = null!;
         public SupabaseManager SupabaseManager = null!;
         public GameObject Panel = null!;
 
@@ -31,6 +36,7 @@ namespace com.example
         private bool _doSignIn;
         private bool _doSignUp;
         private bool _doSignOut;
+        private bool _doGuestLogin;
 
         // Unity does not allow async UI events, so we set a flag and use Update() to do the async work
         public void SignIn()
@@ -46,6 +52,11 @@ namespace com.example
         public void SignOut()
         {
             _doSignOut = true;
+        }
+
+        public void GuestLogin()
+        {
+            _doGuestLogin = true;
         }
 
         // initialize variables (when login scene is re-loaded from other scenes)
@@ -68,8 +79,17 @@ namespace com.example
                     case "Sign In Button":
                         SignInButton = obj;
                         break;
-                    case "Sign Up Button":
+                    case "Sign Up and Sign In Button":
                         SignUpButton = obj;
+                        break;
+                    case "Sign Up Trigger Button":
+                        SignUpTriggerButton = obj;
+                        break;
+                    case "Guest Login Button":
+                        GuestLoginButton = obj;
+                        break;
+                    case "Guest Login Trigger Button":
+                        GuestLoginTriggerButton = obj;
                         break;
                     case "Game Play Button":
                         GamePlayButton = obj;
@@ -83,10 +103,48 @@ namespace com.example
                     case "Panel":
                         Panel = obj;
                         break;
+                    case "ButtonGroup":
+                        ButtonGroup = obj;
+                        break;
+                    case "Go Back Button":
+                        GoBackButton = obj;
+                        break;
                 }
             }
 
             SupabaseManager = SupabaseManager.Instance;
+        }
+
+        public void UpdateSignUpUI()
+        {
+            NicknameInput.gameObject.SetActive(true);
+            SignUpButton.SetActive(true);
+            GuestLoginTriggerButton.SetActive(false);
+            ButtonGroup.SetActive(false);
+            GoBackButton.SetActive(true);
+        }
+
+        public void UpdateGuestLoginUI()
+        {
+            NicknameInput.gameObject.SetActive(true);
+            EmailInput.gameObject.SetActive(false);
+            PasswordInput.gameObject.SetActive(false);
+            ButtonGroup.SetActive(false);
+            GuestLoginButton.SetActive(true);
+            GuestLoginTriggerButton.SetActive(false);
+            GoBackButton.SetActive(true);
+        }
+
+        public void GoBackToSignInUI()
+        {
+            NicknameInput.gameObject.SetActive(false);
+            EmailInput.gameObject.SetActive(true);
+            PasswordInput.gameObject.SetActive(true);
+            ButtonGroup.SetActive(true);
+            GuestLoginTriggerButton.SetActive(true);
+            GuestLoginButton.SetActive(false);
+            SignUpButton.SetActive(false);
+            GoBackButton.SetActive(false);
         }
 
         [SuppressMessage("ReSharper", "Unity.PerformanceCriticalCodeInvocation")]
@@ -111,6 +169,13 @@ namespace com.example
                 _doSignOut = false;
                 await SupabaseManager.Supabase()!.Auth.SignOut();
                 _doSignOut = false;
+            }
+
+            if (_doGuestLogin)
+            {
+                _doGuestLogin = false;
+                await PerformGuestLogin();
+                _doGuestLogin = false;
             }
 
             // Tab 키를 누르면 다음 입력 필드로 이동
@@ -140,9 +205,12 @@ namespace com.example
             // 비로그인 시에만 활성화
             EmailInput.gameObject.SetActive(!isLoggedIn);
             PasswordInput.gameObject.SetActive(!isLoggedIn);
-            NicknameInput.gameObject.SetActive(!isLoggedIn);
-            SignInButton.SetActive(!isLoggedIn);
-            SignUpButton.SetActive(!isLoggedIn);
+            NicknameInput.gameObject.SetActive(false);
+            ButtonGroup.SetActive(!isLoggedIn);
+            SignUpButton.SetActive(false);
+            GuestLoginTriggerButton.SetActive(!isLoggedIn);
+            GuestLoginButton.SetActive(false);
+            GoBackButton.SetActive(false);
             ErrorText.gameObject.SetActive(!isLoggedIn);
 
             // 로그인 시에만 활성화
@@ -213,6 +281,35 @@ namespace com.example
             }
         }
 
+        [SuppressMessage("ReSharper", "Unity.PerformanceCriticalCodeInvocation")]
+        private async Task PerformGuestLogin()
+        {
+            StatusText.text = "Loading...";
+
+            try
+            {
+                int guestNum = SupabaseManager.GetNextGuestNumber();
+                string randomEmail = $"guest{guestNum}@gmail.com";
+                string password = "save_the_hamster";
+                string nickname = NicknameInput.text;
+
+                Session session = await SupabaseManager
+                    .Supabase()!
+                    .Auth.SignUp(randomEmail, password);
+
+                // 회원가입 후 로그인 수행
+                session = await SupabaseManager.Supabase()!.Auth.SignIn(randomEmail, password);
+
+                await CreateUserProfile(session, nickname);
+                await UpdateUIState(session);
+            }
+            catch (Exception e)
+            {
+                StatusText.text = "Please Login to save your hamster ...";
+                Debug.LogException(e, gameObject);
+            }
+        }
+
         // This is where we do the async work and handle exceptions
         [SuppressMessage("ReSharper", "Unity.PerformanceCriticalCodeInvocation")]
         private async Task PerformSignUp()
@@ -226,6 +323,7 @@ namespace com.example
                         .Supabase()!
                         .Auth.SignUp(EmailInput.text, PasswordInput.text)
                 )!;
+
                 // 회원가입 후 로그인 수행
                 session = await SupabaseManager
                     .Supabase()!
@@ -291,7 +389,9 @@ namespace com.example
                     {
                         user_id = session.User.Id,
                         stage_id = i,
-                        almond_status = new bool[3] { false, false, false },
+                        almond_status = new bool[i + 2]
+                            .Select(_ => false)
+                            .ToArray(),
                     })
                     .ToList();
 

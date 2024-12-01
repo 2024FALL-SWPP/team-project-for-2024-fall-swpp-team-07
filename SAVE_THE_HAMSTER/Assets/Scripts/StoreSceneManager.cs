@@ -28,7 +28,7 @@ public class StoreSceneManager : MonoBehaviour
         "ball_tail_effect_2",
     };
 
-    private int[] itemPrices = new int[] { 2, 3, 2, 3, 3, 4 };
+    private int[] itemPrices = new int[] { 3, 4, 3, 4, 3, 4 };
 
     private int currentAlmonds;
 

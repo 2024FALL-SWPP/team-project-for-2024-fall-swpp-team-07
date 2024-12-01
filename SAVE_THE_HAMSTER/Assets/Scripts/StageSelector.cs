@@ -79,12 +79,18 @@ public class StageSelector : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftArrow) && stageNumber > 1)
+        if (
+            (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetAxis("Mouse ScrollWheel") > 0.0f)
+            && stageNumber > 1
+        )
         {
             stageNumber--;
             cameraPositionX -= 2.0f;
         }
-        else if (Input.GetKeyDown(KeyCode.RightArrow) && stageNumber < 3)
+        else if (
+            (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetAxis("Mouse ScrollWheel") < 0.0f)
+            && stageNumber < 3
+        )
         {
             stageNumber++;
             cameraPositionX += 2.0f;

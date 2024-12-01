@@ -19,7 +19,6 @@ public abstract class StageManager : MonoBehaviour
     private int lifeLeft = 0; //set 발사 시 life--;
     private int currentTurn = 1;
     private int previousTurn = 0;
-    private static int[] totalAlmond = new int[numberOfStages] { 5, 5, 5 }; //get
     private bool isStart = false; //대포가 생성됐는지 //set
     private bool end = false; // 게임 종료 여부, 종료 함수 한 번만 호출하기 위해
 
@@ -29,6 +28,7 @@ public abstract class StageManager : MonoBehaviour
     private float _currentTime = 0;
     private float _playTime;
     public TMP_Text timerText;
+    public TMP_Text currentTurnText;
 
     private bool success = false; //set
     private bool failure = false; //set
@@ -37,6 +37,9 @@ public abstract class StageManager : MonoBehaviour
     private bool isSuccessAnimation = false;
     private Transform targetBall;
     private bool isCameraPositioned = false;
+
+    // 인게임 button
+    public GameObject ingameButtons;
 
     // poststage canvas
     public GameObject postStageCanvas;
@@ -114,6 +117,11 @@ public abstract class StageManager : MonoBehaviour
         lifeLeft = totalLife[stageIndex];
     }
 
+    public int GetTotalLife(int stageIndex)
+    {
+        return totalLife[stageIndex];
+    }
+
     public void DecreaseLifeLeft() // when turn over or respawn
     {
         lifeLeft--;
@@ -132,7 +140,11 @@ public abstract class StageManager : MonoBehaviour
     public void IncreaseTurn()
     {
         currentTurn++;
+        // UI update
+        UpdateTurnUI();
     }
+
+    public abstract void UpdateTurnUI();
 
     public void ResetTurn()
     {
@@ -148,11 +160,6 @@ public abstract class StageManager : MonoBehaviour
     public void UpdatePreviousTurn()
     {
         previousTurn = currentTurn;
-    }
-
-    public int GetTotalAlmond(int stageIndex)
-    {
-        return totalAlmond[stageIndex];
     }
 
     public void SetIsStart(bool isStart)
@@ -202,11 +209,10 @@ public abstract class StageManager : MonoBehaviour
 
     private void UpdateTimerUI()
     {
-        // 초 단위를 초:밀리초로 변환
+        // 초 단위를 분:초 변환
         int minutes = Mathf.FloorToInt(_currentTime / 60f);
         int seconds = Mathf.FloorToInt(_currentTime % 60f);
-        int milliseconds = Mathf.FloorToInt((_currentTime * 100) % 100);
-        timerText.text = string.Format("{0:00}:{1:00}:{2:00}", minutes, seconds, milliseconds);
+        timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
     }
 
     // Start is called before the first frame update
@@ -224,6 +230,12 @@ public abstract class StageManager : MonoBehaviour
         {
             _currentTime += Time.deltaTime;
             UpdateTimerUI();
+
+            if (!isStart && Input.GetKeyDown(KeyCode.Space))
+            {
+                isStart = true;
+                cannon.SetActive(true); //발사 가능하게
+            }
         }
 
         // 마지막 라이프 소멸 후 다음 턴이 되었을 때 실패임을 확인
@@ -234,16 +246,6 @@ public abstract class StageManager : MonoBehaviour
         }
 
         previousTurn = currentTurn;
-
-        if (_timerActive) // 팝업 뜰 때 타이머 일시 정지 가능
-        {
-            _currentTime += Time.deltaTime;
-            if (!isStart && Input.GetKeyDown(KeyCode.Space))
-            {
-                isStart = true;
-                cannon.SetActive(true); //발사 가능하게
-            }
-        }
 
         if ((success || failure) && !end)
         {

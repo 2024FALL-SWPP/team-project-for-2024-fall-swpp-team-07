@@ -41,7 +41,7 @@ public class PreStageSceneManager : MonoBehaviour
                 {
                     var record = userStageRecords.Models[i];
                     ranking_names[i].text = record.nickname;
-                    ranking_records[i].text = $"{record.num_hits}타/{record.clear_time}초";
+                    ranking_records[i].text = $"{record.num_hits}타/{record.clear_time:F3}초";
 
                     if (record.user_id == userId)
                     {
@@ -72,15 +72,15 @@ public class PreStageSceneManager : MonoBehaviour
                             almonds++;
                         }
                     }
-                    almondsNum.text = $"{almonds}개";
+                    almondsNum.text = $"    {almonds}";
                 }
                 else
                 {
-                    almondsNum.text = "3개";
+                    almondsNum.text = "    3";
                 }
 
                 // 스테이지 클리어 기록 업데이트
-                stageInfo.text = $"Stage {stageNumber} 지난 도전 기록";
+                stageInfo.text = $"Stage {stageNumber} 최고 도전 기록";
                 var userStageRecord = await client
                     .From<UserStageRecords>()
                     .Select(x => new object[] { x.num_hits, x.clear_time, x.last_attempt })
@@ -90,7 +90,7 @@ public class PreStageSceneManager : MonoBehaviour
                 if (userStageRecord != null)
                 {
                     stageRecord.text =
-                        $"{userStageRecord.num_hits}타 / {userStageRecord.clear_time}초 ({userStageRecord.last_attempt})";
+                        $"{userStageRecord.num_hits}타 / {userStageRecord.clear_time:F3}초 ({userStageRecord.last_attempt})";
                 }
                 else
                 {

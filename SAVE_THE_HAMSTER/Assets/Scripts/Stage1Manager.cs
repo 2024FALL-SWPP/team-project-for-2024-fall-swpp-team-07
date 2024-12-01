@@ -84,10 +84,28 @@ public class Stage1Manager : StageManager
                 var actualStageIndex = stageIndex + 1;
 
                 // 기존 레코드 업데이트
-                // TODO: upsert 문법 찾아보기
-                // await client.From<UserStageStatus>()
-                //     .Update(new UserStageStatus { almond_status = almondStatus })
-                //     .Match(new { user_id = userId, stage_id = actualStageIndex });
+                await client
+                    .From<UserStageStatus>()
+                    .Where(x => x.user_id == userId && x.stage_id == actualStageIndex)
+                    .Set(x => x.almond_status, almondStatus)
+                    .Update();
+
+                if (obtainedAlmonds > 0)
+                {
+                    // 유저 아몬드 수 업데이트
+                    var userProfile = await client
+                        .From<UserProfile>()
+                        .Select("almonds")
+                        .Where(x => x.user_id == userId)
+                        .Single();
+                    int almonds = userProfile.almonds + obtainedAlmonds;
+
+                    await client
+                        .From<UserProfile>()
+                        .Where(x => x.user_id == userId)
+                        .Set(x => x.almonds, almonds)
+                        .Update();
+                }
             }
         }
         catch (System.Exception e)
@@ -122,15 +140,24 @@ public class Stage1Manager : StageManager
                     )
                     {
                         // 이미 존재하고, 기록이 더 좋다면 업데이트
-                        // TODO: upsert 문법 찾아보기
-                        // await client
-                        //     .From<UserStageRecords>()
-                        //     .Update(new UserStageRecords { clear_time = finalTime, num_hits = numHits })
-                        //     .Match(new { user_id = userId, stage_id = actualStageIndex });
+                        var attempt_time = System.DateTime.Now.ToString("yy.MM.dd HH:mm:ss");
+                        await client
+                            .From<UserStageRecords>()
+                            .Where(x => x.user_id == userId && x.stage_id == actualStageIndex)
+                            .Set(x => x.clear_time, finalTime)
+                            .Set(x => x.num_hits, numHits)
+                            .Set(x => x.last_attempt, attempt_time)
+                            .Update();
                     }
                 }
                 else
                 {
+                    var userProfile = await client
+                        .From<UserProfile>()
+                        .Select("nickname")
+                        .Where(x => x.user_id == userId)
+                        .Single();
+
                     // 처음 깨는 거라면 기록 등록
                     await client
                         .From<UserStageRecords>()
@@ -141,6 +168,8 @@ public class Stage1Manager : StageManager
                                 stage_id = actualStageIndex,
                                 clear_time = finalTime,
                                 num_hits = numHits,
+                                nickname = userProfile.nickname,
+                                last_attempt = System.DateTime.Now.ToString("yy.MM.dd HH:mm:ss"),
                             }
                         );
                 }
@@ -176,7 +205,7 @@ public class Stage1Manager : StageManager
                 {
                     var record = userStageRecords.Models[i];
                     ranking_names[i].text = record.nickname;
-                    ranking_records[i].text = $"{record.num_hits}타/{record.clear_time}초";
+                    ranking_records[i].text = $"{record.num_hits}타/{record.clear_time:F3}초";
 
                     if (record.user_id == userId)
                     {
@@ -219,7 +248,7 @@ public class Stage1Manager : StageManager
         float finalTime = GetPlayTime();
 
         // 새로 획득한 아몬드 수 업데이트 + DB에 반영
-        almondsNum.text = $"{obtainedAlmonds}개";
+        almondsNum.text = $"    {obtainedAlmonds}";
         await UpdateAlmondStatus();
 
         stageInfo.text = $"Stage {stageIndex + 1} 도전 기록";
@@ -241,6 +270,7 @@ public class Stage1Manager : StageManager
         // 랭킹 업데이트
         await updateRanking();
 
+        ingameButtons.SetActive(false);
         postStageCanvas.SetActive(true);
         postStageBackgroundCanvas.SetActive(true);
     }
@@ -251,5 +281,10 @@ public class Stage1Manager : StageManager
         almondUI[index].SetActive(false);
         almondUI_disabled[index].SetActive(true);
         obtainedAlmonds++;
+    }
+
+    public override void UpdateTurnUI()
+    {
+        currentTurnText.text = $"{GetTurn()} / {GetTotalLife(stageIndex)}";
     }
 }
