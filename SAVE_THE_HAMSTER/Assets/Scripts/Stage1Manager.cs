@@ -262,6 +262,7 @@ public class Stage1Manager : StageManager
         // 랭킹 업데이트
         await updateRanking();
 
+        ingameButtons.SetActive(false);
         postStageCanvas.SetActive(true);
         postStageBackgroundCanvas.SetActive(true);
     }

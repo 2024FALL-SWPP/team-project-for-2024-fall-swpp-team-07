@@ -38,6 +38,9 @@ public abstract class StageManager : MonoBehaviour
     private Transform targetBall;
     private bool isCameraPositioned = false;
 
+    // 인게임 button
+    public GameObject ingameButtons;
+
     // poststage canvas
     public GameObject postStageCanvas;
     public GameObject postStageBackgroundCanvas;
