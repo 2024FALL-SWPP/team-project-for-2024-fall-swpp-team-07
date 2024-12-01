@@ -70,6 +70,13 @@ namespace com.example
 
         public Client? Supabase() => _client;
 
+        private static int _guestCounter = (int)(DateTime.Now.Ticks % 1000000);
+
+        public static int GetNextGuestNumber()
+        {
+            return ++_guestCounter;
+        }
+
         private async void Start()
         {
             try
