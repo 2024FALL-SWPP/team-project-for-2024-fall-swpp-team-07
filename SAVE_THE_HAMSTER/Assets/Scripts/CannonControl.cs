@@ -95,7 +95,10 @@ public class CannonControl : MonoBehaviour
         { 
             if(IsCannonTippedOver(cannon.transform))
             {
-                cannon.transform.rotation = savedRotation;
+                Rigidbody cannonrb = cannon.GetComponent<Rigidbody>();
+                if(cannonrb.velocity.magnitude <= 0.05f){
+                    cannon.transform.rotation = savedRotation;
+                }
             }
             activeBall = gm.GetActiveBall();
             Rigidbody ballrb = activeBall.GetComponent<Rigidbody>();
