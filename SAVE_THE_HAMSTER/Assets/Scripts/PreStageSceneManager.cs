@@ -72,11 +72,11 @@ public class PreStageSceneManager : MonoBehaviour
                             almonds++;
                         }
                     }
-                    almondsNum.text = $"{almonds}개";
+                    almondsNum.text = $"    {almonds}";
                 }
                 else
                 {
-                    almondsNum.text = "3개";
+                    almondsNum.text = "    3";
                 }
 
                 // 스테이지 클리어 기록 업데이트

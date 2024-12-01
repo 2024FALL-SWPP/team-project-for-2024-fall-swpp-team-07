@@ -240,7 +240,7 @@ public class Stage1Manager : StageManager
         float finalTime = GetPlayTime();
 
         // 새로 획득한 아몬드 수 업데이트 + DB에 반영
-        almondsNum.text = $"{obtainedAlmonds}개";
+        almondsNum.text = $"    {obtainedAlmonds}";
         await UpdateAlmondStatus();
 
         stageInfo.text = $"Stage {stageIndex + 1} 도전 기록";
