@@ -28,6 +28,7 @@ public abstract class StageManager : MonoBehaviour
     private float _currentTime = 0;
     private float _playTime;
     public TMP_Text timerText;
+    public TMP_Text currentTurnText;
 
     private bool success = false; //set
     private bool failure = false; //set
@@ -113,6 +114,11 @@ public abstract class StageManager : MonoBehaviour
         lifeLeft = totalLife[stageIndex];
     }
 
+    public int GetTotalLife(int stageIndex)
+    {
+        return totalLife[stageIndex];
+    }
+
     public void DecreaseLifeLeft() // when turn over or respawn
     {
         lifeLeft--;
@@ -131,7 +137,11 @@ public abstract class StageManager : MonoBehaviour
     public void IncreaseTurn()
     {
         currentTurn++;
+        // UI update
+        UpdateTurnUI();
     }
+
+    public abstract void UpdateTurnUI();
 
     public void ResetTurn()
     {

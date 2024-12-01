@@ -273,4 +273,9 @@ public class Stage1Manager : StageManager
         almondUI_disabled[index].SetActive(true);
         obtainedAlmonds++;
     }
+
+    public override void UpdateTurnUI()
+    {
+        currentTurnText.text = $"{GetTurn()} / {GetTotalLife(stageIndex)}";
+    }
 }
