@@ -196,11 +196,10 @@ public abstract class StageManager : MonoBehaviour
 
     private void UpdateTimerUI()
     {
-        // 초 단위를 초:밀리초로 변환
+        // 초 단위를 분:초 변환
         int minutes = Mathf.FloorToInt(_currentTime / 60f);
         int seconds = Mathf.FloorToInt(_currentTime % 60f);
-        int milliseconds = Mathf.FloorToInt((_currentTime * 100) % 100);
-        timerText.text = string.Format("{0:00}:{1:00}:{2:00}", minutes, seconds, milliseconds);
+        timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
     }
 
     // Start is called before the first frame update
@@ -218,6 +217,12 @@ public abstract class StageManager : MonoBehaviour
         {
             _currentTime += Time.deltaTime;
             UpdateTimerUI();
+
+            if (!isStart && Input.GetKeyDown(KeyCode.Space))
+            {
+                isStart = true;
+                cannon.SetActive(true); //발사 가능하게
+            }
         }
 
         // 마지막 라이프 소멸 후 다음 턴이 되었을 때 실패임을 확인
@@ -228,16 +233,6 @@ public abstract class StageManager : MonoBehaviour
         }
 
         previousTurn = currentTurn;
-
-        if (_timerActive) // 팝업 뜰 때 타이머 일시 정지 가능
-        {
-            _currentTime += Time.deltaTime;
-            if (!isStart && Input.GetKeyDown(KeyCode.Space))
-            {
-                isStart = true;
-                cannon.SetActive(true); //발사 가능하게
-            }
-        }
 
         if ((success || failure) && !end)
         {

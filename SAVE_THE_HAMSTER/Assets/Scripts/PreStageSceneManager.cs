@@ -41,7 +41,7 @@ public class PreStageSceneManager : MonoBehaviour
                 {
                     var record = userStageRecords.Models[i];
                     ranking_names[i].text = record.nickname;
-                    ranking_records[i].text = $"{record.num_hits}타/{record.clear_time}초";
+                    ranking_records[i].text = $"{record.num_hits}타/{record.clear_time:F3}초";
 
                     if (record.user_id == userId)
                     {
@@ -90,7 +90,7 @@ public class PreStageSceneManager : MonoBehaviour
                 if (userStageRecord != null)
                 {
                     stageRecord.text =
-                        $"{userStageRecord.num_hits}타 / {userStageRecord.clear_time}초 ({userStageRecord.last_attempt})";
+                        $"{userStageRecord.num_hits}타 / {userStageRecord.clear_time:F3}초 ({userStageRecord.last_attempt})";
                 }
                 else
                 {
