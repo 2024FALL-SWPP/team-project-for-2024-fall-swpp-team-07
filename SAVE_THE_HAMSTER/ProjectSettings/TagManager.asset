@@ -14,6 +14,8 @@ TagManager:
   - Ball
   - LoginUI
   - Death
+  - Lava
+  - Sand
   layers:
   - Default
   - TransparentFX
