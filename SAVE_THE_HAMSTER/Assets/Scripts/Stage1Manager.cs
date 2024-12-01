@@ -152,6 +152,12 @@ public class Stage1Manager : StageManager
                 }
                 else
                 {
+                    var userProfile = await client
+                        .From<UserProfile>()
+                        .Select("nickname")
+                        .Where(x => x.user_id == userId)
+                        .Single();
+
                     // 처음 깨는 거라면 기록 등록
                     await client
                         .From<UserStageRecords>()
@@ -162,6 +168,8 @@ public class Stage1Manager : StageManager
                                 stage_id = actualStageIndex,
                                 clear_time = finalTime,
                                 num_hits = numHits,
+                                nickname = userProfile.nickname,
+                                last_attempt = System.DateTime.Now.ToString("yy.MM.dd HH:mm:ss"),
                             }
                         );
                 }
