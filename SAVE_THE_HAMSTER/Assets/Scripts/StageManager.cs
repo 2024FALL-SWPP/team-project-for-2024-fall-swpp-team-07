@@ -19,7 +19,6 @@ public abstract class StageManager : MonoBehaviour
     private int lifeLeft = 0; //set 발사 시 life--;
     private int currentTurn = 1;
     private int previousTurn = 0;
-    private static int[] totalAlmond = new int[numberOfStages] { 5, 5, 5 }; //get
     private bool isStart = false; //대포가 생성됐는지 //set
     private bool end = false; // 게임 종료 여부, 종료 함수 한 번만 호출하기 위해
 
@@ -148,11 +147,6 @@ public abstract class StageManager : MonoBehaviour
     public void UpdatePreviousTurn()
     {
         previousTurn = currentTurn;
-    }
-
-    public int GetTotalAlmond(int stageIndex)
-    {
-        return totalAlmond[stageIndex];
     }
 
     public void SetIsStart(bool isStart)

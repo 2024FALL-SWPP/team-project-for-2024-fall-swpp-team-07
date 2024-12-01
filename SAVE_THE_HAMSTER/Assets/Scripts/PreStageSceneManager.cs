@@ -80,7 +80,7 @@ public class PreStageSceneManager : MonoBehaviour
                 }
 
                 // 스테이지 클리어 기록 업데이트
-                stageInfo.text = $"Stage {stageNumber} 지난 도전 기록";
+                stageInfo.text = $"Stage {stageNumber} 최고 도전 기록";
                 var userStageRecord = await client
                     .From<UserStageRecords>()
                     .Select(x => new object[] { x.num_hits, x.clear_time, x.last_attempt })
