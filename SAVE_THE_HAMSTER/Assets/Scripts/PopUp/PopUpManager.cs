@@ -51,6 +51,19 @@ public abstract class PopUpManager : MonoBehaviour
             PopUp();
         }
 
+        // Enter 키로 현재 활성화된 팝업 닫기
+        if (Input.GetKeyDown(KeyCode.Return) && isPopedUp)
+        {
+            for (int i = 0; i < PopUpList.Length; i++)
+            {
+                if (PopUpList[i].activeSelf)
+                {
+                    PopUpList[i].SetActive(false);
+                    break; // 첫 번째로 찾은 활성화된 팝업만 닫기
+                }
+            }
+        }
+
         // 팝업 여부에 따라 타이머 일시정지
         if (isPopedUp)
         {
