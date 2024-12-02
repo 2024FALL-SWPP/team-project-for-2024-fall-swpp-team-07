@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class WallBehavior : MonoBehaviour
 {
-    Stage1Manager gm;
+    StageManager gm;
 
     // public GameObject hardWall;
     // public GameObject softWall;
@@ -33,7 +33,18 @@ public class WallBehavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gm = GameObject.Find("Stage1Manager").GetComponent<Stage1Manager>();
+        if (GameObject.Find("Stage1Manager") != null)
+        {
+            gm = GameObject.Find("Stage1Manager").GetComponent<Stage1Manager>();
+        }
+        else if (GameObject.Find("Stage2Manager") != null)
+        {
+            gm = GameObject.Find("Stage2Manager").GetComponent<Stage2Manager>();
+        }
+        else if (GameObject.Find("Stage3Manager") != null)
+        {
+            gm = GameObject.Find("Stage3Manager").GetComponent<Stage3Manager>();
+        }
     }
 
     // Update is called once per frame

@@ -7,7 +7,7 @@ public class MiniMapCameraMovement : MonoBehaviour
     // public GameObject[] balls; => applied design pattern
     GameObject activeBall;
     GameObject cannon;
-    Stage1Manager gm;
+    StageManager gm;
     Vector3 _position;
     Quaternion _rotation;
 
@@ -18,7 +18,7 @@ public class MiniMapCameraMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gm = GameObject.Find("Stage1Manager").GetComponent<Stage1Manager>();
+        gm = FindObjectOfType<StageManager>();
         cannon = gm.cannon;
         cannonControl = cannon.GetComponent<CannonControl>();
     }
