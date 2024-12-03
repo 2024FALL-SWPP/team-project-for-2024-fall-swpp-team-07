@@ -63,7 +63,7 @@ public class CannonControl : MonoBehaviour
 
     private bool isGameOver = false;
 
-    private Vector3 prevBallPosition;//발사 직전 공 위치
+    private Vector3 prevBallPosition; //발사 직전 공 위치
 
     private Quaternion savedRotation;
 
@@ -91,13 +91,13 @@ public class CannonControl : MonoBehaviour
     void Update()
     {
         explosion.Stop();
-        //Debug.Log("forcheck1 Turn: " + gm.GetTurn());
         if (cannon.activeSelf) //SetActive(false)일때의 키보드 입력을 차단하기 위해
-        { 
-            if(IsCannonTippedOver(cannon.transform))
+        {
+            if (IsCannonTippedOver(cannon.transform))
             {
                 Rigidbody cannonrb = cannon.GetComponent<Rigidbody>();
-                if(cannonrb.velocity.magnitude <= 0.05f){
+                if (cannonrb.velocity.magnitude <= 0.05f)
+                {
                     cannon.transform.rotation = savedRotation;
                 }
             }
@@ -128,7 +128,6 @@ public class CannonControl : MonoBehaviour
                 transform.position = startPosition; //대포를 처음 시작 위치로 이동
                 Time.timeScale = 0; //게임 일시정지
             }
-            //Debug.Log("forcheck2 Turn: " + gm.GetTurn());
             if (
                 !isGameOver
                 && spaceBarCount == 1
@@ -136,7 +135,6 @@ public class CannonControl : MonoBehaviour
                 && ballrb.velocity.magnitude <= 0.05f
             )
             {
-                Debug.Log("forcheck3 Turn: " + gm.GetTurn());
                 //공이 발사됐고 공이 땅에 닿아서 멈췄다면 다음 턴으로
                 hamsterScript.enabled = false;
                 hamsterCollisionScript.enabled = false;
@@ -155,7 +153,6 @@ public class CannonControl : MonoBehaviour
                         collisionScript.enabled = false;
                     }
                 }
-                Debug.Log("isKinematic false" + gm.GetTurn());
 
                 StartCoroutine(Delay()); //1.5초 대기
                 if (isRunning)
@@ -164,17 +161,15 @@ public class CannonControl : MonoBehaviour
                     gm.IncreaseTurn(); // 대포 위치 옮길 때마다 턴 수 증가, 리스폰 시 안옮겨도 턴 수 증가
                     if (isGround && !isRespawn)
                     {
-    
                         cannon.transform.position += new Vector3(
                             activeBall.transform.position.x - prevBallPosition.x,
                             activeBall.transform.position.y + 2.5f,
                             activeBall.transform.position.z - prevBallPosition.z
                         ); //대포를 공의 전 턴의 마지막 위치 근처로 이동시킴
-                      
+
                         canon.transform.localRotation = initialLocalRotation; //포신을 초기 회전값으로 세팅
                         initialXRotation = canon.transform.localRotation.eulerAngles.x;
                         currentXRotation = initialXRotation;
-                        
                     }
                 }
             }
@@ -186,7 +181,7 @@ public class CannonControl : MonoBehaviour
                 ballrb.useGravity = false;
                 activeBall.transform.position = firePoint.position;
                 activeBall.transform.rotation = canon.transform.rotation;
-                
+
                 if (Input.GetAxis("Horizontal") != 0)
                 {
                     normal = GetSlopeNormal();
@@ -211,11 +206,7 @@ public class CannonControl : MonoBehaviour
                         initialXRotation + maxDown
                     );
                     //로컬 회전
-                    canon.transform.localRotation = Quaternion.Euler(
-                        currentXRotation,
-                        0,
-                        0
-                    );
+                    canon.transform.localRotation = Quaternion.Euler(currentXRotation, 0, 0);
                     //발사지점 회전 동기화
                     firePoint.rotation = canon.transform.rotation;
                 }
@@ -245,13 +236,15 @@ public class CannonControl : MonoBehaviour
                 lineRenderer.enabled = true;
                 lineRenderer.transform.position = firePoint.position; //firePoint위치로 lineRenderer시작점 이동
 
-                if(activeBall.name == "BowlingBall"){
+                if (activeBall.name == "BowlingBall")
+                {
                     UpdateLineRenderer(
                         (firePoint.position - canon.transform.position) * force * ballrb.mass,
                         ballrb.mass
                     );
                 }
-                else{
+                else
+                {
                     UpdateLineRenderer(
                         (firePoint.position - canon.transform.position) * force,
                         ballrb.mass
@@ -260,12 +253,17 @@ public class CannonControl : MonoBehaviour
 
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
+                    if (spaceBarCount == 0)
+                    {
+                        gm.UpdateTurnUI(); //턴 수 UI 갱신
+                    }
+
                     // space바를 누르면 공이 발사됨
                     // 공 발사 및 effect
                     activeBall = gm.GetActiveBall();
                     ballrb = activeBall.GetComponent<Rigidbody>();
                     prevBallPosition = activeBall.transform.position; //발사직전 공 위치 저장
-                    savedRotation = cannon.transform.rotation;//발사 직전 대포의 회전값 저장
+                    savedRotation = cannon.transform.rotation; //발사 직전 대포의 회전값 저장
                     hamsterCollisionScript.enabled = true;
                     hamsterScript.enabled = true;
                     if (activeBall.name != "HamsterBall")
@@ -287,13 +285,15 @@ public class CannonControl : MonoBehaviour
                     bigExplosion.SetActive(true);
                     explosion.Play();
 
-                    if(activeBall.name == "BowlingBall"){
+                    if (activeBall.name == "BowlingBall")
+                    {
                         ballrb.AddForce(
                             (firePoint.position - canon.transform.position) * force * ballrb.mass,
                             ForceMode.Impulse
                         );
                     }
-                    else{
+                    else
+                    {
                         ballrb.AddForce(
                             (firePoint.position - canon.transform.position) * force,
                             ForceMode.Impulse
@@ -311,7 +311,8 @@ public class CannonControl : MonoBehaviour
         }
     }
 
-    private float GetAngleBetweenVectorAndPlane(Vector3 vector, Vector3 normal){
+    private float GetAngleBetweenVectorAndPlane(Vector3 vector, Vector3 normal)
+    {
         // 벡터와 법선 사이의 각도 계산
         float dot = Vector3.Dot(vector, normal);
         float vectorMagnitude = vector.magnitude;
@@ -325,6 +326,7 @@ public class CannonControl : MonoBehaviour
 
         return 90f - angleWithNormal;
     }
+
     private void UpdateLineRenderer(Vector3 initialVelocity, float mass)
     {
         float g = Physics.gravity.magnitude;
@@ -338,8 +340,8 @@ public class CannonControl : MonoBehaviour
             float dw = velocity * fTime * Mathf.Cos(angle * Mathf.Deg2Rad);
             float dy =
                 velocity * fTime * Mathf.Sin(angle * Mathf.Deg2Rad) - (g * fTime * fTime * 0.5f);
-            float dz = Vector3.Dot(dw * unitVector, new Vector3(0,0,1));
-            float dx = Vector3.Dot(dw * unitVector, new Vector3(1,0,0));
+            float dz = Vector3.Dot(dw * unitVector, new Vector3(0, 0, 1));
+            float dx = Vector3.Dot(dw * unitVector, new Vector3(1, 0, 0));
             Vector3 pos = new Vector3(dx, dy, dz);
             lineRenderer.SetPosition(i, pos);
             fTime += timeStep;
@@ -363,7 +365,7 @@ public class CannonControl : MonoBehaviour
         return false; // 정상 상태
     }
 
-    private Vector3 GetSlopeNormal() 
+    private Vector3 GetSlopeNormal()
     {
         // 경사면의 법선 벡터(normal vector) 계산
         RaycastHit hit;
@@ -377,11 +379,10 @@ public class CannonControl : MonoBehaviour
     IEnumerator Delay()
     {
         yield return new WaitForSeconds(1.5f); //1.5초 정도 대기
-        // 기존에는 sticky ball에 대해서만 비활성화 처리를 했으나 
+        // 기존에는 sticky ball에 대해서만 비활성화 처리를 했으나
         // 모래 지형 구현에 필요하여 모든 공에 대해 턴 시작 시 비활성화 처리
         Rigidbody ballrb = activeBall.GetComponent<Rigidbody>();
         ballrb.isKinematic = false;
         isRunning = true;
     }
 }
-

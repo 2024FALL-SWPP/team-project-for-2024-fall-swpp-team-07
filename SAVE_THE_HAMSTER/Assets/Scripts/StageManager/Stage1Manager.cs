@@ -292,6 +292,6 @@ public class Stage1Manager : StageManager
 
     public override void UpdateTurnUI()
     {
-        currentTurnText.text = $"{GetTurn()} / {GetTotalLife(stageIndex)}";
+        currentTurnText.text = $"{GetTurn() + 1} / {GetTotalLife(stageIndex)}";
     }
 }
