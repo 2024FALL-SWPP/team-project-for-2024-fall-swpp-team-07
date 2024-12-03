@@ -107,6 +107,9 @@ public class CollisionDetection : MonoBehaviour
         // - 다시 플레이 하기, 스테이지 재진입 시 초기화 구현 필요(알아서 될 듯)
         if (collision.gameObject.CompareTag("Sand")) // 1 구현
         {
+            // 대포 생성하려면 필요(모래도 땅이니까..)
+            // 첫 턴에 sand에만 닿을 경우 고려
+            onGround = true;
             // activeBall = gm.GetActiveBall();
             // if (activeBall.name == "StickyBall")
             Debug.Log("Turn: " + gm.GetTurn() + ", PreviousTurn: " + gm.GetPreviousTurn());

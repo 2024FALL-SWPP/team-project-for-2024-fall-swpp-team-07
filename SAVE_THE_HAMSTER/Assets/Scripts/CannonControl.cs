@@ -91,6 +91,7 @@ public class CannonControl : MonoBehaviour
     void Update()
     {
         explosion.Stop();
+        //Debug.Log("forcheck1 Turn: " + gm.GetTurn());
         if (cannon.activeSelf) //SetActive(false)일때의 키보드 입력을 차단하기 위해
         { 
             if(IsCannonTippedOver(cannon.transform))
@@ -127,7 +128,7 @@ public class CannonControl : MonoBehaviour
                 transform.position = startPosition; //대포를 처음 시작 위치로 이동
                 Time.timeScale = 0; //게임 일시정지
             }
-
+            //Debug.Log("forcheck2 Turn: " + gm.GetTurn());
             if (
                 !isGameOver
                 && spaceBarCount == 1
@@ -135,6 +136,7 @@ public class CannonControl : MonoBehaviour
                 && ballrb.velocity.magnitude <= 0.05f
             )
             {
+                Debug.Log("forcheck3 Turn: " + gm.GetTurn());
                 //공이 발사됐고 공이 땅에 닿아서 멈췄다면 다음 턴으로
                 hamsterScript.enabled = false;
                 hamsterCollisionScript.enabled = false;
@@ -153,6 +155,7 @@ public class CannonControl : MonoBehaviour
                         collisionScript.enabled = false;
                     }
                 }
+                Debug.Log("isKinematic false" + gm.GetTurn());
 
                 StartCoroutine(Delay()); //1.5초 대기
                 if (isRunning)
