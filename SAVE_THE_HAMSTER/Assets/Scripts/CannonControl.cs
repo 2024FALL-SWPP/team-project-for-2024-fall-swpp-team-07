@@ -374,11 +374,10 @@ public class CannonControl : MonoBehaviour
     IEnumerator Delay()
     {
         yield return new WaitForSeconds(1.5f); //1.5초 정도 대기
-        if (activeBall.name == "StickyBall")
-        {
-            Rigidbody ballrb = activeBall.GetComponent<Rigidbody>();
-            ballrb.isKinematic = false;
-        }
+        // 기존에는 sticky ball에 대해서만 비활성화 처리를 했으나 
+        // 모래 지형 구현에 필요하여 모든 공에 대해 턴 시작 시 비활성화 처리
+        Rigidbody ballrb = activeBall.GetComponent<Rigidbody>();
+        ballrb.isKinematic = false;
         isRunning = true;
     }
 }

@@ -36,6 +36,7 @@ public class LavaCollision : MonoBehaviour
             lavaCollisionParticle.Play();
         }
 
+        // cannon collision class 없기에 예외적으로 lava collision에서 처리
         if (collision.gameObject.CompareTag("Cannon"))
         {
             // 충돌 지점 가져오기
