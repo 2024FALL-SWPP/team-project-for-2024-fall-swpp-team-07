@@ -7,7 +7,8 @@ public class CollisionDetection : MonoBehaviour
     // Start is called before the first frame update
     public bool onGround = false;
     public bool isWater = false;
-    public bool gameOver = false;
+    public bool gameOver = false; //필요없는 것 같음
+    //private bool waitingDelay = false;
     CannonControl cannonControl;
 
     // public bool goalIn = false; // 공이 발사되어 골인 됨을 확인하기 위함
@@ -59,17 +60,50 @@ public class CollisionDetection : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Death"))
         {
-            gm.SetFailure();
             gameOver = true;
+            gm.SetFailure();
         }
 
 
-        /// 12.03 추가
         if (collision.gameObject.CompareTag("Lava"))
         {
-            gm.SetFailure();
+            // 충돌 지점 가져오기
+            ContactPoint contact = collision.contacts[0]; //현재 발생한 충돌의 첫번째 접촉점
+            Vector3 collisionPoint = contact.point;
+
+            // 오브젝트를 충돌 지점으로 이동
+            transform.position = collisionPoint;
+
+            // Rigidbody 비활성화
+            rb.isKinematic = true;
+
+            // 속도와 각속도 0으로 설정
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+            
             gameOver = true;
+            gm.SetFailure();
+
+            // waitingDelay = true;
+            // StartCoroutine(DelayFunction());
+            // if (!waitingDelay)
+            // {
+            //     Debug.Log("DelayFunctionDone");
+            //     gm.SetFailure();
+            // }
+            
         }
-        ///
+
+        if (collision.gameObject.CompareTag("Sand"))
+        {
+            Debug.Log("Sand collision");
+        }
     }
+
+    // private IEnumerator DelayFunction()
+    // {        
+    //     Debug.Log("DelayFunction");
+    //     yield return new WaitForSeconds(3f);
+    //     waitingDelay = false;
+    // }
 }

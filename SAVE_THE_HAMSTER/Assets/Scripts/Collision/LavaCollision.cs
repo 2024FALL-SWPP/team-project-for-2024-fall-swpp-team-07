@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class LavaCollision : MonoBehaviour
 {
+    StageManager gm;
 
     public ParticleSystem lavaCollisionParticle; // 인스펙터에서 파티클 시스템 할당
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        gm = FindObjectOfType<StageManager>();
     }
 
     // Update is called once per frame
@@ -33,6 +34,22 @@ public class LavaCollision : MonoBehaviour
             
             // 파티클 재생
             lavaCollisionParticle.Play();
+        }
+
+        if (collision.gameObject.CompareTag("Cannon"))
+        {
+            // 충돌 지점 가져오기
+            ContactPoint contact = collision.contacts[0];
+            Vector3 collisionPoint = contact.point;
+            
+            // 파티클 위치를 충돌 지점으로 이동
+            lavaCollisionParticle.transform.position = collisionPoint;
+            
+            // 파티클 재생
+            lavaCollisionParticle.Play();
+
+            
+            gm.SetFailure();
         }
     }
 }
