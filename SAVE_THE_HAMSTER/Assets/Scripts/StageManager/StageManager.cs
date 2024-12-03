@@ -15,7 +15,7 @@ public abstract class StageManager : MonoBehaviour
 
     private const int numberOfStages = 3;
 
-    private static int[] totalLife = new int[numberOfStages] { 5, 7, 5 }; //get
+    private static int[] totalLife = new int[numberOfStages] { 5, 15, 5 }; //get
     private int lifeLeft = 0; //set 발사 시 life--;
     private int currentTurn = 1;
     private int previousTurn = 0;
