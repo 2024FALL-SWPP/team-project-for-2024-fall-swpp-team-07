@@ -16,6 +16,7 @@ TagManager:
   - Death
   - Lava
   - Sand
+  - Cannon
   layers:
   - Default
   - TransparentFX
