@@ -129,6 +129,13 @@ public class Stage1Manager : StageManager
                     .Where(x => x.user_id == userId && x.stage_id == actualStageIndex)
                     .Single();
 
+                // 일단 stage1_clear를 true로 업데이트
+                await client
+                    .From<UserProfile>()
+                    .Where(x => x.user_id == userId)
+                    .Set(x => x.stage1_clear, true)
+                    .Update();
+
                 if (userStageRecord != null)
                 {
                     if (
