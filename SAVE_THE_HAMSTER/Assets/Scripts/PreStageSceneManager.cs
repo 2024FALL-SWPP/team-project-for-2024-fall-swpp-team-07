@@ -11,12 +11,19 @@ public class PreStageSceneManager : MonoBehaviour
     public TMP_Text stageInfo;
     public TMP_Text stageRecord;
     public TMP_Text almondsNum;
+    public GameObject[] stagePreviews = new GameObject[3];
     private int stageNumber = 0;
 
     private async void Start()
     {
         // get stage number from SceneTransitionManager
         stageNumber = SceneTransitionManager.stageNumber;
+
+        // set stage preview active
+        for (int i = 0; i < 3; i++)
+        {
+            stagePreviews[i].SetActive(i == stageNumber - 1);
+        }
 
         try
         {
