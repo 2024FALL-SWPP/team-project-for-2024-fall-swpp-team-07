@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7209889682405401277
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7209889682405401278}
+  - component: {fileID: 7209889682405401279}
+  m_Layer: 0
+  m_Name: SkinManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7209889682405401278
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7209889682405401277}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 21.612791, y: 52.149586, z: -15.84096}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7209889682405401279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7209889682405401277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92a46fc31297e0743b8f71528bfb5984, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentHamsterSkin: 0
+  currentBallSkin: 0
+  currentBallTailEffect: 0
+  hamsterSkinMaterials:
+  - {fileID: 2100000, guid: 5185a2266ab8947ce8b622f6e1052ce8, type: 2}
+  - {fileID: 2100000, guid: a727dfb98b9924d53957da9e25798707, type: 2}
+  ballSkinMaterials:
+  - {fileID: 2100000, guid: 4da95b501d505440b980c55cf74638ef, type: 2}
+  - {fileID: 2100000, guid: 5d636563c8ee145908994577d5b7231e, type: 2}
+  stickyBallSkinMaterials:
+  - {fileID: 2100000, guid: 4c0825a54871f4a1ebd758a279b089cf, type: 2}
+  - {fileID: 2100000, guid: 1d89b5f7fb0df447abe27857fa4d4a9d, type: 2}

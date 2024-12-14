@@ -20,12 +20,12 @@ public class StoreSceneManager : MonoBehaviour
 
     private string[] columnNames = new string[]
     {
-        "hamster_skin_1",
-        "hamster_skin_2",
-        "cannon_skin_1",
-        "cannon_skin_2",
-        "ball_tail_effect_1",
-        "ball_tail_effect_2",
+        "hamster_skin_1", // 검은색 햄스터
+        "hamster_skin_2", // 흰색 햄스터
+        "ball_skin_1", // 빨간색 볼
+        "ball_skin_2", // 은색 볼
+        "ball_tail_effect_1", // 꼬리 이펙트 1
+        "ball_tail_effect_2", // 꼬리 이펙트 2
     };
 
     private int[] itemPrices = new int[] { 3, 4, 3, 4, 3, 4 };
@@ -114,10 +114,10 @@ public class StoreSceneManager : MonoBehaviour
                 return userStore.hamster_skin_1;
             case "hamster_skin_2":
                 return userStore.hamster_skin_2;
-            case "cannon_skin_1":
-                return userStore.cannon_skin_1;
-            case "cannon_skin_2":
-                return userStore.cannon_skin_2;
+            case "ball_skin_1":
+                return userStore.ball_skin_1;
+            case "ball_skin_2":
+                return userStore.ball_skin_2;
             case "ball_tail_effect_1":
                 return userStore.ball_tail_effect_1;
             case "ball_tail_effect_2":
