@@ -235,6 +235,7 @@ public class Stage3Manager : StageManager
 
     protected override async Task ReadyGame()
     {
+        SoundManager.Instance.PlayIngameBGM(3);
         // stageIndex에 맞게 목숨 초기화
         SetLifeLeft(stageIndex);
         // 턴 초기화
@@ -261,6 +262,7 @@ public class Stage3Manager : StageManager
         stageInfo.text = $"Stage {stageIndex + 1} 도전 기록";
         if (!clear)
         {
+            SoundManager.Instance.PlayFailFBX();
             // stage 실패 시 실패 UI 띄우기
             failText.gameObject.SetActive(true);
             clearText.gameObject.SetActive(false);
@@ -268,6 +270,7 @@ public class Stage3Manager : StageManager
         }
         else
         {
+            SoundManager.Instance.PlaySuccessFBX();
             // 성공 UI 띄우기 (이미 되어있음)
             stageRecord.text = $"{GetTurn()}타 / {finalTime:F3}초";
             // stage 클리어 시 기록 업데이트

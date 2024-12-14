@@ -15,20 +15,7 @@ public class SceneTransitionManager : MonoBehaviour
     void Start()
     {
         stageSelector = FindObjectOfType<StageSelector>();
-        // if (stageSelector == null)
-        // {
-        //     Debug.LogError("StageSelector not found!");
-        //     return;
-        // }
     }
-
-    // Update is called once per frame
-    void Update() { }
-
-    // public void GoToStartScene()
-    // {
-    //     //SceneManager.LoadScene("StartScene");
-    // }
 
     public void GoToLoginScene()
     {
@@ -42,6 +29,12 @@ public class SceneTransitionManager : MonoBehaviour
 
     public void GoToStageSelectScene()
     {
+        SceneManager.LoadScene("StageSelectScene");
+    }
+
+    public void GoToStageSelectSceneWithBGM()
+    {
+        SoundManager.Instance.PlayLoadingBGM();
         SceneManager.LoadScene("StageSelectScene");
     }
 
