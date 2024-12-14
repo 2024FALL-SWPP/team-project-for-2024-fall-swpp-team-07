@@ -6,6 +6,8 @@ using UnityEngine;
 public class WallBehavior : MonoBehaviour
 {
     StageManager gm;
+    public GameObject cannon;
+    CannonControl cannonControl;
 
     // public GameObject hardWall;
     // public GameObject softWall;
@@ -45,13 +47,15 @@ public class WallBehavior : MonoBehaviour
         {
             gm = GameObject.Find("Stage3Manager").GetComponent<Stage3Manager>();
         }
+
+        cannonControl = cannon.GetComponent<CannonControl>();
     }
 
     // Update is called once per frame
     void Update()
     {
         currentBall = gm.GetActiveBall();
-        if (breakableBalls.Contains(currentBall))
+        if (breakableBalls.Contains(currentBall) && cannonControl.spaceBarCount == 1)
         {
             isBreakable = true;
             /*

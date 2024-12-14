@@ -165,7 +165,7 @@ public class CannonControl : MonoBehaviour
                     {
                         cannon.transform.position += new Vector3(
                             activeBall.transform.position.x - prevBallPosition.x,
-                            activeBall.transform.position.y + 2.5f,
+                            activeBall.transform.position.y - prevBallPosition.y + 2.5f,
                             activeBall.transform.position.z - prevBallPosition.z
                         ); //대포를 공의 전 턴의 마지막 위치 근처로 이동시킴
 
