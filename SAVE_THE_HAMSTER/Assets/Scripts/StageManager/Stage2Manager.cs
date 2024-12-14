@@ -235,6 +235,7 @@ public class Stage2Manager : StageManager
 
     protected override async Task ReadyGame()
     {
+        SoundManager.Instance.PlayIngameBGM(2);
         // stageIndex에 맞게 목숨 초기화
         SetLifeLeft(stageIndex);
         // 턴 초기화
@@ -261,6 +262,7 @@ public class Stage2Manager : StageManager
         stageInfo.text = $"Stage {stageIndex + 1} 도전 기록";
         if (!clear)
         {
+            SoundManager.Instance.PlayFailFBX();
             // stage 실패 시 실패 UI 띄우기
             failText.gameObject.SetActive(true);
             clearText.gameObject.SetActive(false);
@@ -268,10 +270,11 @@ public class Stage2Manager : StageManager
         }
         else
         {
+            SoundManager.Instance.PlaySuccessFBX();
             // 성공 UI 띄우기 (이미 되어있음)
-            stageRecord.text = $"{GetTurn()}타 / {finalTime:F3}초";
+            stageRecord.text = $"{GetTurn() + GetPenaltyTurn()}타 / {finalTime:F3}초";
             // stage 클리어 시 기록 업데이트
-            await updateStageRecord(finalTime, GetTurn());
+            await updateStageRecord(finalTime, GetTurn() + GetPenaltyTurn());
         }
 
         // 랭킹 업데이트
@@ -292,6 +295,6 @@ public class Stage2Manager : StageManager
 
     public override void UpdateTurnUI()
     {
-        currentTurnText.text = $"{GetTurn() + 1} / {GetTotalLife(stageIndex)}";
+        currentTurnText.text = $"{GetTurn() + GetPenaltyTurn()} / {GetTotalLife(stageIndex)}";
     }
 }

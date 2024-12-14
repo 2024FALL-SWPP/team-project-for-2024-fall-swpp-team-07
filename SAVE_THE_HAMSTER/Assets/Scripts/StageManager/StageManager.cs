@@ -17,8 +17,10 @@ public abstract class StageManager : MonoBehaviour
 
     private static int[] totalLife = new int[numberOfStages] { 5, 15, 15 }; //get
     private int lifeLeft = 0; //set 발사 시 life--;
-    private int currentTurn = 1;
-    private int previousTurn = 0;
+    private int currentTurn = 0;
+    private int previousTurn = -1;
+    private int penaltyTurn = 0;
+    private bool penalty = false; // set
     private bool isStart = false; //대포가 생성됐는지 //set
     private bool end = false; // 게임 종료 여부, 종료 함수 한 번만 호출하기 위해
 
@@ -160,6 +162,21 @@ public abstract class StageManager : MonoBehaviour
         previousTurn = currentTurn;
     }
 
+    public void SetPenalty()
+    {
+        penalty = true;
+    }
+
+    public void IncreasePenaltyTurn()
+    {
+        penaltyTurn++;
+    }
+
+    public int GetPenaltyTurn()
+    {
+        return penaltyTurn;
+    }
+
     public void SetIsStart(bool isStart)
     {
         isStart = isStart;
@@ -234,6 +251,24 @@ public abstract class StageManager : MonoBehaviour
                 isStart = true;
                 cannon.SetActive(true); //발사 가능하게
             }
+        }
+
+        // 벌타 기능 StageManager로 이동
+        // 벌타 조건 성립 시 CollisionDetection에서 trigger on
+        // spaceBarCount = 0이 되며 새로운 턴이 될 때 벌타 추가, 라이프 감소
+        if (penalty && cannonControl.spaceBarCount == 1)
+        {
+            DecreaseLifeLeft(); //발사 가능 횟수 추가 감소 (벌타 기능)
+            IncreasePenaltyTurn(); //발사 타수 추가 (벌타 기능)
+            Debug.Log(
+                "minusLifeLeft at collision: "
+                    + GetLifeLeft()
+                    + ", turns: "
+                    + GetTurn()
+                    + ", penaltyTurns: "
+                    + GetPenaltyTurn()
+            );
+            penalty = false;
         }
 
         // 마지막 라이프 소멸 후 다음 턴이 되었을 때 실패임을 확인

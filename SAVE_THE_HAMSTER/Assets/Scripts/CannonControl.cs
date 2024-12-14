@@ -86,6 +86,7 @@ public class CannonControl : MonoBehaviour
         lineRenderer.enabled = false;
         spaceBarCount = 0;
         isRunning = true;
+        force = 0; //힘 초기화
     }
 
     void Update()
@@ -158,7 +159,8 @@ public class CannonControl : MonoBehaviour
                 if (isRunning)
                 {
                     spaceBarCount = 0;
-                    gm.IncreaseTurn(); // 대포 위치 옮길 때마다 턴 수 증가, 리스폰 시 안옮겨도 턴 수 증가
+                    gm.UpdateTurnUI();
+                    gm.IncreaseTurn(); // 대포 위치 옮길 때마다 턴 수 증가, 리스폰 시 안옮겨도 턴 수 증단
                     if (isGround && !isRespawn)
                     {
                         cannon.transform.position += new Vector3(

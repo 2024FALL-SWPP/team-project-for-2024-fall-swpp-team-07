@@ -34,6 +34,7 @@ public class StoreSceneManager : MonoBehaviour
 
     private async void Start()
     {
+        SoundManager.Instance.PlayStoreBGM();
         try
         {
             var client = SupabaseManager.Instance.Supabase();
