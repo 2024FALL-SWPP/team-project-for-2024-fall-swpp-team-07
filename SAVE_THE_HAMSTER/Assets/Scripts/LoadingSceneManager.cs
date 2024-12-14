@@ -10,6 +10,7 @@ public class LoadingSceneManager : MonoBehaviour
 
     private async void Start()
     {
+        SoundManager.Instance.PlayLoadingBGM();
         try
         {
             var client = SupabaseManager.Instance.Supabase();
