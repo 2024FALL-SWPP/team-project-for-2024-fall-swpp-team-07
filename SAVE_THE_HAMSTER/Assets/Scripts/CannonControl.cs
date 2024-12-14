@@ -163,7 +163,7 @@ public class CannonControl : MonoBehaviour
                     {
                         cannon.transform.position += new Vector3(
                             activeBall.transform.position.x - prevBallPosition.x,
-                            activeBall.transform.position.y + 2.5f,
+                            activeBall.transform.position.y - prevBallPosition.y + 2.5f,
                             activeBall.transform.position.z - prevBallPosition.z
                         ); //대포를 공의 전 턴의 마지막 위치 근처로 이동시킴
 
@@ -179,13 +179,13 @@ public class CannonControl : MonoBehaviour
                 activeBall = gm.GetActiveBall();
                 ballrb = activeBall.GetComponent<Rigidbody>();
                 ballrb.useGravity = false;
+                normal = GetSlopeNormal();
                 activeBall.transform.position = firePoint.position;
-                activeBall.transform.rotation = canon.transform.rotation;
+                activeBall.transform.rotation = cannon.transform.rotation;
                 activeBall.transform.Rotate(normal, 90f, Space.World);
 
                 if (Input.GetAxis("Horizontal") != 0)
                 {
-                    normal = GetSlopeNormal();
                     float horizontalInput = Input.GetAxis("Horizontal"); //좌우 방향키 입력
                     //대포 전체 좌우 회전 조작(360도 회전 가능)
                     float rotationYChange = horizontalInput * rotationSpeed * Time.deltaTime;
