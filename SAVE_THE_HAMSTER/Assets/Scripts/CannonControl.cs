@@ -68,6 +68,7 @@ public class CannonControl : MonoBehaviour
     private Quaternion savedRotation;
 
     private Vector3 normal; //지형의 법선벡터
+    private bool isColliding = false; // 대포와 Ground의 충돌 상태
 
     void Start()
     {
@@ -94,14 +95,16 @@ public class CannonControl : MonoBehaviour
         explosion.Stop();
         if (cannon.activeSelf) //SetActive(false)일때의 키보드 입력을 차단하기 위해
         {
+            Rigidbody cannonrb = cannon.GetComponent<Rigidbody>();
             if (IsCannonTippedOver(cannon.transform))
             {
-                Rigidbody cannonrb = cannon.GetComponent<Rigidbody>();
+
                 if (cannonrb.velocity.magnitude <= 0.05f)
                 {
                     cannon.transform.rotation = savedRotation;
                 }
             }
+
             activeBall = gm.GetActiveBall();
             Rigidbody ballrb = activeBall.GetComponent<Rigidbody>();
             if (activeBall.name == "HamsterBall")
@@ -164,7 +167,7 @@ public class CannonControl : MonoBehaviour
                     {
                         cannon.transform.position += new Vector3(
                             activeBall.transform.position.x - prevBallPosition.x,
-                            activeBall.transform.position.y + 2.5f,
+                            activeBall.transform.position.y - prevBallPosition.y + 2.5f,
                             activeBall.transform.position.z - prevBallPosition.z
                         ); //대포를 공의 전 턴의 마지막 위치 근처로 이동시킴
 
@@ -177,6 +180,10 @@ public class CannonControl : MonoBehaviour
 
             if (spaceBarCount == 0)
             {
+                if(isColliding){
+                    cannonrb.constraints = RigidbodyConstraints.FreezePosition; //cannon의 위치 고정
+                    cannonrb.isKinematic = true;
+                }
                 activeBall = gm.GetActiveBall();
                 ballrb = activeBall.GetComponent<Rigidbody>();
                 ballrb.useGravity = false;
@@ -237,7 +244,7 @@ public class CannonControl : MonoBehaviour
 
                 lineRenderer.enabled = true;
                 lineRenderer.transform.position = firePoint.position; //firePoint위치로 lineRenderer시작점 이동
-
+            
                 if (activeBall.name == "BowlingBall")
                 {
                     UpdateLineRenderer(
@@ -252,6 +259,7 @@ public class CannonControl : MonoBehaviour
                         ballrb.mass
                     );
                 }
+                
 
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
@@ -259,7 +267,7 @@ public class CannonControl : MonoBehaviour
                     {
                         gm.UpdateTurnUI(); //턴 수 UI 갱신
                     }
-
+                    cannonrb.isKinematic = false; //대포가 물리 법칙 다시 작용받게 설정
                     // space바를 누르면 공이 발사됨
                     // 공 발사 및 effect
                     activeBall = gm.GetActiveBall();
@@ -350,7 +358,7 @@ public class CannonControl : MonoBehaviour
         }
     }
 
-    private bool IsCannonTippedOver(Transform cannonTransform)
+    public bool IsCannonTippedOver(Transform cannonTransform)
     {
         Vector3 rotation = cannonTransform.eulerAngles;
 
@@ -367,7 +375,7 @@ public class CannonControl : MonoBehaviour
         return false; // 정상 상태
     }
 
-    private Vector3 GetSlopeNormal()
+    public Vector3 GetSlopeNormal()
     {
         // 경사면의 법선 벡터(normal vector) 계산
         RaycastHit hit;
@@ -386,5 +394,14 @@ public class CannonControl : MonoBehaviour
         Rigidbody ballrb = activeBall.GetComponent<Rigidbody>();
         ballrb.isKinematic = false;
         isRunning = true;
+    }
+
+   
+
+    void OnTriggerEnter(Collider other){
+        if(other.CompareTag("Ground")){
+            isColliding = true;
+        }
+
     }
 }

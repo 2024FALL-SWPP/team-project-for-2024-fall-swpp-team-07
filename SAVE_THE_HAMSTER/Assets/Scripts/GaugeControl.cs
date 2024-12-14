@@ -35,6 +35,8 @@ public class GaugeControl : MonoBehaviour
             CannonControl cannonControl = GameObject.Find("Cannon").GetComponent<CannonControl>();
             gaugeBar.SetActive(true); // gaugeBar 활성화
             //gaugeBar.transform.position = cannon.transform.position + new Vector3(5f,5f,5f);
+         
+
             if (cannonControl.spaceBarCount == 0)
             {
                 if (isIncreasing) //증가 상태일때
@@ -58,6 +60,7 @@ public class GaugeControl : MonoBehaviour
                     }
                 }
             }
+
             else if (!cannonControl.spacePressed)
             {
                 gauge.fillAmount = 0f; //gauge 값 초기화
