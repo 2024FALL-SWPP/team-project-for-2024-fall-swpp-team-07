@@ -150,6 +150,7 @@ namespace com.example
 
         public async void OnLogout()
         {
+            SoundManager.Instance.PlayStartBGM();
             var client = SupabaseManager.Instance.Supabase();
             if (client != null)
             {
