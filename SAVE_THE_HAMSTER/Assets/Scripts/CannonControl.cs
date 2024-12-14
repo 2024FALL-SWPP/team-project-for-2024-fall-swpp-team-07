@@ -181,6 +181,7 @@ public class CannonControl : MonoBehaviour
                 ballrb.useGravity = false;
                 activeBall.transform.position = firePoint.position;
                 activeBall.transform.rotation = canon.transform.rotation;
+                activeBall.transform.Rotate(normal, 90f, Space.World);
 
                 if (Input.GetAxis("Horizontal") != 0)
                 {
