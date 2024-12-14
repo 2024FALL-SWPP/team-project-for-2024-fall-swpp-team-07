@@ -159,5 +159,10 @@ namespace com.example
             // StoreSceneManager에서 호출됨
             currentBallTailEffect = effectIndex;
         }
+
+        public int GetBallTailEffect()
+        {
+            return currentBallTailEffect;
+        }
     }
 }
