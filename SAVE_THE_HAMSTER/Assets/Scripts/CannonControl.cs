@@ -86,6 +86,7 @@ public class CannonControl : MonoBehaviour
         lineRenderer.enabled = false;
         spaceBarCount = 0;
         isRunning = true;
+        force = 0; //힘 초기화
     }
 
     void Update()
@@ -179,13 +180,13 @@ public class CannonControl : MonoBehaviour
                 activeBall = gm.GetActiveBall();
                 ballrb = activeBall.GetComponent<Rigidbody>();
                 ballrb.useGravity = false;
+                normal = GetSlopeNormal();
                 activeBall.transform.position = firePoint.position;
-                activeBall.transform.rotation = canon.transform.rotation;
+                activeBall.transform.rotation = cannon.transform.rotation;
                 activeBall.transform.Rotate(normal, 90f, Space.World);
 
                 if (Input.GetAxis("Horizontal") != 0)
                 {
-                    normal = GetSlopeNormal();
                     float horizontalInput = Input.GetAxis("Horizontal"); //좌우 방향키 입력
                     //대포 전체 좌우 회전 조작(360도 회전 가능)
                     float rotationYChange = horizontalInput * rotationSpeed * Time.deltaTime;
