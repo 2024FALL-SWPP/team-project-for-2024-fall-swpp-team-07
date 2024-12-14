@@ -21,7 +21,6 @@ public class AlmondCollision : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // 턴 중에 아몬드 획득해야 인정됨
-        Debug.Log("spaceBarCount: " + cannonControl.spaceBarCount);
         if (other.CompareTag("Player") && cannonControl.spaceBarCount == 1)
         {
             gameObject.SetActive(false);
