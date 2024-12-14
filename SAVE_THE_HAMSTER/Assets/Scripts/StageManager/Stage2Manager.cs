@@ -272,9 +272,9 @@ public class Stage2Manager : StageManager
         {
             SoundManager.Instance.PlaySuccessFBX();
             // 성공 UI 띄우기 (이미 되어있음)
-            stageRecord.text = $"{GetTurn()}타 / {finalTime:F3}초";
+            stageRecord.text = $"{GetTurn() + GetPenaltyTurn()}타 / {finalTime:F3}초";
             // stage 클리어 시 기록 업데이트
-            await updateStageRecord(finalTime, GetTurn());
+            await updateStageRecord(finalTime, GetTurn() + GetPenaltyTurn());
         }
 
         // 랭킹 업데이트
@@ -295,6 +295,6 @@ public class Stage2Manager : StageManager
 
     public override void UpdateTurnUI()
     {
-        currentTurnText.text = $"{GetTurn() + 1} / {GetTotalLife(stageIndex)}";
+        currentTurnText.text = $"{GetTurn() + GetPenaltyTurn()} / {GetTotalLife(stageIndex)}";
     }
 }
