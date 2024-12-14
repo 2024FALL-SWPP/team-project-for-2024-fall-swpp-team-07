@@ -10,7 +10,10 @@ public class CollisionDetection : MonoBehaviour
     public bool gameOver = false; //필요없는 것 같음
 
     private int sandCollisionCount = 0;
-    private int previousTurn = 0; // 턴 전환 시점(대포 이동)이 아닌 턴 첫 모래 지형 충돌 시점 체크 위해 필요
+    private int previousTurnForRespawn = 0; // 턴 전환 시점(대포 이동)이 아닌 턴 첫 모래 지형 충돌 시점 체크 위해 필요
+    private int previousTurnForSand = 0; // 턴 전환 시점(대포 이동)이 아닌 턴 첫 모래 지형 충돌 시점 체크 위해 필요
+    private bool penalty = false;
+
     //private bool waitingDelay = false;
     CannonControl cannonControl; // 필요 없는 것 같음
 
@@ -46,19 +49,19 @@ public class CollisionDetection : MonoBehaviour
         if (collision.gameObject.CompareTag("Respawn"))
         {
             isWater = true;
-            if (gm.GetTurn() > gm.GetPreviousTurn()) //몇 턴 진행 후 리스폰 지역 충돌 시 1보다 더 차이나게 되기에
+            if (gm.GetTurn() > previousTurnForRespawn) // 해당 턴의 첫 번째 respawn 지형 충돌 시 진입
             {
-                gm.DecreaseLifeLeft(); //발사 가능 횟수 추가 감소 (벌타)
+                previousTurnForRespawn = gm.GetTurn();
+                gm.SetPenalty();
                 Debug.Log(
                     "minusLifeLeft at collision: "
                         + gm.GetLifeLeft()
                         + ", turns: "
                         + gm.GetTurn()
                         + ", previousTurns: "
-                        + gm.GetPreviousTurn()
+                        + previousTurnForRespawn
                 );
             }
-            gm.UpdatePreviousTurn();
         }
 
         if (collision.gameObject.CompareTag("Death"))
@@ -66,7 +69,6 @@ public class CollisionDetection : MonoBehaviour
             gameOver = true;
             gm.SetFailure();
         }
-
 
         if (collision.gameObject.CompareTag("Lava"))
         {
@@ -83,7 +85,7 @@ public class CollisionDetection : MonoBehaviour
             // 속도와 각속도 0으로 설정
             rb.velocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
-            
+
             gameOver = true;
             gm.SetFailure();
 
@@ -95,7 +97,6 @@ public class CollisionDetection : MonoBehaviour
             //     Debug.Log("DelayFunctionDone");
             //     gm.SetFailure();
             // }
-            
         }
 
         // 모래 지형 구현 계획
@@ -114,10 +115,10 @@ public class CollisionDetection : MonoBehaviour
             // if (activeBall.name == "StickyBall")
             Debug.Log("Turn: " + gm.GetTurn() + ", PreviousTurn: " + gm.GetPreviousTurn());
 
-            if (gm.GetTurn() > previousTurn) // 해당 턴의 첫 번째 모래 지형 충돌 시 진입
+            if (gm.GetTurn() > previousTurnForSand) // 해당 턴의 첫 번째 모래 지형 충돌 시 진입
             {
                 sandCollisionCount = 1;
-                previousTurn = gm.GetTurn();
+                previousTurnForSand = gm.GetTurn();
             }
             else
             {
@@ -148,7 +149,7 @@ public class CollisionDetection : MonoBehaviour
     }
 
     // private IEnumerator DelayFunction() // 용암 충돌 시 게임 종료 팝업 지연 시 사용.. 우선 주석처리
-    // {        
+    // {
     //     Debug.Log("DelayFunction");
     //     yield return new WaitForSeconds(3f);
     //     waitingDelay = false;

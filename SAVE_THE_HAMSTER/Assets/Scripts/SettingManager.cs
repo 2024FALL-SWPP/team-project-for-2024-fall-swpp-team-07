@@ -104,7 +104,14 @@ namespace com.example
 
         private void AdjustVolume(bool isIncrease)
         {
-            // TODO: 음량 조절 로직 구현
+            if (isIncrease)
+            {
+                SoundManager.Instance.IncreaseVolume();
+            }
+            else
+            {
+                SoundManager.Instance.DecreaseVolume();
+            }
         }
 
         public void OnVolumeUp()

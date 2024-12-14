@@ -897,6 +897,7 @@ GameObject:
   m_Component:
   - component: {fileID: 104664992}
   - component: {fileID: 104664990}
+  - component: {fileID: 104664993}
   m_Layer: 0
   m_Name: Sub Camera
   m_TagString: Untagged
@@ -962,6 +963,14 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!81 &104664993
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 104664989}
+  m_Enabled: 1
 --- !u!1 &107387790
 GameObject:
   m_ObjectHideFlags: 0
@@ -1474,7 +1483,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 1 / 5
+  m_text: 0 / 5
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 417ccf931b87709429b68aecba2cdf41, type: 2}
   m_sharedMaterial: {fileID: 411934686844575397, guid: 417ccf931b87709429b68aecba2cdf41, type: 2}
@@ -12231,7 +12240,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 867588651}
         m_TargetAssemblyTypeName: SceneTransitionManager, Assembly-CSharp
-        m_MethodName: GoToStageSelectScene
+        m_MethodName: GoToStageSelectSceneWithBGM
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
