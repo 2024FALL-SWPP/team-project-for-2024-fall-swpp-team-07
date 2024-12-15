@@ -139,7 +139,7 @@ public class CollisionDetection : MonoBehaviour
         Vector3 collisionPoint = contact.point;
 
         // 오브젝트를 충돌 지점으로 이동
-        transform.position = collisionPoint;
+        transform.position = collisionPoint + new Vector3(0, 0.3f, 0);
 
         // Rigidbody 비활성화
         rb.isKinematic = true;
