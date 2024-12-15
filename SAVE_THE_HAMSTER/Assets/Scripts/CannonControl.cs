@@ -20,6 +20,7 @@ public class CannonControl : MonoBehaviour
     private HamsterCollision hamsterCollisionScript;
     private CollisionDetection collisionScript;
     private StickyBallCollision stickyBallCollisionScript;
+    private GameObject almonds;
 
     //
     private const int N_TRAJECTORY_POINTS = 40;
@@ -68,7 +69,7 @@ public class CannonControl : MonoBehaviour
     private Quaternion savedRotation;
 
     private Vector3 normal; //지형의 법선벡터
-    public bool isColliding = false; // 대포와 Ground의 충돌 상태
+    private bool isColliding = false; // 대포와 Ground의 충돌 상태
 
     public Vector3 slopeNormal;
 
@@ -93,6 +94,7 @@ public class CannonControl : MonoBehaviour
         isRunning = true;
         force = 0; //힘 초기화
         boxCollider = GetComponent<BoxCollider>();
+        almonds = GameObject.Find("Almonds");
         
     }
 
@@ -180,14 +182,23 @@ public class CannonControl : MonoBehaviour
                             activeBall.transform.position.y - prevBallPosition.y + 5f,
                             activeBall.transform.position.z - prevBallPosition.z
                         ); //대포를 공의 전 턴의 마지막 위치 근처로 이동시킴
+
                         slopeNormal = GetSlopeNormal();
-                        // 로컬 z축을 목표 방향에 정렬
+                        // 로컬 y축을 목표 방향으로 정렬
                         Quaternion rotation = Quaternion.FromToRotation(transform.up, slopeNormal);
                         transform.rotation = rotation * transform.rotation;
                         canon.transform.localRotation = initialLocalRotation; //포신을 초기 회전값으로 세팅
                         initialXRotation = canon.transform.localRotation.eulerAngles.x;
                         currentXRotation = initialXRotation;
                         isColliding = false;
+                        foreach (Transform child in almonds.transform)
+                        {
+                            SphereCollider sc = child.GetComponent<SphereCollider>();
+                            if (sc != null)
+                            {
+                                sc.enabled = true;
+                            }
+                        }
                     }
                 }
             }
@@ -296,18 +307,15 @@ public class CannonControl : MonoBehaviour
         
                     cannonrb.isKinematic = false; //대포가 물리 법칙 다시 작용받게 설정
                     boxCollider.enabled = true;
-                    // 현재 오브젝트의 모든 자식 오브젝트를 순회
-                    foreach (Transform child in transform)
+                    foreach (Transform child in almonds.transform)
                     {
-                        // 자식 오브젝트의 box collider 컴포넌트를 가져옴
-                        BoxCollider bc = child.GetComponent<BoxCollider>();
-                        if (bc != null)
+                        SphereCollider sc = child.GetComponent<SphereCollider>();
+                        if (sc != null)
                         {
-                            bc.enabled = true;
+                            sc.enabled = false;
                         }
                     }
                     
-                
                     // space바를 누르면 공이 발사됨
                     // 공 발사 및 effect
                     activeBall = gm.GetActiveBall();
@@ -421,9 +429,17 @@ public class CannonControl : MonoBehaviour
     private Vector3 GetSlopeNormal()
     {
         // 경사면의 법선 벡터(normal vector) 계산
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, Vector3.down, out hit))
+        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit))
         {
+            string objectName = hit.collider.gameObject.name;
+
+            // 충돌한 표면의 법선 벡터
+            Vector3 normal = hit.normal;
+
+            // 콘솔에 출력
+            Debug.Log($"Hit Object: {objectName}, Surface Normal: {normal}");
+
+        
             return hit.normal; //경사면일때
         }
         return Vector3.up; //평지일때
