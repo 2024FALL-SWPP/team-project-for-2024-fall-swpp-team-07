@@ -84,7 +84,7 @@ public class CannonControl : MonoBehaviour
         // 선의 두께 설정
         lineRenderer.startWidth = 0.8f; // 시작 두께
         lineRenderer.endWidth = 0.8f; // 끝 두께
-        lineRenderer.enabled = false;
+        
         spaceBarCount = 0;
         isRunning = true;
         force = 0; //힘 초기화
@@ -98,7 +98,7 @@ public class CannonControl : MonoBehaviour
             Rigidbody cannonrb = cannon.GetComponent<Rigidbody>();
             if (IsCannonTippedOver(cannon.transform))
             {
-
+                
                 if (cannonrb.velocity.magnitude <= 0.05f)
                 {
                     cannon.transform.rotation = savedRotation;
@@ -184,6 +184,7 @@ public class CannonControl : MonoBehaviour
                 if(isColliding){
                     cannonrb.constraints = RigidbodyConstraints.FreezePosition; //cannon의 위치 고정
                     cannonrb.isKinematic = true;
+                    lineRenderer.enabled = true;
                 }
                 activeBall = gm.GetActiveBall();
                 ballrb = activeBall.GetComponent<Rigidbody>();
