@@ -15,7 +15,7 @@ public class CollisionDetection : MonoBehaviour
     private bool penalty = false;
 
     //private bool waitingDelay = false;
-    CannonControl cannonControl; // 필요 없는 것 같음
+    public CannonControl cannonControl; // 필요 없는 것 같음
 
     // public bool goalIn = false; // 공이 발사되어 골인 됨을 확인하기 위함
     public Rigidbody rb;
