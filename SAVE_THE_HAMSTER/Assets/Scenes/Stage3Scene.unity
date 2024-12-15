@@ -7317,6 +7317,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8284014495647254978, guid: ded46aac8039d5c40a4c8e767640168c, type: 3}
   m_PrefabInstance: {fileID: 709556970}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &709556972 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8772286291578295160, guid: ded46aac8039d5c40a4c8e767640168c, type: 3}
+  m_PrefabInstance: {fileID: 709556970}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &712698738
 GameObject:
   m_ObjectHideFlags: 0
@@ -13046,7 +13051,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2573869956362375480, guid: 50e69a24a9ac64dcca5dadf3a935c721, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2950959166026926978, guid: 50e69a24a9ac64dcca5dadf3a935c721, type: 3}
       propertyPath: m_RootOrder
@@ -13066,15 +13071,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2950959166026926978, guid: 50e69a24a9ac64dcca5dadf3a935c721, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 17.91
+      value: 80.9
       objectReference: {fileID: 0}
     - target: {fileID: 2950959166026926978, guid: 50e69a24a9ac64dcca5dadf3a935c721, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 9.11
+      value: 10.1
       objectReference: {fileID: 0}
     - target: {fileID: 2950959166026926978, guid: 50e69a24a9ac64dcca5dadf3a935c721, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -44.31
+      value: -69.42
       objectReference: {fileID: 0}
     - target: {fileID: 2950959166026926978, guid: 50e69a24a9ac64dcca5dadf3a935c721, type: 3}
       propertyPath: m_LocalRotation.w
@@ -14234,7 +14239,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0 / 15
+  m_text: 0 / 10
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 417ccf931b87709429b68aecba2cdf41, type: 2}
   m_sharedMaterial: {fileID: 411934686844575397, guid: 417ccf931b87709429b68aecba2cdf41, type: 2}
@@ -19498,11 +19503,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hamsterBall: {fileID: 1128349384}
   ball: {fileID: 597602335}
-  ground: {fileID: 0}
+  ground: {fileID: 709556972}
   bouncyMaterial: {fileID: 13400000, guid: 4821dcfccffddf542a98912c55af8c61, type: 2}
   regularMaterial: {fileID: 13400000, guid: e6ea71ff80f723d4c8e016806e625615, type: 2}
   groundMaterial: {fileID: 13400000, guid: e0c884906c76a8849a17851a34148b79, type: 2}
-  rotationSpeed: 100
 --- !u!4 &1585287496
 Transform:
   m_ObjectHideFlags: 0
