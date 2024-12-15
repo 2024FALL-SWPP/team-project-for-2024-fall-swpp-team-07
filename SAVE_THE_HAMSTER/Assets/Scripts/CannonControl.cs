@@ -68,7 +68,11 @@ public class CannonControl : MonoBehaviour
     private Quaternion savedRotation;
 
     private Vector3 normal; //지형의 법선벡터
-    private bool isColliding = false; // 대포와 Ground의 충돌 상태
+    public bool isColliding = false; // 대포와 Ground의 충돌 상태
+
+    public Vector3 slopeNormal;
+
+    private BoxCollider boxCollider;
 
     void Start()
     {
@@ -84,10 +88,12 @@ public class CannonControl : MonoBehaviour
         // 선의 두께 설정
         lineRenderer.startWidth = 0.8f; // 시작 두께
         lineRenderer.endWidth = 0.8f; // 끝 두께
-        
+        lineRenderer.enabled = false;
         spaceBarCount = 0;
         isRunning = true;
         force = 0; //힘 초기화
+        boxCollider = GetComponent<BoxCollider>();
+        
     }
 
     void Update()
@@ -140,11 +146,12 @@ public class CannonControl : MonoBehaviour
             )
             {
                 //공이 발사됐고 공이 땅에 닿아서 멈췄다면 다음 턴으로
-                hamsterScript.enabled = false;
-                hamsterCollisionScript.enabled = false;
-
-                spacePressed = false;
-                if (activeBall.name != "HamsterBall")
+                spacePressed = false;  
+                if(activeBall.name == "HamsterBall"){
+                    hamsterScript.enabled = false;
+                    hamsterCollisionScript.enabled = false;
+                }
+                else
                 {
                     if (activeBall.name == "StickyBall")
                     {
@@ -161,20 +168,26 @@ public class CannonControl : MonoBehaviour
                 StartCoroutine(Delay()); //1.5초 대기
                 if (isRunning)
                 {
+                    cannonrb.constraints = RigidbodyConstraints.None; // 모든 축의 freeze 해제
                     spaceBarCount = 0;
                     gm.UpdateTurnUI();
                     gm.IncreaseTurn(); // 대포 위치 옮길 때마다 턴 수 증가, 리스폰 시 안옮겨도 턴 수 증단
                     if (isGround && !isRespawn)
                     {
+
                         cannon.transform.position += new Vector3(
                             activeBall.transform.position.x - prevBallPosition.x,
-                            activeBall.transform.position.y - prevBallPosition.y + 2.5f,
+                            activeBall.transform.position.y - prevBallPosition.y + 5f,
                             activeBall.transform.position.z - prevBallPosition.z
                         ); //대포를 공의 전 턴의 마지막 위치 근처로 이동시킴
-
+                        slopeNormal = GetSlopeNormal();
+                        // 로컬 z축을 목표 방향에 정렬
+                        Quaternion rotation = Quaternion.FromToRotation(transform.up, slopeNormal);
+                        transform.rotation = rotation * transform.rotation;
                         canon.transform.localRotation = initialLocalRotation; //포신을 초기 회전값으로 세팅
                         initialXRotation = canon.transform.localRotation.eulerAngles.x;
                         currentXRotation = initialXRotation;
+                        isColliding = false;
                     }
                 }
             }
@@ -184,8 +197,19 @@ public class CannonControl : MonoBehaviour
                 if(isColliding){
                     cannonrb.constraints = RigidbodyConstraints.FreezePosition; //cannon의 위치 고정
                     cannonrb.isKinematic = true;
-                    lineRenderer.enabled = true;
+                    boxCollider.enabled = false;
+                    // 현재 오브젝트의 모든 자식 오브젝트를 순회
+                    foreach (Transform child in transform)
+                    {
+                        // 자식 오브젝트의 box collider 컴포넌트를 가져옴
+                        BoxCollider bc = child.GetComponent<BoxCollider>();
+                        if (bc != null)
+                        {
+                            bc.enabled = false;
+                        }
+                    }
                 }
+                
                 activeBall = gm.GetActiveBall();
                 ballrb = activeBall.GetComponent<Rigidbody>();
                 ballrb.useGravity = false;
@@ -269,16 +293,33 @@ public class CannonControl : MonoBehaviour
                     {
                         gm.UpdateTurnUI(); //턴 수 UI 갱신
                     }
+        
                     cannonrb.isKinematic = false; //대포가 물리 법칙 다시 작용받게 설정
+                    boxCollider.enabled = true;
+                    // 현재 오브젝트의 모든 자식 오브젝트를 순회
+                    foreach (Transform child in transform)
+                    {
+                        // 자식 오브젝트의 box collider 컴포넌트를 가져옴
+                        BoxCollider bc = child.GetComponent<BoxCollider>();
+                        if (bc != null)
+                        {
+                            bc.enabled = true;
+                        }
+                    }
+                    
+                
                     // space바를 누르면 공이 발사됨
                     // 공 발사 및 effect
                     activeBall = gm.GetActiveBall();
                     ballrb = activeBall.GetComponent<Rigidbody>();
                     prevBallPosition = activeBall.transform.position; //발사직전 공 위치 저장
                     savedRotation = cannon.transform.rotation; //발사 직전 대포의 회전값 저장
-                    hamsterCollisionScript.enabled = true;
-                    hamsterScript.enabled = true;
-                    if (activeBall.name != "HamsterBall")
+                    if(activeBall.name == "HamsterBall"){
+                        hamsterCollisionScript.enabled = true;
+                        hamsterScript.enabled = true;
+                    }
+                    
+                    else
                     {
                         if (activeBall.name == "StickyBall")
                         {
@@ -377,7 +418,7 @@ public class CannonControl : MonoBehaviour
         return false; // 정상 상태
     }
 
-    public Vector3 GetSlopeNormal()
+    private Vector3 GetSlopeNormal()
     {
         // 경사면의 법선 벡터(normal vector) 계산
         RaycastHit hit;

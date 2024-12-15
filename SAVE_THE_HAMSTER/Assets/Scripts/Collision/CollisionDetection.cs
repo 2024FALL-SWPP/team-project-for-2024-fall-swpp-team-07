@@ -15,7 +15,6 @@ public class CollisionDetection : MonoBehaviour
     private bool penalty = false;
 
     //private bool waitingDelay = false;
-    CannonControl cannonControl; // 필요 없는 것 같음
 
     // public bool goalIn = false; // 공이 발사되어 골인 됨을 확인하기 위함
     public Rigidbody rb;
@@ -25,7 +24,7 @@ public class CollisionDetection : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         gm = FindObjectOfType<StageManager>();
-        cannonControl = FindObjectOfType<CannonControl>();
+
     }
 
     void OnEnable()
@@ -147,6 +146,7 @@ public class CollisionDetection : MonoBehaviour
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
     }
+
 
     // private IEnumerator DelayFunction() // 용암 충돌 시 게임 종료 팝업 지연 시 사용.. 우선 주석처리
     // {
