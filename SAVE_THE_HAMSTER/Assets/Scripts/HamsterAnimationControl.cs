@@ -64,7 +64,7 @@ public class HamsterAnimationControl : MonoBehaviour
                 spinjumped = true;
             }
             ceremonyTime += Time.deltaTime;
-            if (ceremonyTime >= 10f)
+            if (ceremonyTime >= 3f)
             {
                 successAnimationPlayed = true;
                 ballCollider.material = regularMaterial;

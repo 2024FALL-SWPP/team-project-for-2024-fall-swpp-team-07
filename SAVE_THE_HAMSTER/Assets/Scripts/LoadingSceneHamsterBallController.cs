@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LoadingSceneHamsterBallController : MonoBehaviour
 {
-    private float maxForce = 3.0f; // 최대 힘
+    private float maxForce = 4.0f; // 최대 힘
     private float forceIncreaseRate = 5.5f; // 가속도
     private float currentForce = 0f;
     private float dragForce = 0.5f; // 마찰력
