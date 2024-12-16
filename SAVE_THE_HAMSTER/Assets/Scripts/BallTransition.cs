@@ -48,8 +48,8 @@ public class BallTransition : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // 공이 날아가는 중에는 Ball transition 제한
-        if (cannonControl.spaceBarCount == 1)
+        // 공이 날아가는 중에는 Ball transition 제한 + 캐논 생성 전에는 제한
+        if (cannonControl.spaceBarCount == 1 || !cannon.activeSelf)
         {
             blockLeftShift = true;
             blockRightShift = true;
@@ -60,7 +60,7 @@ public class BallTransition : MonoBehaviour
             blockRightShift = false;
         }
 
-        //즉, 공의 종류를 먼저 선택 -> 방향키 발사각 조절 -> space바 발사세기 조절
+        // 즉, 공의 종류를 먼저 선택 -> 방향키 발사각 조절 -> space바 발사세기 조절
         if (
             !blockLeftShift
             && !blockRightShift

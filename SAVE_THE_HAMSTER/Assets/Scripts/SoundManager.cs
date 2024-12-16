@@ -63,6 +63,7 @@ namespace com.example
 
         public void PlayLoadingBGM()
         {
+            sfxSource.Stop();
             PlayBGM(loadingBGM);
         }
 
@@ -73,6 +74,7 @@ namespace com.example
 
         public void PlayIngameBGM(int stage)
         {
+            sfxSource.Stop();
             switch (stage)
             {
                 case 1:
