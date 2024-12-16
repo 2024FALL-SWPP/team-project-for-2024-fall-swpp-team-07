@@ -18,6 +18,7 @@ public class HamsterAnimationControl : MonoBehaviour
     public PhysicMaterial bouncyMaterial; // 게임 성공 시 종료 애니메이션 용
     public PhysicMaterial regularMaterial; // 기존 머티리얼로 변경 용
     public PhysicMaterial groundMaterial; // 기존 머티리얼 변경 용
+    public GameObject successParticle; //성공 시 활성화
     private Collider ballCollider;
     private Collider groundCollider;
 
@@ -56,6 +57,7 @@ public class HamsterAnimationControl : MonoBehaviour
             animator.SetInteger("Speed", 2);
             ballCollider.material = bouncyMaterial;
             groundCollider.material = bouncyMaterial;
+            successParticle.SetActive(true);
             if (!spinjumped)
             {
                 spinjumpAnimationPlayer();
