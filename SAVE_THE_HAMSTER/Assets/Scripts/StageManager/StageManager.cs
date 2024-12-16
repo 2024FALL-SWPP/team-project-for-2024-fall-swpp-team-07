@@ -95,8 +95,8 @@ public abstract class StageManager : MonoBehaviour
         CameraControl cameraScript = cameraController.GetComponent<CameraControl>();
         cameraScript.enabled = false;
         cannon.SetActive(false);
-        GameObject lineRenderer = GameObject.Find("LineRenderer");
-        lineRenderer.SetActive(false);
+        LineRenderer lineRenderer = GameObject.Find("LineRenderer").GetComponent<LineRenderer>();
+        lineRenderer.enabled = false;
         canvas.SetActive(false);
         _timerActive = false;
         _playTime = _currentTime;
