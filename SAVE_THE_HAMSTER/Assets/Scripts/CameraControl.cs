@@ -8,13 +8,15 @@ public class CameraControl : MonoBehaviour
 {
     // Start is called before the first frame update
     public Camera mainCamera;
-    public Camera subCamera;
+    public Camera subCamera1;
+    public Camera subCamera2;
     public GameObject cannon; //대포 전체
     public GameObject canon; //포신
     private GameObject activeBall;
     public Vector3 offset1;
     public Vector3 offset2;
     public Vector3 offset3;
+    public Vector3 offset4;
 
     CannonControl cannonControl;
 
@@ -24,7 +26,9 @@ public class CameraControl : MonoBehaviour
     {
         gm = FindObjectOfType<StageManager>();
         cannonControl = cannon.GetComponent<CannonControl>();
-        subCamera.gameObject.SetActive(false);
+        subCamera2.gameObject.SetActive(false);
+        mainCamera.gameObject.SetActive(true);
+        subCamera1.gameObject.SetActive(false);
     }
 
     void Update()
@@ -35,11 +39,11 @@ public class CameraControl : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            ActivateCamera2(); //mainCamera시점으로 전환
+            ActivateCamera2(); //대포 뒤 사선 시점으로 전환
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            ActivateCamera3(); //subCamera시점으로 전환
+            ActivateCamera3(); //대포 위 시점으로 전환
         }
     }
 
@@ -50,16 +54,21 @@ public class CameraControl : MonoBehaviour
         {
             activeBall = gm.GetActiveBall();
             Rigidbody rb = activeBall.GetComponent<Rigidbody>();
-            subCamera.transform.position = cannon.transform.position + offset2;
-            subCamera.transform.LookAt(cannon.transform.position);
+            subCamera1.transform.position = cannon.transform.position + offset2;
+            subCamera1.transform.LookAt(cannon.transform.position);
+            
+            Vector3 desiredPosition2 = canon.transform.position + canon.transform.rotation * offset4;
+            subCamera2.transform.position = desiredPosition2;
+            subCamera2.transform.rotation = canon.transform.rotation;
+            subCamera2.transform.LookAt(canon.transform.position);
 
             //공 발사 전 mainCamera
             if (cannonControl.spaceBarCount == 0)
             {
-                Vector3 desiredPosition =
+                Vector3 desiredPosition1 =
                     cannon.transform.position + cannon.transform.rotation * offset1;
 
-                mainCamera.transform.position = desiredPosition;
+                mainCamera.transform.position = desiredPosition1;
 
                 mainCamera.transform.rotation = cannon.transform.rotation;
 
@@ -76,18 +85,21 @@ public class CameraControl : MonoBehaviour
 
     void ActivateCamera1() // 대포 바로 뒤 시점
     {
-        mainCamera.gameObject.SetActive(true);
-        subCamera.gameObject.SetActive(false);
+        subCamera2.gameObject.SetActive(true);
+        mainCamera.gameObject.SetActive(false);
+        subCamera1.gameObject.SetActive(false);
     }
     void ActivateCamera2() // 대포 뒤 사선 시점
     {
+        subCamera2.gameObject.SetActive(false);
         mainCamera.gameObject.SetActive(true);
-        subCamera.gameObject.SetActive(false);
+        subCamera1.gameObject.SetActive(false);
     }
 
     void ActivateCamera3() // 대포 위 시점
     {
+        subCamera2.gameObject.SetActive(false);
         mainCamera.gameObject.SetActive(false);
-        subCamera.gameObject.SetActive(true);
+        subCamera1.gameObject.SetActive(true);
     }
 }
