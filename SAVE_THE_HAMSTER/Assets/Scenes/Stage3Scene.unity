@@ -8005,7 +8005,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.99999994, y: 1, z: 2.8162854e-14}
+  m_Size: {x: 1, y: 1, z: 0}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &775594333
 GameObject:
@@ -12926,6 +12926,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2573869956362375478, guid: 50e69a24a9ac64dcca5dadf3a935c721, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2573869956362375478, guid: 50e69a24a9ac64dcca5dadf3a935c721, type: 3}
       propertyPath: m_IsTrigger
       value: 1

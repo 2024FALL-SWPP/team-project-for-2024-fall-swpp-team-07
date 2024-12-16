@@ -37,7 +37,7 @@ public class CannonControl : MonoBehaviour
     //private float maxLeft = -120f;
     //private float maxRight = 120f;
 
-    private float scaleMultiplier = 2.5f; // 공 대비 대포 전체 비율-> 추후에 아이템으로 공이 커지는 효과를 구현한다면 대포도 커지게 설정
+    //private float scaleMultiplier = 2.5f; // 공 대비 대포 전체 비율-> 추후에 아이템으로 공이 커지는 효과를 구현한다면 대포도 커지게 설정
 
     private Vector3 startPosition;
     private float initialXRotation;
@@ -107,7 +107,7 @@ public class CannonControl : MonoBehaviour
             if (IsCannonTippedOver(cannon.transform))
             {
                 
-                if (cannonrb.velocity.magnitude <= 0.05f)
+                if (cannonrb.velocity.magnitude <= 0.1f)
                 {
                     cannon.transform.rotation = savedRotation;
                 }
@@ -188,7 +188,7 @@ public class CannonControl : MonoBehaviour
 
                         cannon.transform.position += new Vector3(
                             activeBall.transform.position.x - prevBallPosition.x,
-                            activeBall.transform.position.y - prevBallPosition.y + 5f,
+                            activeBall.transform.position.y - prevBallPosition.y + 7.5f,
                             activeBall.transform.position.z - prevBallPosition.z
                         ); //대포를 공의 전 턴의 마지막 위치 근처로 이동시킴
 
@@ -250,7 +250,7 @@ public class CannonControl : MonoBehaviour
                 activeBall.transform.rotation = cannon.transform.rotation;
                 activeBall.transform.Rotate(normal, 90f, Space.World);
 
-                if (Input.GetAxis("Horizontal") != 0)
+                if (Input.GetAxis("Horizontal") != 0 && cannonrb.isKinematic)
                 {
                     float horizontalInput = Input.GetAxis("Horizontal"); //좌우 방향키 입력
                     //대포 전체 좌우 회전 조작(360도 회전 가능)
@@ -259,7 +259,7 @@ public class CannonControl : MonoBehaviour
                     cannon.transform.rotation = rotationChange * cannon.transform.rotation;
                 }
 
-                if (Input.GetAxis("Vertical") != 0)
+                if (Input.GetAxis("Vertical") != 0 && cannonrb.isKinematic)
                 {
                     float verticalInput = Input.GetAxis("Vertical"); //위아래 방향키 입력
                     //포신 위아래 회전 -> 발사각 조절
@@ -327,7 +327,6 @@ public class CannonControl : MonoBehaviour
                     }
         
                     cannonrb.isKinematic = false; //대포가 물리 법칙 다시 작용받게 설정
-                    //boxCollider.enabled = true;
                     
                     
                     // space바를 누르면 공이 발사됨

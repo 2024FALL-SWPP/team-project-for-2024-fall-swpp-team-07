@@ -29,13 +29,17 @@ public class CameraControl : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            ActivateCamera1(); //대포 바로 뒤 시점으로 전환
+        }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            ActivateCamera1(); //mainCamera시점으로 전환
+            ActivateCamera2(); //mainCamera시점으로 전환
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            ActivateCamera2(); //subCamera시점으로 전환
+            ActivateCamera3(); //subCamera시점으로 전환
         }
     }
 
@@ -70,13 +74,18 @@ public class CameraControl : MonoBehaviour
         }
     }
 
-    void ActivateCamera1() // 대포 뒤 시점
+    void ActivateCamera1() // 대포 바로 뒤 시점
+    {
+        mainCamera.gameObject.SetActive(true);
+        subCamera.gameObject.SetActive(false);
+    }
+    void ActivateCamera2() // 대포 뒤 사선 시점
     {
         mainCamera.gameObject.SetActive(true);
         subCamera.gameObject.SetActive(false);
     }
 
-    void ActivateCamera2() // 대포 위 시점
+    void ActivateCamera3() // 대포 위 시점
     {
         mainCamera.gameObject.SetActive(false);
         subCamera.gameObject.SetActive(true);

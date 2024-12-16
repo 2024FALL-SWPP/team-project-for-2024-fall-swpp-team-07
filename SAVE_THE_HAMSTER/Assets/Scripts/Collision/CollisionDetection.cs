@@ -7,8 +7,7 @@ public class CollisionDetection : MonoBehaviour
     // Start is called before the first frame update
     public bool onGround = false;
     public bool isWater = false;
-    public bool gameOver = false; //필요없는 것 같음
-
+    public bool gameOver = false; //CannonControl에서 필요함
     private int sandCollisionCount = 0;
     private int previousTurnForRespawn = 0; // 턴 전환 시점(대포 이동)이 아닌 턴 첫 모래 지형 충돌 시점 체크 위해 필요
     private int previousTurnForSand = 0; // 턴 전환 시점(대포 이동)이 아닌 턴 첫 모래 지형 충돌 시점 체크 위해 필요
