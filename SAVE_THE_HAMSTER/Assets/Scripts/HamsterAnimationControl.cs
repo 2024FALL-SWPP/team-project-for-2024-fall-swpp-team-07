@@ -18,6 +18,7 @@ public class HamsterAnimationControl : MonoBehaviour
     public PhysicMaterial bouncyMaterial; // 게임 성공 시 종료 애니메이션 용
     public PhysicMaterial regularMaterial; // 기존 머티리얼로 변경 용
     public PhysicMaterial groundMaterial; // 기존 머티리얼 변경 용
+    public GameObject successParticle; //성공 시 활성화
     private Collider ballCollider;
     private Collider groundCollider;
 
@@ -27,7 +28,7 @@ public class HamsterAnimationControl : MonoBehaviour
     private bool enableMiniMove = false; // 햄스터 공 발사 후 miniMove 여부
 
     private bool success = false; // 성공 여부 StageManager에서 set해줌
-    public float rotationSpeed = 3000f; // 게임 성공 시 종료 애니메이션 용
+    private float rotationSpeed = 3000f; // 게임 성공 시 종료 애니메이션 용
     private bool successAnimationPlayed = false; // 게임 성공 시 종료 애니메이션 플레이 여부
     private bool spinjumped = false; // 햄스터 공 튕기는 애니메이션 플레이 여부
     private float ceremonyTime = 0f; // 게임 성공 시 종료 애니메이션 시간체크용
@@ -56,6 +57,7 @@ public class HamsterAnimationControl : MonoBehaviour
             animator.SetInteger("Speed", 2);
             ballCollider.material = bouncyMaterial;
             groundCollider.material = bouncyMaterial;
+            successParticle.SetActive(true);
             if (!spinjumped)
             {
                 spinjumpAnimationPlayer();

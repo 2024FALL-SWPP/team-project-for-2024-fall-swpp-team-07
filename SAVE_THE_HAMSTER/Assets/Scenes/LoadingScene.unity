@@ -4372,10 +4372,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: SettingManager
       objectReference: {fileID: 0}
+    - target: {fileID: 5439533775279606791, guid: 26d736274a6ef4ec3952787eec411d81, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5439533776050806582, guid: 26d736274a6ef4ec3952787eec411d81, type: 3}
+      propertyPath: m_text
+      value: "\uB3C4\uC6C0\uB9D0"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5439533776518325576, guid: 26d736274a6ef4ec3952787eec411d81, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5439533776518325580, guid: 26d736274a6ef4ec3952787eec411d81, type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1064442713}
+    - target: {fileID: 5439533777066861066, guid: 26d736274a6ef4ec3952787eec411d81, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5439533777066861070, guid: 26d736274a6ef4ec3952787eec411d81, type: 3}
       propertyPath: m_Camera
       value: 

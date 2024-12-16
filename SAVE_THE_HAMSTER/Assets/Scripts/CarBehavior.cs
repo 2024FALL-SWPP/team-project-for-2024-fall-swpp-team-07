@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class CarBehavior : MonoBehaviour
 {
-    public float leftEndX = -5.4f;
-    public float rightEndX = 16f;
+    public float leftEndX; // = -5.4f;
+    public float rightEndX; // = 16f;
 
-    public int direction = 1;
+    public int direction; // = 1;
 
-    public float speed = 2f;
+    public float speed; // = 2f;
 
     // Start is called before the first frame update
     void Start() { }
