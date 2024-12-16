@@ -970,7 +970,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 183
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -4947,10 +4947,10 @@ MonoBehaviour:
   subCamera2: {fileID: 1612080665}
   cannon: {fileID: 1636681047}
   canon: {fileID: 2130418931}
-  offset1: {x: -15, y: 10, z: -15}
+  offset1: {x: -10, y: 5, z: -10}
   offset2: {x: -15, y: 60, z: -15}
   offset3: {x: -8, y: 0, z: -8}
-  offset4: {x: 0, y: 6, z: 4}
+  offset4: {x: 0, y: 4, z: 2}
 --- !u!4 &576409266
 Transform:
   m_ObjectHideFlags: 0
@@ -13488,7 +13488,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 183
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -21513,6 +21513,7 @@ GameObject:
   - component: {fileID: 295674935}
   - component: {fileID: 295674934}
   - component: {fileID: 7372508012877931029}
+  - component: {fileID: 7372508012877931030}
   m_Layer: 0
   m_Name: BowlingBall
   m_TagString: Player
@@ -21932,6 +21933,7 @@ MonoBehaviour:
   onGround: 0
   isWater: 0
   gameOver: 0
+  cannonControl: {fileID: 0}
   rb: {fileID: 0}
 --- !u!114 &7372508011198913309
 MonoBehaviour:
@@ -21948,6 +21950,7 @@ MonoBehaviour:
   onGround: 0
   isWater: 0
   gameOver: 0
+  cannonControl: {fileID: 0}
   rb: {fileID: 0}
   cannon: {fileID: 1636681047}
 --- !u!33 &7372508011837700595
@@ -21973,6 +21976,7 @@ MonoBehaviour:
   onGround: 0
   isWater: 0
   gameOver: 0
+  cannonControl: {fileID: 0}
   rb: {fileID: 0}
 --- !u!33 &7372508012039494444
 MeshFilter:
@@ -21997,6 +22001,7 @@ MonoBehaviour:
   onGround: 0
   isWater: 0
   gameOver: 0
+  cannonControl: {fileID: 0}
   rb: {fileID: 0}
 --- !u!33 &7372508012877931028
 MeshFilter:
@@ -22013,7 +22018,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6535958636176357131}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a68887af4a7bb4ab2bf9c39d4d52384a, type: 3}
   m_Name: 
@@ -22021,7 +22026,26 @@ MonoBehaviour:
   onGround: 0
   isWater: 0
   gameOver: 0
+  cannonControl: {fileID: 0}
   rb: {fileID: 0}
+--- !u!114 &7372508012877931030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6535958636176357131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ea17d0e80fd147c59bb311a93abe09b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onGround: 0
+  isWater: 0
+  gameOver: 0
+  cannonControl: {fileID: 0}
+  rb: {fileID: 0}
+  cannon: {fileID: 1636681047}
 --- !u!4 &7454666899281845335
 Transform:
   m_ObjectHideFlags: 0
@@ -22095,6 +22119,7 @@ MonoBehaviour:
   onGround: 0
   isWater: 0
   gameOver: 0
+  cannonControl: {fileID: 0}
   rb: {fileID: 0}
   deceleration: 0.1
   isSteep: 0

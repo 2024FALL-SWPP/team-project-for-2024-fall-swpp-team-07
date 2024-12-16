@@ -22,6 +22,8 @@ public class CannonControl : MonoBehaviour
     private StickyBallCollision stickyBallCollisionScript;
     private GameObject almonds;
 
+    private BowlingBallCollision bowlingBallCollisionScript;
+
     //
     private const int N_TRAJECTORY_POINTS = 40;
     public float minForce = 0f; //최소 발사력
@@ -128,6 +130,19 @@ public class CannonControl : MonoBehaviour
                 isRespawn = stickyBallCollisionScript.isWater;
                 isGameOver = stickyBallCollisionScript.gameOver;
             }
+            else if (activeBall.name == "BowlingBall")
+
+            {
+
+                bowlingBallCollisionScript = activeBall.GetComponent<BowlingBallCollision>();
+
+                isGround = bowlingBallCollisionScript.onGround;
+
+                isRespawn = bowlingBallCollisionScript.isWater;
+
+                isGameOver = bowlingBallCollisionScript.gameOver;
+
+            }
             else
             {
                 collisionScript = activeBall.GetComponent<CollisionDetection>();
@@ -168,6 +183,16 @@ public class CannonControl : MonoBehaviour
                     {
                         stickyBallCollisionScript = activeBall.GetComponent<StickyBallCollision>();
                         stickyBallCollisionScript.enabled = false;
+                    }
+                    else if (activeBall.name == "BowlingBall")
+                    {
+
+                        bowlingBallCollisionScript =
+
+                            activeBall.GetComponent<BowlingBallCollision>();
+
+                        bowlingBallCollisionScript.enabled = false;
+
                     }
                     else
                     {
@@ -249,6 +274,10 @@ public class CannonControl : MonoBehaviour
                 activeBall.transform.position = firePoint.position;
                 activeBall.transform.rotation = cannon.transform.rotation;
                 activeBall.transform.Rotate(normal, 90f, Space.World);
+                if(activeBall.name == "FootBall"){ //럭비공의 뾰족한 끝부분이 포구 방향을 향하게
+                    Quaternion rotation = Quaternion.FromToRotation(activeBall.transform.forward, firePoint.position - canon.transform.position);
+                    activeBall.transform.rotation = rotation * activeBall.transform.rotation;
+                }
 
                 if (Input.GetAxis("Horizontal") != 0 && cannonrb.isKinematic)
                 {
@@ -310,6 +339,15 @@ public class CannonControl : MonoBehaviour
                         ballrb.mass
                     );
                 }
+
+                else if(activeBall.name == "FootBall")
+                {
+                    UpdateLineRenderer(
+                        (firePoint.position - canon.transform.position) * 1.25f * force * ballrb.mass,
+                        ballrb.mass
+                    );
+                }
+
                 else
                 {
                     UpdateLineRenderer(
@@ -348,6 +386,17 @@ public class CannonControl : MonoBehaviour
                                 activeBall.GetComponent<StickyBallCollision>();
                             stickyBallCollisionScript.enabled = true;
                         }
+                        else if (activeBall.name == "BowlingBall")
+
+                        {
+
+                            bowlingBallCollisionScript =
+
+                                activeBall.GetComponent<BowlingBallCollision>();
+
+                            bowlingBallCollisionScript.enabled = true;
+
+                        }
                         else
                         {
                             collisionScript = activeBall.GetComponent<CollisionDetection>();
@@ -363,6 +412,13 @@ public class CannonControl : MonoBehaviour
                     {
                         ballrb.AddForce(
                             (firePoint.position - canon.transform.position) * force * ballrb.mass,
+                            ForceMode.Impulse
+                        );
+                    }
+                    else if (activeBall.name == "FootBall")
+                    {
+                        ballrb.AddForce(
+                            (firePoint.position - canon.transform.position) * 1.25f * force * ballrb.mass,
                             ForceMode.Impulse
                         );
                     }

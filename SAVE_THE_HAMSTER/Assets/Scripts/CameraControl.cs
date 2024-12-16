@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+//using System.Numerics;
 using Cysharp.Threading.Tasks.Triggers;
 using JetBrains.Rider.Unity.Editor;
 using UnityEngine;
 
-public class CameraControl : MonoBehaviour
+public class CameraControl : MonoBehaviour 
 {
     // Start is called before the first frame update
     public Camera mainCamera;
@@ -18,6 +19,10 @@ public class CameraControl : MonoBehaviour
     public Vector3 offset3;
     public Vector3 offset4;
 
+    private bool isYLocked;
+
+    private Vector3 mainLastPosition; //mainCamera의 이전 프레임 위치
+
     CannonControl cannonControl;
 
     StageManager gm;
@@ -29,6 +34,7 @@ public class CameraControl : MonoBehaviour
         subCamera2.gameObject.SetActive(false);
         mainCamera.gameObject.SetActive(true);
         subCamera1.gameObject.SetActive(false);
+        mainLastPosition = mainCamera.transform.position;
     }
 
     void Update()
@@ -65,6 +71,7 @@ public class CameraControl : MonoBehaviour
             //공 발사 전 mainCamera
             if (cannonControl.spaceBarCount == 0)
             {
+                isYLocked = false;
                 Vector3 desiredPosition1 =
                     cannon.transform.position + cannon.transform.rotation * offset1;
 
@@ -75,10 +82,27 @@ public class CameraControl : MonoBehaviour
                 mainCamera.transform.LookAt(cannon.transform.position);
             }
             //공 발사 후 mainCamera
-            else if (activeBall.transform.position.y >= 0.3f && rb.velocity.magnitude >= 0.1f)
+            else 
             {
-                mainCamera.transform.position = activeBall.transform.position + offset3;
-                mainCamera.transform.LookAt(activeBall.transform.position);
+                ActivateCamera2();
+                
+                if(rb.velocity.magnitude >= 1f && !isYLocked)
+                {
+                    mainCamera.transform.position = activeBall.transform.position + offset3;
+                    mainCamera.transform.LookAt(activeBall.transform.position);
+                }
+                else
+                {
+                   isYLocked = true;
+                   Vector3 newPosition = mainCamera.transform.position;
+                   newPosition.x = activeBall.transform.position.x + offset3.x;
+                   newPosition.z = activeBall.transform.position.z + offset3.z;
+                   mainCamera.transform.position = newPosition;
+                   mainCamera.transform.LookAt(activeBall.transform.position);
+                }
+                
+                
+                
             }
         }
     }
@@ -102,4 +126,6 @@ public class CameraControl : MonoBehaviour
         mainCamera.gameObject.SetActive(false);
         subCamera1.gameObject.SetActive(true);
     }
+
+    
 }
