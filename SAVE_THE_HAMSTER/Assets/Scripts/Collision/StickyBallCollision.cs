@@ -9,11 +9,17 @@ public class StickyBallCollision : CollisionDetection
 
     protected override void childOnCollisionEnter(Collision collision)
     {
-        if (sticky) Debug.Log("Still Sticky");
-        else Debug.Log("Not Sticky");
-        if (cannon.activeSelf && collision.gameObject.CompareTag("Ground"))
+        if (sticky)
+            Debug.Log("Still Sticky");
+        else
+            Debug.Log("Not Sticky");
+        if (
+            cannon.activeSelf
+            && collision.gameObject.CompareTag("Ground")
+            && cannonControl.spaceBarCount == 1
+        )
         {
-            if(sticky) // sticky 기능 있는 경우 첫번째 충돌 위치에 정지
+            if (sticky) // sticky 기능 있는 경우 첫번째 충돌 위치에 정지
             {
                 StickToCollisionPoint(collision);
             }
@@ -21,7 +27,7 @@ public class StickyBallCollision : CollisionDetection
 
         if (cannon.activeSelf && collision.gameObject.CompareTag("Sand")) // 2 구현
         {
-            if(sticky) // sticky 기능 있는 경우 모래지형에 대해서도 첫번째 충돌 위치에 정지
+            if (sticky) // sticky 기능 있는 경우 모래지형에 대해서도 첫번째 충돌 위치에 정지
             {
                 StickToCollisionPoint(collision);
             }

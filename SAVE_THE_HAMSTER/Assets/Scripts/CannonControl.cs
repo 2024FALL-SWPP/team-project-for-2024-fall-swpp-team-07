@@ -131,17 +131,11 @@ public class CannonControl : MonoBehaviour
                 isGameOver = stickyBallCollisionScript.gameOver;
             }
             else if (activeBall.name == "BowlingBall")
-
             {
-
                 bowlingBallCollisionScript = activeBall.GetComponent<BowlingBallCollision>();
-
                 isGround = bowlingBallCollisionScript.onGround;
-
                 isRespawn = bowlingBallCollisionScript.isWater;
-
                 isGameOver = bowlingBallCollisionScript.gameOver;
-
             }
             else
             {
@@ -186,13 +180,9 @@ public class CannonControl : MonoBehaviour
                     }
                     else if (activeBall.name == "BowlingBall")
                     {
-
                         bowlingBallCollisionScript =
-
                             activeBall.GetComponent<BowlingBallCollision>();
-
                         bowlingBallCollisionScript.enabled = false;
-
                     }
                     else
                     {
@@ -386,16 +376,11 @@ public class CannonControl : MonoBehaviour
                                 activeBall.GetComponent<StickyBallCollision>();
                             stickyBallCollisionScript.enabled = true;
                         }
-                        else if (activeBall.name == "BowlingBall")
-
+                        if (activeBall.name == "BowlingBall")
                         {
-
                             bowlingBallCollisionScript =
-
                                 activeBall.GetComponent<BowlingBallCollision>();
-
                             bowlingBallCollisionScript.enabled = true;
-
                         }
                         else
                         {

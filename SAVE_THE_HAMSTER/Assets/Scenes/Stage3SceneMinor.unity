@@ -550,7 +550,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 42876856}
   m_Enabled: 1
   m_EditorHideFlags: 0
+<<<<<<< HEAD
   m_Script: {fileID: 11500000, guid: 8ea17d0e80fd147c59bb311a93abe09b, type: 3}
+=======
+  m_Script: {fileID: 11500000, guid: 29bdc7aa54e6adf4e86a0341dc723b39, type: 3}
+>>>>>>> main
   m_Name: 
   m_EditorClassIdentifier: 
   onGround: 0
@@ -13217,7 +13221,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2573869956362375480, guid: 50e69a24a9ac64dcca5dadf3a935c721, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2950959166026926978, guid: 50e69a24a9ac64dcca5dadf3a935c721, type: 3}
       propertyPath: m_RootOrder
@@ -13237,6 +13241,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2950959166026926978, guid: 50e69a24a9ac64dcca5dadf3a935c721, type: 3}
       propertyPath: m_LocalPosition.x
+<<<<<<< HEAD
       value: -16.09
       objectReference: {fileID: 0}
     - target: {fileID: 2950959166026926978, guid: 50e69a24a9ac64dcca5dadf3a935c721, type: 3}
@@ -13246,6 +13251,17 @@ PrefabInstance:
     - target: {fileID: 2950959166026926978, guid: 50e69a24a9ac64dcca5dadf3a935c721, type: 3}
       propertyPath: m_LocalPosition.z
       value: -44.42
+=======
+      value: 80.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2950959166026926978, guid: 50e69a24a9ac64dcca5dadf3a935c721, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 10.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2950959166026926978, guid: 50e69a24a9ac64dcca5dadf3a935c721, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -69.42
+>>>>>>> main
       objectReference: {fileID: 0}
     - target: {fileID: 2950959166026926978, guid: 50e69a24a9ac64dcca5dadf3a935c721, type: 3}
       propertyPath: m_LocalRotation.w
@@ -19819,7 +19835,11 @@ MonoBehaviour:
   bouncyMaterial: {fileID: 13400000, guid: 4821dcfccffddf542a98912c55af8c61, type: 2}
   regularMaterial: {fileID: 13400000, guid: e6ea71ff80f723d4c8e016806e625615, type: 2}
   groundMaterial: {fileID: 13400000, guid: e0c884906c76a8849a17851a34148b79, type: 2}
+<<<<<<< HEAD
   rotationSpeed: 3000
+=======
+  successParticle: {fileID: 537303390}
+>>>>>>> main
 --- !u!4 &1585287496
 Transform:
   m_ObjectHideFlags: 0
