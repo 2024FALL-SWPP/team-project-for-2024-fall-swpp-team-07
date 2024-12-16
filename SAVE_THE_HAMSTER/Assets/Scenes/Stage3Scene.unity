@@ -1528,7 +1528,6 @@ GameObject:
   - component: {fileID: 144268528}
   - component: {fileID: 144268527}
   - component: {fileID: 144268526}
-  - component: {fileID: 144268525}
   - component: {fileID: 144268524}
   m_Layer: 0
   m_Name: StickyBall
@@ -1554,22 +1553,6 @@ MonoBehaviour:
   gameOver: 0
   rb: {fileID: 0}
   cannon: {fileID: 1147608971}
---- !u!114 &144268525
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 144268523}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a68887af4a7bb4ab2bf9c39d4d52384a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onGround: 0
-  isWater: 0
-  gameOver: 0
-  rb: {fileID: 0}
 --- !u!64 &144268526
 MeshCollider:
   m_ObjectHideFlags: 0

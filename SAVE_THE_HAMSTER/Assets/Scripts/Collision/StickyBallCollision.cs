@@ -30,4 +30,9 @@ public class StickyBallCollision : CollisionDetection
             // else의 경우 CollisionDetection.cs에서 모든 공에 해당하는 부분 따르니 구현 필요없음
         }
     }
+
+    protected override void OnEnable()
+    {
+        base.OnEnable(); //부모 클래스 OnEnable호출
+    }
 }

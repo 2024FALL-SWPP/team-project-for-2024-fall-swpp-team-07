@@ -27,7 +27,7 @@ public class CollisionDetection : MonoBehaviour
 
     }
 
-    void OnEnable()
+    protected virtual void OnEnable()
     {
         onGround = false;
         isWater = false;

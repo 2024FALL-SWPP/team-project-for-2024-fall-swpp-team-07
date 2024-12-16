@@ -22,4 +22,8 @@ public class HamsterCollision : CollisionDetection
             }
         }
     }
+    protected override void OnEnable()
+    {
+        base.OnEnable(); //부모 클래스 OnEnable호출
+    }
 }

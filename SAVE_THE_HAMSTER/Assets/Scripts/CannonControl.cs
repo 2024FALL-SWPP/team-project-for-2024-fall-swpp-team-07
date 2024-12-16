@@ -140,13 +140,22 @@ public class CannonControl : MonoBehaviour
                 transform.position = startPosition; //대포를 처음 시작 위치로 이동
                 Time.timeScale = 0; //게임 일시정지
             }
+
             if (
                 !isGameOver
                 && spaceBarCount == 1
                 && (isGround || isRespawn)
-                && ballrb.velocity.magnitude <= 0.05f
+                && ballrb.velocity.magnitude <= 0.1f
             )
             {
+                foreach (Transform child in almonds.transform)
+                {
+                    SphereCollider sc = child.GetComponent<SphereCollider>();
+                    if (sc != null)
+                    {
+                        sc.enabled = false;
+                    }
+                }
                 //공이 발사됐고 공이 땅에 닿아서 멈췄다면 다음 턴으로
                 spacePressed = false;  
                 if(activeBall.name == "HamsterBall"){
@@ -197,6 +206,18 @@ public class CannonControl : MonoBehaviour
                             if (sc != null)
                             {
                                 sc.enabled = true;
+                            }
+                        }
+
+                        boxCollider.enabled = true;
+                        // 현재 오브젝트의 모든 자식 오브젝트를 순회
+                        foreach (Transform child in transform)
+                        {
+                            // 자식 오브젝트의 box collider 컴포넌트를 가져옴
+                            BoxCollider bc = child.GetComponent<BoxCollider>();
+                            if (bc != null)
+                            {
+                                bc.enabled = true;
                             }
                         }
                     }
@@ -298,7 +319,7 @@ public class CannonControl : MonoBehaviour
                 }
                 
 
-                if (Input.GetKeyDown(KeyCode.Space))
+                if (Input.GetKeyDown(KeyCode.Space) && cannonrb.isKinematic)
                 {
                     if (spaceBarCount == 0)
                     {
@@ -306,15 +327,8 @@ public class CannonControl : MonoBehaviour
                     }
         
                     cannonrb.isKinematic = false; //대포가 물리 법칙 다시 작용받게 설정
-                    boxCollider.enabled = true;
-                    foreach (Transform child in almonds.transform)
-                    {
-                        SphereCollider sc = child.GetComponent<SphereCollider>();
-                        if (sc != null)
-                        {
-                            sc.enabled = false;
-                        }
-                    }
+                    //boxCollider.enabled = true;
+                    
                     
                     // space바를 누르면 공이 발사됨
                     // 공 발사 및 effect
