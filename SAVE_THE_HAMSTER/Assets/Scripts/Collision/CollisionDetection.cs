@@ -15,7 +15,7 @@ public class CollisionDetection : MonoBehaviour
     private bool penalty = false;
 
     //private bool waitingDelay = false;
-    CannonControl cannonControl; // 필요 없는 것 같음
+    public CannonControl cannonControl; // 필요 없는 것 같음
 
     // public bool goalIn = false; // 공이 발사되어 골인 됨을 확인하기 위함
     public Rigidbody rb;
@@ -106,13 +106,14 @@ public class CollisionDetection : MonoBehaviour
         // 2. sticky ball의 경우 한 게임(스테이지 플레이 1회)에 대해 모래 지형에 닿으면 sticky 기능 상실
         // - StickyBallCollision.cs 에서 구현
         // - 다시 플레이 하기, 스테이지 재진입 시 초기화 구현 필요(알아서 될 듯)
-        if (collision.gameObject.CompareTag("Sand")) // 1 구현
+        // 3. bowling ball의 경우 첫번째로 닿은 곳에 정지하는 기능 구현
+
+        //StickToCollisionPoint 호출하는 경우 키네마틱 이슈로 발사 시에만 호출되도록 spaceBarCount == 1
+        if (collision.gameObject.CompareTag("Sand") && cannonControl.spaceBarCount == 1) // 1 구현
         {
             // 대포 생성하려면 필요(모래도 땅이니까..)
             // 첫 턴에 sand에만 닿을 경우 고려
             onGround = true;
-            // activeBall = gm.GetActiveBall();
-            // if (activeBall.name == "StickyBall")
             Debug.Log("Turn: " + gm.GetTurn() + ", PreviousTurn: " + gm.GetPreviousTurn());
 
             if (gm.GetTurn() > previousTurnForSand) // 해당 턴의 첫 번째 모래 지형 충돌 시 진입
@@ -138,7 +139,7 @@ public class CollisionDetection : MonoBehaviour
         Vector3 collisionPoint = contact.point;
 
         // 오브젝트를 충돌 지점으로 이동
-        transform.position = collisionPoint;
+        transform.position = collisionPoint + new Vector3(0, 0.3f, 0);
 
         // Rigidbody 비활성화
         rb.isKinematic = true;

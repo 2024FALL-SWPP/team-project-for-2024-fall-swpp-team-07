@@ -20,6 +20,7 @@ public class CannonControl : MonoBehaviour
     private HamsterCollision hamsterCollisionScript;
     private CollisionDetection collisionScript;
     private StickyBallCollision stickyBallCollisionScript;
+    private BowlingBallCollision bowlingBallCollisionScript;
 
     //
     private const int N_TRAJECTORY_POINTS = 40;
@@ -117,6 +118,13 @@ public class CannonControl : MonoBehaviour
                 isRespawn = stickyBallCollisionScript.isWater;
                 isGameOver = stickyBallCollisionScript.gameOver;
             }
+            else if (activeBall.name == "BowlingBall")
+            {
+                bowlingBallCollisionScript = activeBall.GetComponent<BowlingBallCollision>();
+                isGround = bowlingBallCollisionScript.onGround;
+                isRespawn = bowlingBallCollisionScript.isWater;
+                isGameOver = bowlingBallCollisionScript.gameOver;
+            }
             else
             {
                 collisionScript = activeBall.GetComponent<CollisionDetection>();
@@ -147,6 +155,12 @@ public class CannonControl : MonoBehaviour
                     {
                         stickyBallCollisionScript = activeBall.GetComponent<StickyBallCollision>();
                         stickyBallCollisionScript.enabled = false;
+                    }
+                    else if (activeBall.name == "BowlingBall")
+                    {
+                        bowlingBallCollisionScript =
+                            activeBall.GetComponent<BowlingBallCollision>();
+                        bowlingBallCollisionScript.enabled = false;
                     }
                     else
                     {
@@ -276,6 +290,12 @@ public class CannonControl : MonoBehaviour
                             stickyBallCollisionScript =
                                 activeBall.GetComponent<StickyBallCollision>();
                             stickyBallCollisionScript.enabled = true;
+                        }
+                        if (activeBall.name == "BowlingBall")
+                        {
+                            bowlingBallCollisionScript =
+                                activeBall.GetComponent<BowlingBallCollision>();
+                            bowlingBallCollisionScript.enabled = true;
                         }
                         else
                         {
