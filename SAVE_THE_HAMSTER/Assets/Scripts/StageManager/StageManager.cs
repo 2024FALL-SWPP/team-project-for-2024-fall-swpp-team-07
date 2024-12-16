@@ -15,7 +15,7 @@ public abstract class StageManager : MonoBehaviour
 
     private const int numberOfStages = 3;
 
-    private static int[] totalLife = new int[numberOfStages] { 5, 7, 10 }; //get
+    private static int[] totalLife = new int[numberOfStages] { 5, 8, 10 }; //get
     private int lifeLeft = 0; //set 발사 시 life--;
     private int currentTurn = 0;
     private int previousTurn = -1;
@@ -175,11 +175,6 @@ public abstract class StageManager : MonoBehaviour
     public int GetPenaltyTurn()
     {
         return penaltyTurn;
-    }
-
-    public void SetIsStart(bool isStart)
-    {
-        isStart = isStart;
     }
 
     public void ResetTimer()
@@ -348,14 +343,14 @@ public abstract class StageManager : MonoBehaviour
 
     private IEnumerator FinishGameAfterDelay(bool clear)
     {
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(3f);
         // 비동기 메서드 실행
         _ = FinishGame(clear);
     }
 
     public void Failure()
     {
-        // 실패는 딜레이 없이 바로 실행
-        _ = FinishGame(false);
+        // _ = FinishGame(false);
+        StartCoroutine(FinishGameAfterDelay(false));
     }
 }
