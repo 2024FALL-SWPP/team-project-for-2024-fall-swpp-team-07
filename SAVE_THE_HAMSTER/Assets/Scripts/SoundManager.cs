@@ -87,18 +87,18 @@ namespace com.example
             }
         }
 
-        public void PlaySuccessFBX()
+        public void PlaySuccessSFX()
         {
             // stop current bgm
             bgmSource.Stop();
-            PlayBGM(successFBX);
+            PlaySFX(successFBX);
         }
 
-        public void PlayFailFBX()
+        public void PlayFailSFX()
         {
             // stop current bgm
             bgmSource.Stop();
-            PlayBGM(failFBX);
+            PlaySFX(failFBX);
         }
 
         public void PlayAcquireSFX()

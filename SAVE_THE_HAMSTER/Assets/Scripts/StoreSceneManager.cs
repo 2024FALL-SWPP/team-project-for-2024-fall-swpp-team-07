@@ -24,8 +24,8 @@ public class StoreSceneManager : MonoBehaviour
         "hamster_skin_2", // 흰색 햄스터
         "ball_skin_1", // 빨간색 볼
         "ball_skin_2", // 은색 볼
-        "ball_tail_effect_1", // 꼬리 이펙트 1
-        "ball_tail_effect_2", // 꼬리 이펙트 2
+        "ball_tail_effect_1", // 꼬리 이펙트 1 (fire)
+        "ball_tail_effect_2", // 꼬리 이펙트 2 (water)
     };
 
     private Color PURCHASED_COLOR_1 = new Color(0x10 / 255f, 0xDC / 255f, 0xFD / 255f);

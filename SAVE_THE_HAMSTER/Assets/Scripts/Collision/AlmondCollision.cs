@@ -20,6 +20,11 @@ public class AlmondCollision : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (cannonControl == null)
+        {
+            cannonControl = FindObjectOfType<CannonControl>();
+        }
+
         // 턴 중에 아몬드 획득해야 인정됨
         if (other.CompareTag("Player") && cannonControl.spaceBarCount == 1)
         {

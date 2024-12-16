@@ -262,7 +262,7 @@ public class Stage2Manager : StageManager
         stageInfo.text = $"Stage {stageIndex + 1} 도전 기록";
         if (!clear)
         {
-            SoundManager.Instance.PlayFailFBX();
+            SoundManager.Instance.PlayFailSFX();
             // stage 실패 시 실패 UI 띄우기
             failText.gameObject.SetActive(true);
             clearText.gameObject.SetActive(false);
@@ -270,7 +270,7 @@ public class Stage2Manager : StageManager
         }
         else
         {
-            SoundManager.Instance.PlaySuccessFBX();
+            SoundManager.Instance.PlaySuccessSFX();
             // 성공 UI 띄우기 (이미 되어있음)
             stageRecord.text = $"{GetTurn() + GetPenaltyTurn()}타 / {finalTime:F3}초";
             // stage 클리어 시 기록 업데이트
