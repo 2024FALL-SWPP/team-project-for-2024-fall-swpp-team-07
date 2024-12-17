@@ -4918,9 +4918,9 @@ MonoBehaviour:
   subCamera2: {fileID: 977799854}
   cannon: {fileID: 1636681047}
   canon: {fileID: 2130418931}
+  firePoint: {fileID: 1963694393}
   offset1: {x: -10, y: 5, z: -10}
   offset2: {x: -15, y: 60, z: -15}
-  offset3: {x: -8, y: 0, z: -8}
   offset4: {x: 0, y: 4, z: 2}
 --- !u!4 &576409266
 Transform:
@@ -6783,7 +6783,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!1 &804089014
 GameObject:
@@ -17130,6 +17130,11 @@ PrefabInstance:
       objectReference: {fileID: 576409264}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 50e69a24a9ac64dcca5dadf3a935c721, type: 3}
+--- !u!4 &1963694393 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3420854207668722683, guid: 50e69a24a9ac64dcca5dadf3a935c721, type: 3}
+  m_PrefabInstance: {fileID: 1963694392}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1965896680 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2329726563633889114, guid: 328535187cd368447a655dcfa4f16d93, type: 3}
