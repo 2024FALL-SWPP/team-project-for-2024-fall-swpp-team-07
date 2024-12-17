@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
-
 //using System.Numerics;
 using Cysharp.Threading.Tasks.Triggers;
 using JetBrains.Rider.Unity.Editor;
@@ -67,7 +66,7 @@ public class CameraControl : MonoBehaviour
     {
         if (cannon.activeSelf)
         {
-            if(cannonControl.spaceBarCount == 0)
+            if (cannonControl.spaceBarCount == 0)
             {
                 activeBall = gm.GetActiveBall();
                 Rigidbody rb = activeBall.GetComponent<Rigidbody>();
@@ -96,7 +95,6 @@ public class CameraControl : MonoBehaviour
                 mainCamera.transform.rotation = cannon.transform.rotation;
                 mainCamera.transform.LookAt(cannon.transform.position);
             }
-        
             else
             {
                 activeBall = gm.GetActiveBall();
@@ -105,7 +103,11 @@ public class CameraControl : MonoBehaviour
                 blockAlpha2 = true;
                 blockAlpha3 = true;
                 ActivateCamera2();
-                offset3 = new Vector3(5 * (canon.transform.position.x - firePoint.position.x), 5 * (firePoint.position.y - canon.transform.position.y) + 5f, 5 * (canon.transform.position.z - firePoint.position.z)) ;
+                offset3 = new Vector3(
+                    5 * (canon.transform.position.x - firePoint.position.x),
+                    5 * (firePoint.position.y - canon.transform.position.y) + 5f,
+                    5 * (canon.transform.position.z - firePoint.position.z)
+                );
                 mainCamera.transform.position = activeBall.transform.position + offset3;
                 Vector3 lookAtPosition = activeBall.transform.position;
                 mainCamera.transform.LookAt(lookAtPosition);

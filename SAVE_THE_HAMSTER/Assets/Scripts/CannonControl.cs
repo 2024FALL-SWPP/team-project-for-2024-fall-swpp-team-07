@@ -109,8 +109,8 @@ public class CannonControl : MonoBehaviour
         {
             Rigidbody hamrb = hamsterBall.GetComponent<Rigidbody>();
             // Freeze Position과 Freeze Rotation을 해제
-            hamrb.constraints = RigidbodyConstraints.None; 
-              
+            hamrb.constraints = RigidbodyConstraints.None;
+
             Rigidbody cannonrb = cannon.GetComponent<Rigidbody>();
             if (IsCannonTippedOver(cannon.transform))
             {
@@ -217,7 +217,11 @@ public class CannonControl : MonoBehaviour
                         foreach (GameObject obj in allObjects)
                         {
                             // "ground" 태그가 없는 오브젝트만 처리
-                            if (obj.CompareTag("Ground") || obj.CompareTag("Lava") || obj.CompareTag("Sand"))
+                            if (
+                                obj.CompareTag("Ground")
+                                || obj.CompareTag("Lava")
+                                || obj.CompareTag("Sand")
+                            )
                                 continue; // ground 태그가 있으면 무시
 
                             // Collider 컴포넌트를 비활성화
@@ -255,11 +259,15 @@ public class CannonControl : MonoBehaviour
                         //         bc.enabled = true;
                         //     }
                         // }
-        
+
                         foreach (GameObject obj in allObjects)
                         {
                             // "ground" 태그가 없는 오브젝트만 처리
-                            if (obj.CompareTag("Ground") || obj.CompareTag("Lava") || obj.CompareTag("Sand"))
+                            if (
+                                obj.CompareTag("Ground")
+                                || obj.CompareTag("Lava")
+                                || obj.CompareTag("Sand")
+                            )
                                 continue; // ground 태그가 있으면 무시
 
                             // Collider 컴포넌트를 재활성화

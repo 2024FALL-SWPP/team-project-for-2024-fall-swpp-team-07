@@ -15,12 +15,8 @@ public class LavaCollision : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    void Update() { }
 
-    
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
@@ -28,10 +24,10 @@ public class LavaCollision : MonoBehaviour
             // 충돌 지점 가져오기
             ContactPoint contact = collision.contacts[0];
             Vector3 collisionPoint = contact.point;
-            
+
             // 파티클 위치를 충돌 지점으로 이동
             lavaCollisionParticle.transform.position = collisionPoint;
-            
+
             // 파티클 재생
             lavaCollisionParticle.Play();
         }
@@ -42,14 +38,13 @@ public class LavaCollision : MonoBehaviour
             // 충돌 지점 가져오기
             ContactPoint contact = collision.contacts[0];
             Vector3 collisionPoint = contact.point;
-            
+
             // 파티클 위치를 충돌 지점으로 이동
             lavaCollisionParticle.transform.position = collisionPoint;
-            
+
             // 파티클 재생
             lavaCollisionParticle.Play();
 
-            
             gm.SetFailure();
         }
     }

@@ -7,6 +7,7 @@ public class StickyBallControl : MonoBehaviour
     private Rigidbody rb;
 
     public GameObject cannon;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -14,10 +15,7 @@ public class StickyBallControl : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    void Update() { }
 
     void OnCollisionEnter(Collision collision)
     {
@@ -43,6 +41,4 @@ public class StickyBallControl : MonoBehaviour
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
     }
-
-
 }

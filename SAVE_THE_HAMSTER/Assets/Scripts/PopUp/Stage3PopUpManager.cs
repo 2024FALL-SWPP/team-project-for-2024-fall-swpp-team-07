@@ -5,14 +5,17 @@ using UnityEngine;
 public class Stage3PopUpManager : PopUpManager
 {
     private float popUpDistance = 30f; // 지형 오브젝트로 부터 일정 거리 이하로 다가갔을 때 팝업
+
     // Stage1 최초 애니메이션 소요 시간
     private float stage3AnimationTime = 10.0f;
+
     //여유시간
     private float stage3ExtraTime = 1.0f;
+
     // 소요시간 측정용
     private float stage3Timer = 0.0f;
 
-    public GameObject [] environment; // 0: Fan, 1: BrickWall
+    public GameObject[] environment; // 0: Fan, 1: BrickWall
     public GameObject cannon;
 
     // stage별 구현 부분
