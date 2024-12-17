@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class LoadingSceneHamsterBallController : MonoBehaviour
 {
-    private float maxForce = 2.0f; // 최대 힘
-    private float forceIncreaseRate = 4f; // 가속도
+    private float maxForce = 4.0f; // 최대 힘
+    private float forceIncreaseRate = 5.5f; // 가속도
     private float currentForce = 0f;
     private float dragForce = 0.5f; // 마찰력
     private Rigidbody rb;
@@ -83,9 +83,9 @@ public class LoadingSceneHamsterBallController : MonoBehaviour
         Vector3 viewportPoint = mainCamera.WorldToViewportPoint(transform.position);
 
         if (
-            viewportPoint.x < 0.32f
-            || viewportPoint.x > 0.53f
-            || viewportPoint.z < 32.0f
+            viewportPoint.x < 0.30f
+            || viewportPoint.x > 0.6f
+            || viewportPoint.z < 31.0f
             || viewportPoint.z > 40.0f
         )
         {

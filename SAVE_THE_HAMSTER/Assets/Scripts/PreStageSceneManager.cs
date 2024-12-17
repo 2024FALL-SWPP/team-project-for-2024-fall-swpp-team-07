@@ -11,6 +11,7 @@ public class PreStageSceneManager : MonoBehaviour
     public TMP_Text stageInfo;
     public TMP_Text stageRecord;
     public TMP_Text almondsNum;
+    public TMP_Text turnText;
     public GameObject[] stagePreviews = new GameObject[3];
     private int stageNumber = 0;
 
@@ -44,7 +45,8 @@ public class PreStageSceneManager : MonoBehaviour
                 var numRecords = userStageRecords?.Models?.Count ?? 0;
 
                 int i = 0;
-                for (i = 0; i < numRecords; i++)
+                int limit = Math.Min(numRecords, 8);
+                for (i = 0; i < limit; i++)
                 {
                     var record = userStageRecords.Models[i];
                     ranking_names[i].text = record.nickname;
@@ -103,6 +105,10 @@ public class PreStageSceneManager : MonoBehaviour
                 {
                     stageRecord.text = "기록 없음";
                 }
+
+                // 턴 수 업데이트
+                var userTurn = stageNumber == 1 ? 5 : (stageNumber == 2 ? 8 : 10);
+                turnText.text = $"목표 타수: {userTurn}타 이내";
             }
             else
             {

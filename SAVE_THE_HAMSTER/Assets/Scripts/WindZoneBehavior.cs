@@ -5,7 +5,7 @@ using UnityEngine;
 public class WindZoneBehavior : MonoBehaviour
 {
     Vector3 windDirection = Vector3.forward;
-    public float windForce = 10.0f;
+    float windForce = 5.0f;
 
     Rigidbody ballRb;
 
@@ -18,10 +18,4 @@ public class WindZoneBehavior : MonoBehaviour
             ballRb.AddForce(windDirection * windForce, ForceMode.Force);
         }
     }
-
-    // Start is called before the first frame update
-    void Start() { }
-
-    // Update is called once per frame
-    void Update() { }
 }

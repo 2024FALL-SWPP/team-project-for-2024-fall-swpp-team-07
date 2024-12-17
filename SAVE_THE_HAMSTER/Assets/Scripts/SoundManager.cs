@@ -63,6 +63,7 @@ namespace com.example
 
         public void PlayLoadingBGM()
         {
+            sfxSource.Stop();
             PlayBGM(loadingBGM);
         }
 
@@ -73,6 +74,7 @@ namespace com.example
 
         public void PlayIngameBGM(int stage)
         {
+            sfxSource.Stop();
             switch (stage)
             {
                 case 1:
@@ -87,18 +89,18 @@ namespace com.example
             }
         }
 
-        public void PlaySuccessFBX()
+        public void PlaySuccessSFX()
         {
             // stop current bgm
             bgmSource.Stop();
-            PlayBGM(successFBX);
+            PlaySFX(successFBX);
         }
 
-        public void PlayFailFBX()
+        public void PlayFailSFX()
         {
             // stop current bgm
             bgmSource.Stop();
-            PlayBGM(failFBX);
+            PlaySFX(failFBX);
         }
 
         public void PlayAcquireSFX()

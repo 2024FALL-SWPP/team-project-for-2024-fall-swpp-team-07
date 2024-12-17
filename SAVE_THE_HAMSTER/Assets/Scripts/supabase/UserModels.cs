@@ -40,11 +40,11 @@ namespace com.example.Models
         [Column("hamster_skin_2")]
         public bool hamster_skin_2 { get; set; }
 
-        [Column("cannon_skin_1")]
-        public bool cannon_skin_1 { get; set; }
+        [Column("ball_skin_1")]
+        public bool ball_skin_1 { get; set; }
 
-        [Column("cannon_skin_2")]
-        public bool cannon_skin_2 { get; set; }
+        [Column("ball_skin_2")]
+        public bool ball_skin_2 { get; set; }
 
         [Column("ball_tail_effect_1")]
         public bool ball_tail_effect_1 { get; set; }

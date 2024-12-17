@@ -20,13 +20,16 @@ public class StoreSceneManager : MonoBehaviour
 
     private string[] columnNames = new string[]
     {
-        "hamster_skin_1",
-        "hamster_skin_2",
-        "cannon_skin_1",
-        "cannon_skin_2",
-        "ball_tail_effect_1",
-        "ball_tail_effect_2",
+        "hamster_skin_1", // 검은색 햄스터
+        "hamster_skin_2", // 흰색 햄스터
+        "ball_skin_1", // 빨간색 볼
+        "ball_skin_2", // 은색 볼
+        "ball_tail_effect_1", // 꼬리 이펙트 1 (fire)
+        "ball_tail_effect_2", // 꼬리 이펙트 2 (water)
     };
+
+    private Color PURCHASED_COLOR_1 = new Color(0x10 / 255f, 0xDC / 255f, 0xFD / 255f);
+    private Color PURCHASED_COLOR_2 = new Color(0xFD / 255f, 0xA7 / 255f, 0x10 / 255f);
 
     private int[] itemPrices = new int[] { 3, 4, 3, 4, 3, 4 };
 
@@ -96,13 +99,121 @@ public class StoreSceneManager : MonoBehaviour
     {
         if (isPurchased)
         {
-            buttonTexts[index].text = "보유중";
+            if (index < 2)
+            {
+                // 햄스터 스킨
+                if (SkinManager.Instance.GetHamsterSkin() == index + 1)
+                {
+                    buttonTexts[index].text = "장착해제";
+                    buttonTexts[index].color = PURCHASED_COLOR_1;
+                }
+                else
+                {
+                    buttonTexts[index].text = "장착하기";
+                    buttonTexts[index].color = PURCHASED_COLOR_2;
+                }
+            }
+            else if (index < 4)
+            {
+                // 볼 스킨
+                if (SkinManager.Instance.GetBallSkin() == index - 1)
+                {
+                    buttonTexts[index].text = "장착해제";
+                    buttonTexts[index].color = PURCHASED_COLOR_1;
+                }
+                else
+                {
+                    buttonTexts[index].text = "장착하기";
+                    buttonTexts[index].color = PURCHASED_COLOR_2;
+                }
+            }
+            else
+            {
+                // 꼬리 이펙트
+                if (SkinManager.Instance.GetBallTailEffect() == index - 3)
+                {
+                    buttonTexts[index].text = "장착해제";
+                    buttonTexts[index].color = PURCHASED_COLOR_1;
+                }
+                else
+                {
+                    buttonTexts[index].text = "장착하기";
+                    buttonTexts[index].color = PURCHASED_COLOR_2;
+                }
+            }
+
             almondImages[index].SetActive(false);
             itemButtons[index].onClick.RemoveAllListeners();
+            // 장착 및 장착해제 이벤트 추가
+            itemButtons[index].onClick.AddListener(() => EquipItem(index));
         }
         else
         {
             itemButtons[index].onClick.AddListener(() => PurchaseItem(index));
+        }
+    }
+
+    private void EquipItem(int index)
+    {
+        if (index < 2)
+        {
+            // 햄스터 스킨
+            int currentSkin = SkinManager.Instance.GetHamsterSkin();
+            int selectedSkin = index + 1;
+            if (currentSkin == selectedSkin)
+            {
+                // 기본 스킨으로 변경
+                SkinManager.Instance.SetHamsterSkin(0);
+                buttonTexts[index].text = "장착하기";
+                buttonTexts[index].color = PURCHASED_COLOR_2;
+            }
+            else
+            {
+                // 선택한 스킨 변경
+                SkinManager.Instance.SetHamsterSkin(selectedSkin);
+                buttonTexts[index].text = "장착해제";
+                buttonTexts[index].color = PURCHASED_COLOR_1;
+                // 다른 스킨 장착 해제 (만약 장착되어 있다면)
+                if (currentSkin != 0)
+                {
+                    buttonTexts[currentSkin - 1].text = "장착하기";
+                    buttonTexts[currentSkin - 1].color = PURCHASED_COLOR_2;
+                }
+            }
+        }
+        else if (index < 4)
+        {
+            // 볼 스킨
+            int currentSkin = SkinManager.Instance.GetBallSkin();
+            int selectedSkin = index - 1;
+            if (currentSkin == selectedSkin)
+            {
+                // 기본 스킨으로 변경
+                SkinManager.Instance.SetBallSkin(0);
+                buttonTexts[index].text = "장착하기";
+                buttonTexts[index].color = PURCHASED_COLOR_2;
+            }
+            else
+            {
+                // 선택한 스킨 변경
+                SkinManager.Instance.SetBallSkin(selectedSkin);
+                buttonTexts[index].text = "장착해제";
+                buttonTexts[index].color = PURCHASED_COLOR_1;
+                // 다른 스킨 장착 해제 (만약 장착되어 있다면)
+                if (currentSkin != 0)
+                {
+                    buttonTexts[currentSkin + 1].text = "장착하기";
+                    buttonTexts[currentSkin + 1].color = PURCHASED_COLOR_2;
+                }
+            }
+        }
+        else
+        {
+            // 꼬리 이펙트
+            int currentEffect = SkinManager.Instance.GetBallTailEffect();
+            int selectedEffect = index - 3;
+
+            // TODO: 꼬리 이펙트 장착
         }
     }
 
@@ -114,10 +225,10 @@ public class StoreSceneManager : MonoBehaviour
                 return userStore.hamster_skin_1;
             case "hamster_skin_2":
                 return userStore.hamster_skin_2;
-            case "cannon_skin_1":
-                return userStore.cannon_skin_1;
-            case "cannon_skin_2":
-                return userStore.cannon_skin_2;
+            case "ball_skin_1":
+                return userStore.ball_skin_1;
+            case "ball_skin_2":
+                return userStore.ball_skin_2;
             case "ball_tail_effect_1":
                 return userStore.ball_tail_effect_1;
             case "ball_tail_effect_2":
@@ -162,7 +273,7 @@ public class StoreSceneManager : MonoBehaviour
             // Store 테이블 업데이트
             var userStore = await client.From<UserStore>().Where(x => x.user_id == userId).Single();
 
-            // 리플렉션을 사용하여 동적으로 속성 설정
+            // 동적으로 속성 설정
             var property = typeof(UserStore).GetProperty(columnName);
             property?.SetValue(userStore, true);
             await userStore.Update<UserStore>();

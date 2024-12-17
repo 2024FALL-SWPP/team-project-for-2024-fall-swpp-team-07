@@ -375,8 +375,8 @@ namespace com.example
                             user_id = session.User.Id,
                             hamster_skin_1 = false,
                             hamster_skin_2 = false,
-                            cannon_skin_1 = false,
-                            cannon_skin_2 = false,
+                            ball_skin_1 = false,
+                            ball_skin_2 = false,
                             ball_tail_effect_1 = false,
                             ball_tail_effect_2 = false,
                         }

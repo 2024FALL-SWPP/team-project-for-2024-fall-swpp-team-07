@@ -150,6 +150,10 @@ namespace com.example
 
         public async void OnLogout()
         {
+            // BGM 초기화, 스킨 초기화
+            SoundManager.Instance.PlayStartBGM();
+            SkinManager.Instance.ResetSkins();
+
             var client = SupabaseManager.Instance.Supabase();
             if (client != null)
             {
