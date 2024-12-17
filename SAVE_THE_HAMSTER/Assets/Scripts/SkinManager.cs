@@ -45,6 +45,7 @@ namespace com.example
         private const string HAMSTER_SKIN_LAYER = "HamsterSkin";
         private const string BALL_SKIN_LAYER = "BallSkin";
         private const string STICKY_BALL_SKIN_LAYER = "StickyBallSkin";
+        private const string HAMSTER_BALL_SKIN_LAYER = "HamsterBallSkin";
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
@@ -104,6 +105,47 @@ namespace com.example
                     {
                         meshRenderer.material = stickyBallSkinMaterials[currentBallSkin - 1];
                     }
+                }
+
+                // 햄스터 볼 스킨 적용
+                GameObject[] hamsterBallObjects = FindObjectsOfLayer(
+                    LayerMask.NameToLayer(HAMSTER_BALL_SKIN_LAYER)
+                );
+                foreach (GameObject obj in hamsterBallObjects)
+                {
+                    MeshRenderer meshRenderer = obj.GetComponent<MeshRenderer>();
+                    if (meshRenderer != null)
+                    {
+                        Material[] materials = meshRenderer.materials;
+                        materials[1] = ballSkinMaterials[currentBallSkin - 1];
+                        meshRenderer.materials = materials;
+                    }
+                }
+            }
+
+            // 볼 꼬리 이펙트 적용
+            if (currentBallTailEffect == 1)
+            {
+                GameObject[] trailFireObjects = Resources.FindObjectsOfTypeAll<GameObject>();
+                GameObject trailFire = System.Array.Find(
+                    trailFireObjects,
+                    obj => obj.CompareTag("TrailFire")
+                );
+                if (trailFire != null)
+                {
+                    trailFire.SetActive(true);
+                }
+            }
+            else if (currentBallTailEffect == 2)
+            {
+                GameObject[] trailWaterObjects = Resources.FindObjectsOfTypeAll<GameObject>();
+                GameObject trailWater = System.Array.Find(
+                    trailWaterObjects,
+                    obj => obj.CompareTag("TrailWater")
+                );
+                if (trailWater != null)
+                {
+                    trailWater.SetActive(true);
                 }
             }
         }
