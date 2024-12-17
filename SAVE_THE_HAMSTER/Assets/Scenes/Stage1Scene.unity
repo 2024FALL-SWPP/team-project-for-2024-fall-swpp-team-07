@@ -5220,7 +5220,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 160484399314501631, guid: 8ca2cdb55dfa370408d80107d6193f08, type: 3}
       propertyPath: m_shaderPropertyID
-      value: 853
+      value: 864
       objectReference: {fileID: 0}
     - target: {fileID: 1893065722960749156, guid: 8ca2cdb55dfa370408d80107d6193f08, type: 3}
       propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].time
@@ -12274,11 +12274,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 160484399314501631, guid: d903df075089ef945ba38f35017eaac8, type: 3}
       propertyPath: m_shaderPropertyID
-      value: 853
+      value: 864
       objectReference: {fileID: 0}
     - target: {fileID: 160484399314501631, guid: d903df075089ef945ba38f35017eaac8, type: 3}
       propertyPath: m_materialData.Array.data[1].m_move
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 160484399314501631, guid: d903df075089ef945ba38f35017eaac8, type: 3}
+      propertyPath: m_materialData.Array.data[1].m_trailRenderer
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 779521790538741631, guid: d903df075089ef945ba38f35017eaac8, type: 3}
       propertyPath: m_Range
@@ -12383,6 +12387,7 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 7414027481456132191, guid: d903df075089ef945ba38f35017eaac8, type: 3}
     - {fileID: 7872313114495814224, guid: d903df075089ef945ba38f35017eaac8, type: 3}
+    - {fileID: 8690335885235380508, guid: d903df075089ef945ba38f35017eaac8, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d903df075089ef945ba38f35017eaac8, type: 3}
 --- !u!1 &1413285928
 GameObject:
