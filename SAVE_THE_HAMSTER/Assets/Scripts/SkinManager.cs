@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using com.example.Models;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -47,7 +49,42 @@ namespace com.example
         private const string STICKY_BALL_SKIN_LAYER = "StickyBallSkin";
         private const string HAMSTER_BALL_SKIN_LAYER = "HamsterBallSkin";
 
-        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        private async Task LoadSkinInfo()
+        {
+            // db에서 스킨 정보 로드
+            try
+            {
+                var client = SupabaseManager.Instance.Supabase();
+                if (client != null && client.Auth.CurrentSession != null)
+                {
+                    var userId = client.Auth.CurrentSession.User.Id;
+
+                    // UserProfile에서 almond 수 가져오기
+                    var userProfile = await client
+                        .From<UserProfile>()
+                        .Select(x => new object[] { x.hamster_skin, x.ball_skin, x.tail_skin })
+                        .Where(x => x.user_id == userId)
+                        .Single();
+
+                    if (userProfile != null)
+                    {
+                        currentHamsterSkin = userProfile.hamster_skin;
+                        currentBallSkin = userProfile.ball_skin;
+                        currentBallTailEffect = userProfile.tail_skin;
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning("No active session found");
+                }
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"Error loading store data: {e.Message}");
+            }
+        }
+
+        private async void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             if (
                 scene.name == "LoadingScene"
@@ -56,6 +93,7 @@ namespace com.example
                 || scene.name == "Stage3Scene"
             )
             {
+                await LoadSkinInfo();
                 ApplyAllSkins();
             }
         }
@@ -174,10 +212,29 @@ namespace com.example
             currentBallTailEffect = 0;
         }
 
-        public void SetHamsterSkin(int skinIndex)
+        public async void SetHamsterSkin(int skinIndex)
         {
             // StoreSceneManager에서 호출됨
             currentHamsterSkin = skinIndex;
+            try
+            {
+                var client = SupabaseManager.Instance.Supabase();
+                if (client != null && client.Auth.CurrentSession != null)
+                {
+                    var userId = client.Auth.CurrentSession.User.Id;
+
+                    // UserProfile에 스킨 정보 저장
+                    await client
+                        .From<UserProfile>()
+                        .Where(x => x.user_id == userId)
+                        .Set(x => x.hamster_skin, skinIndex)
+                        .Update();
+                }
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"Error saving hamster skin data: {e.Message}");
+            }
         }
 
         public int GetHamsterSkin()
@@ -185,10 +242,29 @@ namespace com.example
             return currentHamsterSkin;
         }
 
-        public void SetBallSkin(int skinIndex)
+        public async void SetBallSkin(int skinIndex)
         {
             // StoreSceneManager에서 호출됨
             currentBallSkin = skinIndex;
+            try
+            {
+                var client = SupabaseManager.Instance.Supabase();
+                if (client != null && client.Auth.CurrentSession != null)
+                {
+                    var userId = client.Auth.CurrentSession.User.Id;
+
+                    // UserProfile에 스킨 정보 저장
+                    await client
+                        .From<UserProfile>()
+                        .Where(x => x.user_id == userId)
+                        .Set(x => x.ball_skin, skinIndex)
+                        .Update();
+                }
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"Error saving ball skin data: {e.Message}");
+            }
         }
 
         public int GetBallSkin()
@@ -196,10 +272,29 @@ namespace com.example
             return currentBallSkin;
         }
 
-        public void SetBallTailEffect(int effectIndex)
+        public async void SetBallTailEffect(int effectIndex)
         {
             // StoreSceneManager에서 호출됨
             currentBallTailEffect = effectIndex;
+            try
+            {
+                var client = SupabaseManager.Instance.Supabase();
+                if (client != null && client.Auth.CurrentSession != null)
+                {
+                    var userId = client.Auth.CurrentSession.User.Id;
+
+                    // UserProfile에 스킨 정보 저장
+                    await client
+                        .From<UserProfile>()
+                        .Where(x => x.user_id == userId)
+                        .Set(x => x.tail_skin, effectIndex)
+                        .Update();
+                }
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"Error saving ball tail effect data: {e.Message}");
+            }
         }
 
         public int GetBallTailEffect()

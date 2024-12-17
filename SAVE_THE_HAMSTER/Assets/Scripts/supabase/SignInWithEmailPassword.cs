@@ -150,6 +150,26 @@ namespace com.example
         [SuppressMessage("ReSharper", "Unity.PerformanceCriticalCodeInvocation")]
         private async void Update()
         {
+            // 엔터 키를 누르면 관련 작업 수행
+            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+            {
+                if (EmailInput.gameObject.activeSelf && PasswordInput.gameObject.activeSelf)
+                {
+                    if (SignUpTriggerButton.activeSelf && GuestLoginTriggerButton.activeSelf)
+                    {
+                        _doSignIn = true;
+                    }
+                    else if (SignUpButton.activeSelf)
+                    {
+                        _doSignUp = true;
+                    }
+                }
+                else if (NicknameInput.gameObject.activeSelf && GuestLoginButton.activeSelf)
+                {
+                    _doGuestLogin = true;
+                }
+            }
+
             if (_doSignIn)
             {
                 _doSignIn = false;
@@ -362,6 +382,9 @@ namespace com.example
                             stage1_clear = false,
                             stage2_clear = false,
                             stage3_clear = false,
+                            hamster_skin = 0,
+                            ball_skin = 0,
+                            tail_skin = 0,
                         }
                     );
 
