@@ -5220,7 +5220,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 160484399314501631, guid: 8ca2cdb55dfa370408d80107d6193f08, type: 3}
       propertyPath: m_shaderPropertyID
-      value: 895
+      value: 853
       objectReference: {fileID: 0}
     - target: {fileID: 1893065722960749156, guid: 8ca2cdb55dfa370408d80107d6193f08, type: 3}
       propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].time
@@ -5318,7 +5318,9 @@ PrefabInstance:
       propertyPath: m_TagString
       value: TrailWater
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7414027481456132191, guid: 8ca2cdb55dfa370408d80107d6193f08, type: 3}
+    - {fileID: 7872313114495814224, guid: 8ca2cdb55dfa370408d80107d6193f08, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 8ca2cdb55dfa370408d80107d6193f08, type: 3}
 --- !u!1 &627241716
 GameObject:
@@ -12272,7 +12274,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 160484399314501631, guid: d903df075089ef945ba38f35017eaac8, type: 3}
       propertyPath: m_shaderPropertyID
-      value: 895
+      value: 853
       objectReference: {fileID: 0}
     - target: {fileID: 160484399314501631, guid: d903df075089ef945ba38f35017eaac8, type: 3}
       propertyPath: m_materialData.Array.data[1].m_move
@@ -12378,7 +12380,9 @@ PrefabInstance:
       propertyPath: m_TagString
       value: TrailFire
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7414027481456132191, guid: d903df075089ef945ba38f35017eaac8, type: 3}
+    - {fileID: 7872313114495814224, guid: d903df075089ef945ba38f35017eaac8, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d903df075089ef945ba38f35017eaac8, type: 3}
 --- !u!1 &1413285928
 GameObject:
