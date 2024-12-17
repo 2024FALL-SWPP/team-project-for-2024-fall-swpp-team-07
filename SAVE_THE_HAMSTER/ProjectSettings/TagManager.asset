@@ -17,6 +17,8 @@ TagManager:
   - Lava
   - Sand
   - Cannon
+  - TrailFire
+  - TrailWater
   layers:
   - Default
   - TransparentFX
@@ -30,8 +32,8 @@ TagManager:
   - HamsterSkin
   - BallSkin
   - StickyBallSkin
-  - 
-  - 
+  - HamsterBallSkin
+  - Ball
   - 
   - 
   - 

@@ -212,8 +212,26 @@ public class StoreSceneManager : MonoBehaviour
             // 꼬리 이펙트
             int currentEffect = SkinManager.Instance.GetBallTailEffect();
             int selectedEffect = index - 3;
-
-            // TODO: 꼬리 이펙트 장착
+            if (currentEffect == selectedEffect)
+            {
+                // 기본 이펙트로 변경
+                SkinManager.Instance.SetBallTailEffect(0);
+                buttonTexts[index].text = "장착하기";
+                buttonTexts[index].color = PURCHASED_COLOR_2;
+            }
+            else
+            {
+                // 선택한 이펙트 변경
+                SkinManager.Instance.SetBallTailEffect(selectedEffect);
+                buttonTexts[index].text = "장착해제";
+                buttonTexts[index].color = PURCHASED_COLOR_1;
+                // 다른 이펙트 장착 해제 (만약 장착되어 있다면)
+                if (currentEffect != 0)
+                {
+                    buttonTexts[currentEffect + 3].text = "장착하기";
+                    buttonTexts[currentEffect + 3].color = PURCHASED_COLOR_2;
+                }
+            }
         }
     }
 
