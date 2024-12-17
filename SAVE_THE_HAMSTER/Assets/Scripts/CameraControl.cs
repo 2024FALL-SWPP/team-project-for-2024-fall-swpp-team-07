@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Net;
 //using System.Numerics;
 using Cysharp.Threading.Tasks.Triggers;
-using JetBrains.Rider.Unity.Editor;
 using UnityEngine;
 
 public class CameraControl : MonoBehaviour
