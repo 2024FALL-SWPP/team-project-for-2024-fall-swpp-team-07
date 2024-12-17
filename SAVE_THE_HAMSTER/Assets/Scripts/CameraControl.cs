@@ -18,6 +18,7 @@ public class CameraControl : MonoBehaviour
     public Vector3 offset2;
     public Vector3 offset3;
     public Vector3 offset4;
+    private float deltay = 3f;
 
     private bool isYLocked;
 
@@ -31,9 +32,7 @@ public class CameraControl : MonoBehaviour
     {
         gm = FindObjectOfType<StageManager>();
         cannonControl = cannon.GetComponent<CannonControl>();
-        subCamera2.gameObject.SetActive(false);
-        mainCamera.gameObject.SetActive(true);
-        subCamera1.gameObject.SetActive(false);
+        ActivateCamera1();
         mainLastPosition = mainCamera.transform.position;
     }
 
@@ -63,11 +62,16 @@ public class CameraControl : MonoBehaviour
             subCamera1.transform.position = cannon.transform.position + offset2;
             subCamera1.transform.LookAt(cannon.transform.position);
 
+            // 대포보다 살짝 위 (시야각 확보)
             Vector3 desiredPosition2 =
                 canon.transform.position + canon.transform.rotation * offset4;
+            desiredPosition2.y += deltay;
             subCamera2.transform.position = desiredPosition2;
-            subCamera2.transform.rotation = canon.transform.rotation;
-            subCamera2.transform.LookAt(canon.transform.position);
+
+            // 포신을 바라보는 시점
+            Vector3 lookAtPosition = canon.transform.position;
+            lookAtPosition.y += deltay;
+            subCamera2.transform.LookAt(lookAtPosition);
 
             //공 발사 전 mainCamera
             if (cannonControl.spaceBarCount == 0)
@@ -86,7 +90,6 @@ public class CameraControl : MonoBehaviour
             else
             {
                 ActivateCamera2();
-
                 if (rb.velocity.magnitude >= 1f && !isYLocked)
                 {
                     mainCamera.transform.position = activeBall.transform.position + offset3;
@@ -105,21 +108,21 @@ public class CameraControl : MonoBehaviour
         }
     }
 
-    void ActivateCamera1() // 대포 바로 뒤 시점
+    public void ActivateCamera1() // 대포 바로 뒤 시점
     {
         subCamera2.gameObject.SetActive(true);
         mainCamera.gameObject.SetActive(false);
         subCamera1.gameObject.SetActive(false);
     }
 
-    void ActivateCamera2() // 대포 뒤 사선 시점
+    public void ActivateCamera2() // 대포 뒤 사선 시점
     {
         subCamera2.gameObject.SetActive(false);
         mainCamera.gameObject.SetActive(true);
         subCamera1.gameObject.SetActive(false);
     }
 
-    void ActivateCamera3() // 대포 위 시점
+    public void ActivateCamera3() // 대포 위 시점
     {
         subCamera2.gameObject.SetActive(false);
         mainCamera.gameObject.SetActive(false);

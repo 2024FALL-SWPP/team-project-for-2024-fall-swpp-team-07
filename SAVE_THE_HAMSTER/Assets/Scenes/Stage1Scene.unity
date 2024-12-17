@@ -8364,14 +8364,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 977799852}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.51, y: 13.33, z: -20.13}
+  m_LocalRotation: {x: 0.019687103, y: 0.89013296, z: -0.0386306, w: 0.45363364}
+  m_LocalPosition: {x: -4.660581, y: 0.5008901, z: 3.38495}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 16
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 4.97, y: 125.991, z: 0}
 --- !u!1 &980217876
 GameObject:
   m_ObjectHideFlags: 0
@@ -16890,6 +16890,10 @@ PrefabInstance:
       propertyPath: armatureParent
       value: 
       objectReference: {fileID: 60136778}
+    - target: {fileID: 5148433933945382183, guid: 50e69a24a9ac64dcca5dadf3a935c721, type: 3}
+      propertyPath: cameraController
+      value: 
+      objectReference: {fileID: 576409264}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 50e69a24a9ac64dcca5dadf3a935c721, type: 3}
 --- !u!4 &1965896680 stripped

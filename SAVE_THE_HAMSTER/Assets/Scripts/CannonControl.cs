@@ -16,6 +16,8 @@ public class CannonControl : MonoBehaviour
     public GameObject bigExplosion;
     public GameObject armatureParent; //Hamster armature의 parent객체
     public GameObject hamsterBall; //햄스터 공 전체
+    public GameObject cameraController;
+    private CameraControl cameraControl;
     private BallControl hamsterScript; //hamster armature의 부모 객체인 gameObject에 적용되어 있는 script
     private HamsterCollision hamsterCollisionScript;
     private CollisionDetection collisionScript;
@@ -82,6 +84,7 @@ public class CannonControl : MonoBehaviour
         gm = FindObjectOfType<StageManager>();
         hamsterScript = armatureParent.GetComponent<BallControl>();
         hamsterCollisionScript = hamsterBall.GetComponent<HamsterCollision>();
+        cameraControl = cameraController.GetComponent<CameraControl>();
         startPosition = transform.position; //대포의 시작 위치 저장
         initialLocalRotation = canon.transform.localRotation;
         initialXRotation = canon.transform.localRotation.eulerAngles.x;
@@ -195,6 +198,7 @@ public class CannonControl : MonoBehaviour
                 {
                     cannonrb.constraints = RigidbodyConstraints.None; // 모든 축의 freeze 해제
                     spaceBarCount = 0;
+                    cameraControl.ActivateCamera1(); //대포 바로 뒤 시점으로 전환
                     gm.UpdateTurnUI();
                     gm.IncreaseTurn(); // 대포 위치 옮길 때마다 턴 수 증가, 리스폰 시 안옮겨도 턴 수 증단
                     if (isGround && !isRespawn)
