@@ -25,6 +25,15 @@ namespace com.example.Models
 
         [Column("stage3_clear")]
         public bool stage3_clear { get; set; }
+
+        [Column("hamster_skin")]
+        public int hamster_skin { get; set; }
+
+        [Column("ball_skin")]
+        public int ball_skin { get; set; }
+
+        [Column("tail_skin")]
+        public int tail_skin { get; set; }
     }
 
     [Table("store")]

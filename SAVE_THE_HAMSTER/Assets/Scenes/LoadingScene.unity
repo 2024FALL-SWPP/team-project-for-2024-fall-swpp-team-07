@@ -413,11 +413,15 @@ PrefabInstance:
       objectReference: {fileID: 2923225461096726125}
     - target: {fileID: 160484399314501631, guid: d903df075089ef945ba38f35017eaac8, type: 3}
       propertyPath: m_shaderPropertyID
-      value: 895
+      value: 864
       objectReference: {fileID: 0}
     - target: {fileID: 160484399314501631, guid: d903df075089ef945ba38f35017eaac8, type: 3}
       propertyPath: m_materialData.Array.data[1].m_move
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 160484399314501631, guid: d903df075089ef945ba38f35017eaac8, type: 3}
+      propertyPath: m_materialData.Array.data[1].m_trailRenderer
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 779521790538741631, guid: d903df075089ef945ba38f35017eaac8, type: 3}
       propertyPath: m_Range
@@ -519,7 +523,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: TrailFire
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7414027481456132191, guid: d903df075089ef945ba38f35017eaac8, type: 3}
+    - {fileID: 7872313114495814224, guid: d903df075089ef945ba38f35017eaac8, type: 3}
+    - {fileID: 8690335885235380508, guid: d903df075089ef945ba38f35017eaac8, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d903df075089ef945ba38f35017eaac8, type: 3}
 --- !u!1001 &329547316
 PrefabInstance:
@@ -878,7 +885,7 @@ Transform:
   m_Children:
   - {fileID: 2583573862104720599}
   m_Father: {fileID: 1801964713}
-  m_RootOrder: 18
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &647050039
 PrefabInstance:
@@ -1640,7 +1647,7 @@ PrefabInstance:
       objectReference: {fileID: 2923225461096726125}
     - target: {fileID: 160484399314501631, guid: 8ca2cdb55dfa370408d80107d6193f08, type: 3}
       propertyPath: m_shaderPropertyID
-      value: 895
+      value: 853
       objectReference: {fileID: 0}
     - target: {fileID: 1893065722960749156, guid: 8ca2cdb55dfa370408d80107d6193f08, type: 3}
       propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].time
@@ -1738,7 +1745,9 @@ PrefabInstance:
       propertyPath: m_TagString
       value: TrailWater
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7414027481456132191, guid: 8ca2cdb55dfa370408d80107d6193f08, type: 3}
+    - {fileID: 7872313114495814224, guid: 8ca2cdb55dfa370408d80107d6193f08, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 8ca2cdb55dfa370408d80107d6193f08, type: 3}
 --- !u!4 &1026009934 stripped
 Transform:
@@ -2869,10 +2878,10 @@ Transform:
   - {fileID: 1026009934}
   - {fileID: 218652536}
   - {fileID: 1339388271}
+  - {fileID: 620818015}
   - {fileID: 647050040}
   - {fileID: 1394237468}
   - {fileID: 574802522}
-  - {fileID: 620818015}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

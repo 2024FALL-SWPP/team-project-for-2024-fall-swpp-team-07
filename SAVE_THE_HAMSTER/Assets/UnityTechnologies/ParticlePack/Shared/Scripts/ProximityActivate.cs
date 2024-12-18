@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class ProximityActivate : MonoBehaviour
 {
-
-    public Transform distanceActivator, lookAtActivator;
+    public Transform distanceActivator,
+        lookAtActivator;
     public float distance;
     public Transform activator;
     public bool activeState = false;
@@ -17,13 +16,15 @@ public class ProximityActivate : MonoBehaviour
 
     float alpha;
     public CanvasGroup infoPanel;
-    Quaternion originRotation, targetRotation;
+    Quaternion originRotation,
+        targetRotation;
 
     void Start()
     {
         originRotation = transform.rotation;
         alpha = activeState ? 1 : -1;
-        if (activator == null) activator = Camera.main.transform;
+        if (activator == null)
+            activator = Camera.main.transform;
         infoIcon.SetActive(infoPanel != null);
     }
 
@@ -69,7 +70,11 @@ public class ProximityActivate : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space))
                 enableInfoPanel = !enableInfoPanel;
-            infoPanel.alpha = Mathf.Lerp(infoPanel.alpha, Mathf.Clamp01(enableInfoPanel ? alpha : 0), Time.deltaTime * 10);
+            infoPanel.alpha = Mathf.Lerp(
+                infoPanel.alpha,
+                Mathf.Clamp01(enableInfoPanel ? alpha : 0),
+                Time.deltaTime * 10
+            );
         }
         if (lookAtCamera)
         {
@@ -77,8 +82,11 @@ public class ProximityActivate : MonoBehaviour
                 targetRotation = Quaternion.LookRotation(activator.position - transform.position);
             else
                 targetRotation = originRotation;
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(
+                transform.rotation,
+                targetRotation,
+                Time.deltaTime
+            );
         }
     }
-
 }

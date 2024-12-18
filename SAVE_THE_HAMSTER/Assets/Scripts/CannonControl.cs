@@ -60,7 +60,7 @@ public class CannonControl : MonoBehaviour
     public int spaceBarCount; //spaceBar가 눌린 횟수
 
     private bool isRunning;
-    private bool isGround; //공이 지면과 충돌했는지
+    public bool isGround; //공이 지면과 충돌했는지
 
     public bool spacePressed = false;
 
@@ -107,6 +107,10 @@ public class CannonControl : MonoBehaviour
         explosion.Stop();
         if (cannon.activeSelf) //SetActive(false)일때의 키보드 입력을 차단하기 위해
         {
+            Rigidbody hamrb = hamsterBall.GetComponent<Rigidbody>();
+            // Freeze Position과 Freeze Rotation을 해제
+            hamrb.constraints = RigidbodyConstraints.None;
+
             Rigidbody cannonrb = cannon.GetComponent<Rigidbody>();
             if (IsCannonTippedOver(cannon.transform))
             {
@@ -158,14 +162,14 @@ public class CannonControl : MonoBehaviour
                 && ballrb.velocity.magnitude <= 0.1f
             )
             {
-                foreach (Transform child in almonds.transform)
-                {
-                    SphereCollider sc = child.GetComponent<SphereCollider>();
-                    if (sc != null)
-                    {
-                        sc.enabled = false;
-                    }
-                }
+                // foreach (Transform child in almonds.transform)
+                // {
+                //     SphereCollider sc = child.GetComponent<SphereCollider>();
+                //     if (sc != null)
+                //     {
+                //         sc.enabled = false;
+                //     }
+                // }
                 //공이 발사됐고 공이 땅에 닿아서 멈췄다면 다음 턴으로
                 spacePressed = false;
                 if (activeBall.name == "HamsterBall")
@@ -209,6 +213,24 @@ public class CannonControl : MonoBehaviour
                             activeBall.transform.position.z - prevBallPosition.z
                         ); //대포를 공의 전 턴의 마지막 위치 근처로 이동시킴
 
+                        GameObject[] allObjects = FindObjectsOfType<GameObject>();
+                        foreach (GameObject obj in allObjects)
+                        {
+                            // "ground" 태그가 없는 오브젝트만 처리
+                            if (
+                                obj.CompareTag("Ground")
+                                || obj.CompareTag("Lava")
+                                || obj.CompareTag("Sand")
+                            )
+                                continue; // ground 태그가 있으면 무시
+
+                            // Collider 컴포넌트를 비활성화
+                            Collider col = obj.GetComponent<Collider>();
+                            if (col != null)
+                            {
+                                col.enabled = false; // Collider 비활성화
+                            }
+                        }
                         slopeNormal = GetSlopeNormal();
                         // 로컬 y축을 목표 방향으로 정렬
                         Quaternion rotation = Quaternion.FromToRotation(transform.up, slopeNormal);
@@ -217,24 +239,42 @@ public class CannonControl : MonoBehaviour
                         initialXRotation = canon.transform.localRotation.eulerAngles.x;
                         currentXRotation = initialXRotation;
                         isColliding = false;
-                        foreach (Transform child in almonds.transform)
-                        {
-                            SphereCollider sc = child.GetComponent<SphereCollider>();
-                            if (sc != null)
-                            {
-                                sc.enabled = true;
-                            }
-                        }
+                        // foreach (Transform child in almonds.transform)
+                        // {
+                        //     SphereCollider sc = child.GetComponent<SphereCollider>();
+                        //     if (sc != null)
+                        //     {
+                        //         sc.enabled = true;
+                        //     }
+                        // }
 
-                        boxCollider.enabled = true;
-                        // 현재 오브젝트의 모든 자식 오브젝트를 순회
-                        foreach (Transform child in transform)
+                        // boxCollider.enabled = true;
+                        // // 현재 오브젝트의 모든 자식 오브젝트를 순회
+                        // foreach (Transform child in transform)
+                        // {
+                        //     // 자식 오브젝트의 box collider 컴포넌트를 가져옴
+                        //     BoxCollider bc = child.GetComponent<BoxCollider>();
+                        //     if (bc != null)
+                        //     {
+                        //         bc.enabled = true;
+                        //     }
+                        // }
+
+                        foreach (GameObject obj in allObjects)
                         {
-                            // 자식 오브젝트의 box collider 컴포넌트를 가져옴
-                            BoxCollider bc = child.GetComponent<BoxCollider>();
-                            if (bc != null)
+                            // "ground" 태그가 없는 오브젝트만 처리
+                            if (
+                                obj.CompareTag("Ground")
+                                || obj.CompareTag("Lava")
+                                || obj.CompareTag("Sand")
+                            )
+                                continue; // ground 태그가 있으면 무시
+
+                            // Collider 컴포넌트를 재활성화
+                            Collider col = obj.GetComponent<Collider>();
+                            if (col != null)
                             {
-                                bc.enabled = true;
+                                col.enabled = true; // Collider 재활성화
                             }
                         }
                     }
@@ -519,7 +559,7 @@ public class CannonControl : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Ground"))
+        if (other.CompareTag("Ground") || other.CompareTag("Sand"))
         {
             isColliding = true;
         }

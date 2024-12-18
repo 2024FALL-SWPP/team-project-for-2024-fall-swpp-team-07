@@ -7,6 +7,7 @@ public class HamsterController : MonoBehaviour
     public GameObject glassBall;
     public int level;
     private Vector3 offset = new Vector3();
+
     // Start is called before the first frame update
     void Start()
     {

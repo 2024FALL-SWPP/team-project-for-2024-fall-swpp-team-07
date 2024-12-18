@@ -5,14 +5,17 @@ using UnityEngine;
 public class Stage2PopUpManager : PopUpManager
 {
     private float popUpDistance = 30f; // 지형 오브젝트로 부터 일정 거리 이하로 다가갔을 때 팝업
+
     // Stage1 최초 애니메이션 소요 시간
     private float stage2AnimationTime = 10.0f;
+
     //여유시간
     private float stage2ExtraTime = 1.0f;
+
     // 소요시간 측정용
     private float stage2Timer = 0.0f;
 
-    public GameObject [] terrain; // 0: Sand, 1: lava  2: water(물이 너무 커서 물 앞의 오브젝트 할당 예정)
+    public GameObject[] terrain; // 0: Sand, 1: lava  2: water(물이 너무 커서 물 앞의 오브젝트 할당 예정)
     public GameObject cannon;
 
     // stage별 구현 부분
