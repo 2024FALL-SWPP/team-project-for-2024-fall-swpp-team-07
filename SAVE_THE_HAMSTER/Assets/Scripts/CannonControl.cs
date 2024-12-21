@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+//using System.Numerics;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,11 +23,7 @@ public class CannonControl : MonoBehaviour
     private HamsterCollision hamsterCollisionScript;
     private CollisionDetection collisionScript;
     private StickyBallCollision stickyBallCollisionScript;
-    private GameObject almonds;
-
     private BowlingBallCollision bowlingBallCollisionScript;
-
-    //
     private const int N_TRAJECTORY_POINTS = 40;
     public float minForce = 0f; //최소 발사력
     public float maxForce = 5f; //최대 발사력
@@ -37,46 +34,25 @@ public class CannonControl : MonoBehaviour
     //cf) (최대 발사력 - 최소 발사력)/발사력 증가 속도 = 1 / fillSpeed (GaugeControl.cs)
     private float maxUp = 60f;
     private float maxDown = 10f;
-
-    //private float maxLeft = -120f;
-    //private float maxRight = 120f;
-
-    //private float scaleMultiplier = 2.5f; // 공 대비 대포 전체 비율-> 추후에 아이템으로 공이 커지는 효과를 구현한다면 대포도 커지게 설정
-
     private Vector3 startPosition;
     private float initialXRotation;
     private float currentXRotation;
-
     private Quaternion initialLocalRotation; //canon의 localRotation값 저장
-
     public float force;
-
     private bool isForceIncreasing = true; //force가 증가하고 있는지 여부
-
     public GameObject canon; //포신
-
     public float rotationSpeed = 100f; // 회전 속도
-
     public int spaceBarCount; //spaceBar가 눌린 횟수
-
     private bool isRunning;
     public bool isGround; //공이 지면과 충돌했는지
-
     public bool spacePressed = false;
-
     private bool isRespawn;
-
     private bool isGameOver = false;
-
     private Vector3 prevBallPosition; //발사 직전 공 위치
-
     private Quaternion savedRotation;
-
     private Vector3 normal; //지형의 법선벡터
     private bool isColliding = false; // 대포와 Ground의 충돌 상태
-
     public Vector3 slopeNormal;
-
     private BoxCollider boxCollider;
 
     void Start()
@@ -99,7 +75,6 @@ public class CannonControl : MonoBehaviour
         isRunning = true;
         force = 0; //힘 초기화
         boxCollider = GetComponent<BoxCollider>();
-        almonds = GameObject.Find("Almonds");
     }
 
     void Update()
@@ -162,14 +137,6 @@ public class CannonControl : MonoBehaviour
                 && ballrb.velocity.magnitude <= 0.1f
             )
             {
-                // foreach (Transform child in almonds.transform)
-                // {
-                //     SphereCollider sc = child.GetComponent<SphereCollider>();
-                //     if (sc != null)
-                //     {
-                //         sc.enabled = false;
-                //     }
-                // }
                 //공이 발사됐고 공이 땅에 닿아서 멈췄다면 다음 턴으로
                 spacePressed = false;
                 if (activeBall.name == "HamsterBall")
@@ -209,20 +176,19 @@ public class CannonControl : MonoBehaviour
                     {
                         cannon.transform.position += new Vector3(
                             activeBall.transform.position.x - prevBallPosition.x,
-                            activeBall.transform.position.y - prevBallPosition.y + 7.5f,
+                            activeBall.transform.position.y - prevBallPosition.y + 2.5f,
                             activeBall.transform.position.z - prevBallPosition.z
                         ); //대포를 공의 전 턴의 마지막 위치 근처로 이동시킴
 
                         GameObject[] allObjects = FindObjectsOfType<GameObject>();
                         foreach (GameObject obj in allObjects)
                         {
-                            // "ground" 태그가 없는 오브젝트만 처리
                             if (
                                 obj.CompareTag("Ground")
                                 || obj.CompareTag("Lava")
                                 || obj.CompareTag("Sand")
                             )
-                                continue; // ground 태그가 있으면 무시
+                                continue; 
 
                             // Collider 컴포넌트를 비활성화
                             Collider col = obj.GetComponent<Collider>();
@@ -239,36 +205,15 @@ public class CannonControl : MonoBehaviour
                         initialXRotation = canon.transform.localRotation.eulerAngles.x;
                         currentXRotation = initialXRotation;
                         isColliding = false;
-                        // foreach (Transform child in almonds.transform)
-                        // {
-                        //     SphereCollider sc = child.GetComponent<SphereCollider>();
-                        //     if (sc != null)
-                        //     {
-                        //         sc.enabled = true;
-                        //     }
-                        // }
-
-                        // boxCollider.enabled = true;
-                        // // 현재 오브젝트의 모든 자식 오브젝트를 순회
-                        // foreach (Transform child in transform)
-                        // {
-                        //     // 자식 오브젝트의 box collider 컴포넌트를 가져옴
-                        //     BoxCollider bc = child.GetComponent<BoxCollider>();
-                        //     if (bc != null)
-                        //     {
-                        //         bc.enabled = true;
-                        //     }
-                        // }
-
+                       
                         foreach (GameObject obj in allObjects)
                         {
-                            // "ground" 태그가 없는 오브젝트만 처리
                             if (
                                 obj.CompareTag("Ground")
                                 || obj.CompareTag("Lava")
                                 || obj.CompareTag("Sand")
                             )
-                                continue; // ground 태그가 있으면 무시
+                                continue; 
 
                             // Collider 컴포넌트를 재활성화
                             Collider col = obj.GetComponent<Collider>();
@@ -285,17 +230,19 @@ public class CannonControl : MonoBehaviour
             {
                 if (isColliding)
                 {
-                    cannonrb.constraints = RigidbodyConstraints.FreezePosition; //cannon의 위치 고정
-                    cannonrb.isKinematic = true;
-                    boxCollider.enabled = false;
-                    // 현재 오브젝트의 모든 자식 오브젝트를 순회
-                    foreach (Transform child in transform)
-                    {
-                        // 자식 오브젝트의 box collider 컴포넌트를 가져옴
-                        BoxCollider bc = child.GetComponent<BoxCollider>();
-                        if (bc != null)
+                    if (AreAnglesClose(GetSlopeNormal(), transform.up, 10f)){
+                        cannonrb.constraints = RigidbodyConstraints.FreezePosition; //cannon의 위치 고정
+                        cannonrb.isKinematic = true;
+                        boxCollider.enabled = false;
+                        // 현재 오브젝트의 모든 자식 오브젝트를 순회
+                        foreach (Transform child in transform)
                         {
-                            bc.enabled = false;
+                            // 자식 오브젝트의 box collider 컴포넌트를 가져옴
+                            BoxCollider bc = child.GetComponent<BoxCollider>();
+                            if (bc != null)
+                            {
+                                bc.enabled = false;
+                            }
                         }
                     }
                 }
@@ -316,7 +263,7 @@ public class CannonControl : MonoBehaviour
                     activeBall.transform.rotation = rotation * activeBall.transform.rotation;
                 }
 
-                if (Input.GetAxis("Horizontal") != 0 && cannonrb.isKinematic)
+                if (Input.GetAxis("Horizontal") != 0)
                 {
                     float horizontalInput = Input.GetAxis("Horizontal"); //좌우 방향키 입력
                     //대포 전체 좌우 회전 조작(360도 회전 가능)
@@ -325,7 +272,7 @@ public class CannonControl : MonoBehaviour
                     cannon.transform.rotation = rotationChange * cannon.transform.rotation;
                 }
 
-                if (Input.GetAxis("Vertical") != 0 && cannonrb.isKinematic)
+                if (Input.GetAxis("Vertical") != 0)
                 {
                     float verticalInput = Input.GetAxis("Vertical"); //위아래 방향키 입력
                     //포신 위아래 회전 -> 발사각 조절
@@ -368,6 +315,36 @@ public class CannonControl : MonoBehaviour
 
                 lineRenderer.enabled = true;
                 lineRenderer.transform.position = firePoint.position; //firePoint위치로 lineRenderer시작점 이동
+                switch(activeBall.name){ //공별로 lineRenderer 색깔 다르게
+                    case "HamsterBall":
+                        lineRenderer.startColor = new Color(246 / 255f, 0 / 255f, 250 / 255f);
+                        lineRenderer.endColor = new Color(246 / 255f, 0 / 255f, 250 / 255f);
+                        break;
+                    case "StickyBall":
+                        lineRenderer.startColor = Color.green;
+                        lineRenderer.endColor = Color.green;
+                        break;
+
+                    case "BowlingBall":
+                        lineRenderer.startColor = Color.blue;
+                        lineRenderer.endColor = Color.blue;
+                        break;
+
+                    case "FootBall":
+                        lineRenderer.startColor = Color.red;
+                        lineRenderer.endColor = Color.red;
+                        break;
+
+                    case "BouncyBall":
+                        lineRenderer.startColor = Color.yellow;
+                        lineRenderer.endColor = Color.yellow;
+                        break;
+                    default:
+                        lineRenderer.startColor = new Color(246 / 255f, 0 / 255f, 250 / 255f);
+                        lineRenderer.endColor = new Color(246 / 255f, 0 / 255f, 250 / 255f);
+                        break;
+
+                }
 
                 if (activeBall.name == "BowlingBall")
                 {
@@ -563,5 +540,11 @@ public class CannonControl : MonoBehaviour
         {
             isColliding = true;
         }
+    }
+
+    private bool AreAnglesClose(Vector3 a, Vector3 b, float threshold)
+    {
+        float angle = Vector3.Angle(a, b);
+        return angle <= threshold;
     }
 }
